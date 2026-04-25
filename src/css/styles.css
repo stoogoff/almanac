@@ -1,7 +1,69 @@
+
+@import url(variables.css);
+@import url(reset.css);
+
+/* Common tags */
+html, body {
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background-color: var(--primary-bg);
+	color: var(--primary-fg);
+}
+
+h1 {
+	text-align: center;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	margin: var(--spacing-12) 0;
+}
+
+/* Button layout */
+.buttons {
+	display: grid;
+	align-content: bottom;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--spacing-2);
+	padding: var(--spacing-2);
+	margin-top: var(--spacing-12);
+}
+
+button {
+	background-color: var(--secondary-bg);
+	color: var(--secondary-fg);
+	border: 2px solid var(--secondary-fg);
+	border-radius: var(--spacing-2);
+	padding: var(--spacing-3) var(--spacing-4);
+	font-size: 1.2rem;
+
+	&:hover {
+		background-color: var(--primary-bg);
+	}
+}
+
+/* Components */
+.timer {
+	text-align: center;
+	margin: var(--spacing-8);
+	font-weight: bold;
+	font-size: 1.2rem;
+	flex-grow: 2;
+}
+
+
+/* Mambo board */
 .board {
 	display: grid;
-	gap: 0.5rem;
-	width: 18rem;
+	gap: var(--spacing-2);
+	padding: var(--spacing-2);
+	width: 100vw;
 
 	&.grid-4 {
 		grid-template-columns: repeat(4, 1fr);
@@ -15,33 +77,29 @@
 		grid-template-columns: repeat(8, 1fr);
 		grid-template-rows: repeat(8, 1fr);
 	}
-}
-span {
-	display: inline-block;
-	padding: 1rem;
-	border-radius: 0.75rem;
-	border: 1px solid rgb(200,200,200);
-	width: 2rem;
-	height: 2rem;
-	cursor: pointer;
-	user-select: none;
-	text-align: center;
-	line-height: 2rem;
 
-	&:hover {
-		border-color: rgb(120,120,120);
+	span {
+		display: inline-block;
+		padding: var(--spacing-2);
+		border-radius: var(--spacing-3);
+		border: 2px solid var(--secondary-fg);
+		cursor: pointer;
+		user-select: none;
+		text-align: center;
+		line-height: var(--spacing-4);
+		aspect-ratio: 1;
+
+		&:hover {
+			border-color: var(--secondary-bg);
+		}
 	}
-}
-span.green {
-	background-color: rgb(124, 255, 40);
-}
-span.blue {
-	background-color: rgb(0, 142, 255);
-}
-
-span.check {
-	border-color: black;
-}
-span.error {
-	outline: 2px solid red;
+	span.green {
+		background-color: var(--mambo-green);
+	}
+	span.blue {
+		background-color: var(--mambo-blue);
+	}
+	span.error {
+		outline: 2px solid var(--mambo-error);
+	}
 }

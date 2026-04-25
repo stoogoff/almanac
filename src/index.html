@@ -15,158 +15,36 @@
 </head>
 <body>
 
-<div id="board" class="board grid-4"></div>
+<main>
+	<h1>’Bo</h1>
+
+	<div data-q-component="timer" class="timer">
+		<span data-q-text="formattedTime"></span>
+	</div>
+
+	<div data-q-component="mambo">
+		<div class="board"></div>
+		<div class="buttons">
+			<button data-q-click="reset">Clear</button>
+			<button data-q-click="undo">Undo</button>
+		</div>
+	</div>
+</main>
 
 <script type="module">
 
-import { unique } from 'q/utils/list.js'
+import { directives } from 'q/reactive/directives.js'
+import { state } from './js/components/state.js'
+import Timer from './js/components/timer.js'
+import Mambo from './js/modules/mambo/component.js'
 
-// TODO generate random board state
+state.on('gameover', () => console.log('gameover'))
+state.on('time', (time) => console.log('time', time))
+state.on('pause', (time) => console.log('pause'))
 
-const TileState = {
-	EMPTY: 0,
-	GREEN: 1,
-	BLUE: 2,
-}
-
-const CssClass = {
-	[TileState.EMPTY]: '',
-	[TileState.GREEN]: 'green',
-	[TileState.BLUE]: 'blue',
-
-	GREEN: 'green',
-	BLUE: 'blue',
-}
-
-const board = document.getElementById('board')
-const LENGTH = 4
-const SIZE = LENGTH * LENGTH
-//const boardState = new Array(SIZE)
-//const boardState = [2, 2, 1, 1, 2, 1, 2, 1, 1, 1, 2, 2, 1, 2, 1, 2]
-const boardState = [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 2]
-let isVerifying = false
-
-board.classList.add(`grid-${LENGTH}`)
-
-const checkRowOrCol = tiles => {
-	let lastState = null
-	let errorIndexes = []
-	let stateIndexes = []
-	const tileCount = {
-		[TileState.EMPTY]: 0,
-		[TileState.GREEN]: 0,
-		[TileState.BLUE]: 0,
-	}
-
-	// check row - row indexes are sequential
-	for(let i = 0; i < tiles.length; i++) {
-		const index = tiles[i]
-
-		if(boardState[index] === lastState && boardState[index] !== TileState.EMPTY) {
-			stateIndexes = unique([...stateIndexes, tiles[i - 1], index])
-		}
-		else {
-			stateIndexes  = []
-		}
-
-		// only two of the same colour can appear in a row
-		if(stateIndexes.length > 2) {
-			errorIndexes = [...errorIndexes, ...stateIndexes]
-		}
-
-		lastState = boardState[index]
-
-		tileCount[boardState[index]]++
-	}
-
-	if(tileCount[TileState.EMPTY] === 0 && tileCount[TileState.GREEN] !== tileCount[TileState.BLUE]) {
-		errorIndexes = unique([...errorIndexes, ...tiles])
-	}
-
-	return errorIndexes
-}
-
-const verifyBoard = (clicked) => {
-	isVerifying = true
-
-	// each row when complete should have an equal number of each colour
-	// each column when complete should have an equal number of each colour
-	// no more than two of the same colour can be next to each other
-
-	// clear debug
-	Array.from(document.getElementsByClassName('check')).forEach(span => span.classList.remove('check'))
-
-	// clear errors
-	Array.from(document.getElementsByClassName('error')).forEach(span => span.classList.remove('error'))
-
-	const errors = []
-
-	for(let tile = 0; tile < LENGTH; ++tile) {
-		const rows = []
-		const cols = []
-
-		// check row - row indexes are sequential
-		for(let i = tile * LENGTH; i < (tile * LENGTH) + LENGTH; i++) {
-			rows.push(i)
-		}
-
-		// check column - columnn indexes are length apart
-		for(let i = tile; i < SIZE; i += LENGTH) {
-			cols.push(i)
-		}
-
-		errors.push(...checkRowOrCol(rows), ...checkRowOrCol(cols))
-	}
-
-	// mark tiles as an error
-	errors.forEach(index => document.getElementById(`tile-${index}`).classList.add('error'))
-
-	//console.log(boardState)
-
-	isVerifying = false
-}
-
-// create the board
-for(let i = 0; i < SIZE; i++) {
-	const span = document.createElement('span')
-
-	if(boardState[i] === undefined) {
-		boardState[i] = TileState.EMPTY
-	}
-
-	if(boardState[i] !== TileState.EMPTY) {
-		span.classList.add(CssClass[boardState[i]])
-	}
-
-	span.id = `tile-${i}`
-	span.innerHTML = i
-
-	// click cycles through the tiles
-	// then checks the board state
-	span.onclick = () => {
-		if(span.classList.contains(CssClass.GREEN)) {
-			span.classList.remove(CssClass.GREEN)
-			span.classList.add(CssClass.BLUE)
-			boardState[i] = TileState.BLUE
-		}
-		else if(span.classList.contains(CssClass.BLUE)) {
-			span.classList.remove(CssClass.BLUE)
-			boardState[i] = TileState.EMPTY
-		}
-		else {
-			span.classList.add(CssClass.GREEN)
-			boardState[i] = TileState.GREEN
-		}
-
-		window.setTimeout(() => {
-			if(!isVerifying) {
-				verifyBoard(i)
-			}
-		}, 300)
-	}
-
-	board.appendChild(span)
-}
+directives.registerComponent('timer', Timer)
+directives.registerComponent('mambo', Mambo)
+directives.load(document.body)
 
 </script>
 
