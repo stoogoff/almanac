@@ -36,15 +36,24 @@ main {
 }
 
 button {
-	background-color: var(--secondary-bg);
-	color: var(--secondary-fg);
-	border: 2px solid var(--secondary-fg);
+	background-color: var(--button-bg);
+	color: var(--button-fg);
+	border: var(--button-border);
 	border-radius: var(--spacing-2);
 	padding: var(--spacing-3) var(--spacing-4);
 	font-size: 1.2rem;
+	text-transform: uppercase;
+	box-shadow: var(--shadow-md);
 
 	&:hover {
-		background-color: var(--primary-bg);
+		background-color: var(--button-hover-bg);
+		color: var(--button-hover-fg);
+	}
+
+	&[disabled] {
+		background-color: var(--button-disabled-bg);
+		color: var(--button-disabled-fg);
+		border: var(--button-disabled-border);
 	}
 }
 
@@ -88,6 +97,7 @@ button {
 		text-align: center;
 		line-height: var(--spacing-4);
 		aspect-ratio: 1;
+		box-shadow: var(--shadow-sm);
 
 		&:hover {
 			border-color: var(--secondary-bg);
@@ -95,9 +105,11 @@ button {
 	}
 	span.green {
 		background-color: var(--mambo-green);
+		box-shadow: var(--shadow-lg);
 	}
 	span.blue {
 		background-color: var(--mambo-blue);
+		box-shadow: var(--shadow-lg);
 	}
 	span.error {
 		outline: 2px solid var(--mambo-error);

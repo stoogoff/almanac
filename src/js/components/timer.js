@@ -1,6 +1,6 @@
 
 import { notNull } from 'q/utils/assert.js'
-import { state } from './state.js'
+import { game, States } from './state.js'
 
 const pad = (input) => {
 	input = input.toString()
@@ -23,16 +23,16 @@ export default {
 	},
 
 	mounted() {
-		state.on('gameover', () => {
+		game.on(States.GAMEOVER, () => {
 			this.stop()
-			state.emit('time', this.data.seconds)
+			game.time(this.data.seconds)
 		})
 
-		state.on('start', () => {
+		game.on(States.START, () => {
 			this.start()
 		})
 
-		state.on('pause', () => {
+		game.on(States.PAUSE, () => {
 			this.stop()
 		})
 	},

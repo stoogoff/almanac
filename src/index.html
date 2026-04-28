@@ -25,8 +25,8 @@
 	<div data-q-component="mambo">
 		<div class="board"></div>
 		<div class="buttons">
-			<button data-q-click="reset">Clear</button>
-			<button data-q-click="undo">Undo</button>
+			<button data-q-click="reset">Restart</button>
+			<button data-q-click="undo" data-q-disabled="!canUndo">Undo</button>
 		</div>
 	</div>
 </main>
@@ -34,13 +34,13 @@
 <script type="module">
 
 import { directives } from 'q/reactive/directives.js'
-import { state } from './js/components/state.js'
+import { game, States } from './js/components/state.js'
 import Timer from './js/components/timer.js'
 import Mambo from './js/modules/mambo/component.js'
 
-state.on('gameover', () => console.log('gameover'))
-state.on('time', (time) => console.log('time', time))
-state.on('pause', (time) => console.log('pause'))
+game.on(States.GAMEOVER, () => console.log('gameover'))
+game.on(States.TIME, (time) => console.log('time', time))
+game.on(States.PAUSE, (time) => console.log('pause'))
 
 directives.registerComponent('timer', Timer)
 directives.registerComponent('mambo', Mambo)

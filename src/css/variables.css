@@ -1,5 +1,22 @@
 
 :root {
+	/* Fonts */
+	--font-base: 'NeutraText', sans-serif;
+	--font-bold: 'NeutraTextBol', sans-serif;
+	--font-xs: 0.75rem;
+	--font-sm: 0.875rem;
+	--font-md: 1rem;
+	--font-lg: 1.125rem;
+	--font-xl: 1.25rem;
+	--font-2xl: 1.5rem;
+	--font-3xl: 1.875rem;
+
+	/* Shadow */
+	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+	--shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	--shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);
+	
 	/* Spacing */
 	--spacing-1: 0.25rem;
 	--spacing-2: 0.5rem;
@@ -78,4 +95,16 @@
 
 	--secondary-bg: var(--grey-200);
 	--secondary-fg: var(--grey-950);
+
+	--button-bg: var(--grey-800);
+	--button-fg: var(--grey-50);
+	--button-border: 2px solid var(--grey-950);
+
+	--button-hover-bg: var(--grey-700);
+	--button-hover-fg: var(--grey-50);
+	--button-border: 2px solid var(--grey-950);
+
+	--button-disabled-bg: var(--grey-500);
+	--button-disabled-fg: var(--grey-200);
+	--button-disabled-border: 2px solid var(--grey-700);
 }

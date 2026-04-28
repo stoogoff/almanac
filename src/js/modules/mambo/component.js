@@ -1,30 +1,49 @@
 
-import { state } from '../../components/state.js'
+import { isNull } from 'q/utils/assert.js'
+import { mulberry32 } from '../../utils/mulberry32.js'
+import { game } from '../../components/state.js'
 import { Mambo } from './mambo.js'
 
 export default {
 	data: {
-		mambo: null,
+		history: [],
 	},
 
 	mounted() {
-		// TODO fetch the tileset from the server
-
+		const now = new Date()
+		const seed = now.getFullYear() + now.getMonth() + now.getDate()
+		const randomiser = mulberry32(seed)
 		const board = this.node.getElementsByClassName('board')
 
-		this.data.mambo = new Mambo(4, () => {
-			state.emit('gameover')
+		this.mambo = new Mambo(6, () => {
+			game.gameover()
+		}, (state) => {
+			this.data.history = [...this.data.history, state]
 		})
-		this.data.mambo.create(board[0])
-		state.emit('start')
+		this.mambo.create(board[0], randomiser)
+		game.start()
+	},
+
+	computed: {
+		canUndo() {
+			return this.data.history.length > 0
+		}
 	},
 
 	undo() {
+		const state = this.data.history.pop()
 
+		this.data.history = [...this.data.history]
+
+		if(isNull(state)) {
+			return
+		}
+
+		this.mambo.undo(state)
 	},
 
 	reset() {
-		state.emit('start')
-		this.data.mambo.reset()
+		game.start()
+		this.mambo.reset()
 	},
 }
