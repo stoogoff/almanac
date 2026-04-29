@@ -12,15 +12,16 @@ export default {
 	mounted() {
 		const now = new Date()
 		const seed = now.getFullYear() + now.getMonth() + now.getDate()
+		console.log(seed)
 		const randomiser = mulberry32(seed)
-		const board = this.node.getElementsByClassName('board')
+		const board = document.getElementById('mambo-board')
 
 		this.mambo = new Mambo(6, () => {
 			game.gameover()
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
 		})
-		this.mambo.create(board[0], randomiser)
+		this.mambo.create(board, randomiser)
 		game.start()
 	},
 

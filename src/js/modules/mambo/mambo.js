@@ -32,7 +32,7 @@ export class Mambo {
 	 * Create the board and attach it to the supplied node.
 	 */
 	create(node, randomiser) {
-		const puzzle = this.generatePuzzle(randomiser, 12)
+		const puzzle = this.generatePuzzle(randomiser, 14)
 
 		this.#boardState = [...puzzle]
 		this.#startingState = [...puzzle]
@@ -49,7 +49,6 @@ export class Mambo {
 
 			span.id = `tile-${i}`
 			span.classList.add('tile')
-			span.innerHTML = i
 
 			// click cycles through the tiles
 			// then checks the board state

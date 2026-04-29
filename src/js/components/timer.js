@@ -1,12 +1,7 @@
 
 import { notNull } from 'q/utils/assert.js'
 import { game, States } from './state.js'
-
-const pad = (input) => {
-	input = input.toString()
-
-	return input.length < 2 ? `0${input}` : input
-}
+import { formatTime } from '../utils/number.js'
 
 export default {
 	data: {
@@ -15,10 +10,7 @@ export default {
 
 	computed: {
 		formattedTime() {
-			const minute = Math.floor(this.data.seconds / 60)
-			const seconds = this.data.seconds % 60
-
-			return `${pad(minute)}:${pad(seconds)}`
+			return formatTime(this.data.seconds)
 		},
 	},
 

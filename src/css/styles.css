@@ -11,18 +11,72 @@ html, body {
 }
 
 body {
+	font-family: var(--font-base);
 	background-color: var(--primary-bg);
 	color: var(--primary-fg);
 }
 
 h1 {
 	text-align: center;
+	font-family: var(--font-heading);
+	font-size: var(--font-4xl);
+	margin-bottom: var(--spacing-4);
+}
+h2 {
+	text-align: center;
+	font-weight: normal;
+	font-style: italic;
+}
+
+time {
+	font-weight: bold;
+}
+
+menu {
+	margin: var(--spacing-16) var(--spacing-4);
+	list-style-type: none;
+	padding: 0;
+
+	li {
+		background-color: var(--menu-bg);
+		margin-bottom: var(--spacing-4);
+		color: var(--menu-fg);
+		border: var(--menu-border);
+		box-shadow: var(--shadow-lg);
+		border-radius: var(--spacing-2);
+		padding: var(--spacing-2);
+
+		a {
+			color: var(--primary-fg);
+			font-family: var(--font-heading);
+			text-decoration: none;
+			font-size: var(--font-xl);
+		}
+
+		p a {
+			font-family: var(--font-base);
+			font-size: var(--font-md);
+		}
+	}
 }
 
 main {
 	display: flex;
 	flex-direction: column;
 	margin: var(--spacing-12) 0;
+}
+
+/* Back button */
+.back {
+	text-decoration: none;
+	color: var(--primary-fg);
+	text-transform: uppercase;
+	position: absolute;
+	display: inline-block;
+	top: var(--spacing-4);
+	left: var(--spacing-4);
+	padding: var(--spacing-2);
+	z-index: 100;
 }
 
 /* Button layout */
@@ -35,7 +89,7 @@ main {
 	margin-top: var(--spacing-12);
 }
 
-button {
+button, a.btn {
 	background-color: var(--button-bg);
 	color: var(--button-fg);
 	border: var(--button-border);
@@ -44,6 +98,9 @@ button {
 	font-size: 1.2rem;
 	text-transform: uppercase;
 	box-shadow: var(--shadow-md);
+	text-decoration: none;
+	display: inline-block;
+	text-align: center;
 
 	&:hover {
 		background-color: var(--button-hover-bg);
@@ -66,9 +123,34 @@ button {
 	flex-grow: 2;
 }
 
+.overlay {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	z-index: 50;
+	background-color: var(--secondary-bg);
+	color: var(--secondary-fg);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-8);
+	padding: var(--spacing-8);
+
+	.btn {
+		display: block;
+		width: 100%;
+	}
+}
+
+.hidden {
+	display: none;
+}
 
 /* Mambo board */
-.board {
+#mambo-board {
 	display: grid;
 	gap: var(--spacing-2);
 	padding: var(--spacing-2);
@@ -88,6 +170,7 @@ button {
 	}
 
 	span {
+		background-color: var(--mambo-tile);
 		display: inline-block;
 		padding: var(--spacing-2);
 		border-radius: var(--spacing-3);
@@ -99,16 +182,18 @@ button {
 		aspect-ratio: 1;
 		box-shadow: var(--shadow-sm);
 
+		color: red;
+
 		&:hover {
 			border-color: var(--secondary-bg);
 		}
 	}
 	span.green {
-		background-color: var(--mambo-green);
+		background: var(--mambo-green) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="25px" fill="oklch(39.3% 0.095 152.535)"><path d="M160 96L480 96C515.3 96 544 124.7 544 160L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 160C96 124.7 124.7 96 160 96z"/></svg>') 50% 50% no-repeat;
 		box-shadow: var(--shadow-lg);
 	}
 	span.blue {
-		background-color: var(--mambo-blue);
+		background: var(--mambo-blue) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="25px" fill="oklch(37.9% 0.146 265.522)"><path d="M64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320z"/></svg>') 50% 50% no-repeat;
 		box-shadow: var(--shadow-lg);
 	}
 	span.error {

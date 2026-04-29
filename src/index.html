@@ -16,37 +16,16 @@
 <body>
 
 <main>
-	<h1>’Bo</h1>
+	<h1>Knack</h1>
+	<h2>A Knack for Games</h2>
 
-	<div data-q-component="timer" class="timer">
-		<span data-q-text="formattedTime"></span>
-	</div>
-
-	<div data-q-component="mambo">
-		<div class="board"></div>
-		<div class="buttons">
-			<button data-q-click="reset">Restart</button>
-			<button data-q-click="undo" data-q-disabled="!canUndo">Undo</button>
-		</div>
-	</div>
+	<menu>
+		<li>
+			<a href="/mambo.html">’Bo</a>
+			<p><a href="/mambo.html">Harmonise the grid of elements</a></p>
+		</li>
+	</menu>
 </main>
-
-<script type="module">
-
-import { directives } from 'q/reactive/directives.js'
-import { game, States } from './js/components/state.js'
-import Timer from './js/components/timer.js'
-import Mambo from './js/modules/mambo/component.js'
-
-game.on(States.GAMEOVER, () => console.log('gameover'))
-game.on(States.TIME, (time) => console.log('time', time))
-game.on(States.PAUSE, (time) => console.log('pause'))
-
-directives.registerComponent('timer', Timer)
-directives.registerComponent('mambo', Mambo)
-directives.load(document.body)
-
-</script>
 
 </body>
 </html>

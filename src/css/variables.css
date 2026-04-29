@@ -1,8 +1,10 @@
 
+@import url(https://fonts.bunny.net/css?family=aclonica:400|fira-sans:400,400i);
+
 :root {
 	/* Fonts */
-	--font-base: 'NeutraText', sans-serif;
-	--font-bold: 'NeutraTextBol', sans-serif;
+	--font-base: 'Fira Sans', sans-serif;
+	--font-heading: 'Aclonica', sans-serif;
 	--font-xs: 0.75rem;
 	--font-sm: 0.875rem;
 	--font-md: 1rem;
@@ -10,6 +12,7 @@
 	--font-xl: 1.25rem;
 	--font-2xl: 1.5rem;
 	--font-3xl: 1.875rem;
+	--font-4xl: 2rem;
 
 	/* Shadow */
 	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -89,12 +92,17 @@
 	--mambo-green: var(--green-500);
 	--mambo-blue: var(--blue-500);
 	--mambo-error: var(--red-600);
+	--mambo-tile: white;
 
-	--primary-bg: white;
+	--primary-bg: var(--grey-200);
 	--primary-fg: var(--grey-800);
 
 	--secondary-bg: var(--grey-200);
 	--secondary-fg: var(--grey-950);
+
+	--menu-bg: white;
+	--menu-fg: var(--grey-800);
+	--menu-border: 2px solid var(--grey-950);
 
 	--button-bg: var(--grey-800);
 	--button-fg: var(--grey-50);

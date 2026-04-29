@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A Knack for Games: Mambo</title>
+<link rel="stylesheet" href="css/styles.css" / >
+<script type="importmap">
+{
+	"imports": {
+		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/"
+	}
+}
+</script>
+</head>
+<body>
+
+<a href="/" class="back">&laquo; Back</a>
+
+<main>
+	<h1>’Bo</h1>
+
+	<div data-q-component="timer" class="timer">
+		<span data-q-text="formattedTime"></span>
+	</div>
+
+	<div data-q-component="mambo">
+		<div id="mambo-board"></div>
+		<div class="buttons">
+			<button data-q-click="reset">Restart</button>
+			<button data-q-click="undo" data-q-disabled="!canUndo">Undo</button>
+		</div>
+	</div>
+
+	<div id="overlay" class="overlay hidden">
+		<h1>Success!</h1>
+		<p>You completed today’s game in <time id="time"></time>!</p>
+		<a href="/" class="btn">Return</a>
+	</div>
+</main>
+
+<script type="module">
+
+import { local } from 'q/utils/storage.js'
+import { directives } from 'q/reactive/directives.js'
+import { formatTime } from './js/utils/number.js'
+import { game, States } from './js/components/state.js'
+import Timer from './js/components/timer.js'
+import Mambo from './js/modules/mambo/component.js'
+
+const MAMBO = 'mambo'
+
+game.on(States.GAMEOVER, () => {
+	document.getElementById('overlay').classList.remove('hidden')
+})
+
+// store the completion time in local storage
+game.on(States.TIME, (time) => {
+	if(!local.has(MAMBO)) {	
+		local.set(MAMBO, {})
+	}
+
+	const current = local.get(MAMBO)
+	const [now, ] = new Date().toISOString().split('T')
+
+	current[now] = time
+
+	local.set(MAMBO, current)
+
+	document.getElementById('time').innerText = formatTime(time)
+})
+game.on(States.PAUSE, (time) => console.log('pause'))
+
+directives.registerComponent('timer', Timer)
+directives.registerComponent('mambo', Mambo)
+directives.load(document.body)
+
+</script>
+
+</body>
+</html>
