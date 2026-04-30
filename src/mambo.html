@@ -51,7 +51,8 @@ import Mambo from './js/modules/mambo/component.js'
 const MAMBO = 'mambo'
 
 game.on(States.GAMEOVER, () => {
-	document.getElementById('overlay').classList.remove('hidden')
+	document.getElementById('mambo-board').classList.add('animating')
+	//document.getElementById('overlay').classList.remove('hidden')
 })
 
 // store the completion time in local storage

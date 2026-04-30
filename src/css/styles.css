@@ -200,3 +200,29 @@ button, a.btn {
 		outline: 2px solid var(--mambo-error);
 	}
 }
+
+/* Animate background */
+@property --angle {
+	syntax: '<angle>';
+	initial-value: 0deg;
+	inherits: false;
+}
+
+@keyframes spin {
+	to {
+		--angle: 360deg;
+	}
+}
+
+/* https://theosoti.com/blog/animated-gradient-borders/ */
+.animating {
+	background: conic-gradient(
+		from var(--angle),
+		#ff4545,
+		#00ff99,
+		#006aff,
+		#ff0095,
+		#ff4545 /* repeat first stop for a seamless loop */
+	);
+	animation: spin 3s linear infinite;
+}
