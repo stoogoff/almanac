@@ -17,7 +17,7 @@
 
 <a href="/" class="back">&laquo; Back</a>
 
-<main>
+<main class="animating">
 	<h1>’Bo</h1>
 
 	<div data-q-component="timer" class="timer">
@@ -31,13 +31,13 @@
 			<button data-q-click="undo" data-q-disabled="!canUndo">Undo</button>
 		</div>
 	</div>
-
-	<div id="overlay" class="overlay hidden">
-		<h1>Success!</h1>
-		<p>You completed today’s game in <time id="time"></time>!</p>
-		<a href="/" class="btn">Return</a>
-	</div>
 </main>
+
+<div id="overlay" class="overlay hidden">
+	<h1>Success!</h1>
+	<p>You completed today’s game in <time id="time"></time>!</p>
+	<a href="/" class="btn">Return</a>
+</div>
 
 <script type="module">
 
@@ -51,8 +51,7 @@ import Mambo from './js/modules/mambo/component.js'
 const MAMBO = 'mambo'
 
 game.on(States.GAMEOVER, () => {
-	document.getElementById('mambo-board').classList.add('animating')
-	//document.getElementById('overlay').classList.remove('hidden')
+	document.getElementById('overlay').classList.remove('hidden')
 })
 
 // store the completion time in local storage

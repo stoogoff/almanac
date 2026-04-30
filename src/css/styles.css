@@ -6,8 +6,7 @@
 html, body {
 	width: 100vw;
 	height: 100vh;
-	padding: 0;
-	margin: 0;
+	overflow: hidden;
 }
 
 body {
@@ -71,7 +70,7 @@ main {
 	text-decoration: none;
 	color: var(--primary-fg);
 	text-transform: uppercase;
-	position: absolute;
+	position: fixed;
 	display: inline-block;
 	top: var(--spacing-4);
 	left: var(--spacing-4);
@@ -125,10 +124,10 @@ button, a.btn {
 
 .overlay {
 	position: fixed;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
+	top: var(--spacing-2);
+	bottom: var(--spacing-2);
+	right: var(--spacing-2);
+	left: var(--spacing-2);
 	z-index: 50;
 	background-color: var(--secondary-bg);
 	color: var(--secondary-fg);
@@ -216,13 +215,31 @@ button, a.btn {
 
 /* https://theosoti.com/blog/animated-gradient-borders/ */
 .animating {
+	position: relative;
+}
+
+.animating::after, .animating::before {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	border-radius: inherit;
 	background: conic-gradient(
 		from var(--angle),
 		#ff4545,
 		#00ff99,
 		#006aff,
 		#ff0095,
-		#ff4545 /* repeat first stop for a seamless loop */
+		#ff4545
 	);
 	animation: spin 3s linear infinite;
+}
+.animating::before {
+	filter: blur(1.5rem);
+	opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.animating::after, .animating::before {
+		animation: none;
+	}
 }
