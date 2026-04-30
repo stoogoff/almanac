@@ -11,8 +11,7 @@ export default {
 
 	mounted() {
 		const now = new Date()
-		const seed = now.getFullYear() + now.getMonth() + now.getDate()
-		console.log(seed)
+		const seed = now.getFullYear() + (now.getMonth() * 100) + now.getDate()
 		const randomiser = mulberry32(seed)
 		const board = document.getElementById('mambo-board')
 

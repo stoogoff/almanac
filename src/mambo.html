@@ -57,13 +57,13 @@ game.on(States.GAMEOVER, () => {
 // store the completion time in local storage
 game.on(States.TIME, (time) => {
 	if(!local.has(MAMBO)) {	
-		local.set(MAMBO, {})
+		local.set(MAMBO, [])
 	}
 
 	const current = local.get(MAMBO)
 	const [now, ] = new Date().toISOString().split('T')
 
-	current[now] = time
+	current.push({ data: now, time })
 
 	local.set(MAMBO, current)
 

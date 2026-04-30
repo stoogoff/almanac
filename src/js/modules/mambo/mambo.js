@@ -33,6 +33,7 @@ export class Mambo {
 	 */
 	create(node, randomiser) {
 		const puzzle = this.generatePuzzle(randomiser, 14)
+		//const puzzle = this.generateSolution(randomiser)
 
 		this.#boardState = [...puzzle]
 		this.#startingState = [...puzzle]
@@ -210,7 +211,9 @@ export class Mambo {
 			for(const colour of colours) {
 				board[idx] = colour
 
-				if(this.isValid(board) && solve(idx + 1)) {
+				const errors = this.isValid(board)
+
+				if(errors.length === 0 && solve(idx + 1)) {
 					return true
 				}
 			}
