@@ -17,7 +17,7 @@
 
 <a href="/" class="back">&laquo; Back</a>
 
-<main class="animating">
+<main>
 	<h1>’Bo</h1>
 
 	<div data-q-component="timer" class="timer">
@@ -33,10 +33,12 @@
 	</div>
 </main>
 
-<div id="overlay" class="overlay hidden">
-	<h1>Success!</h1>
-	<p>You completed today’s game in <time id="time"></time>!</p>
-	<a href="/" class="btn">Return</a>
+<div id="overlay" class="overlay animating hidden">
+	<div>
+		<h1>Success!</h1>
+		<p>You completed today’s game in <time id="time"></time>!</p>
+		<a href="/" class="btn">Return</a>
+	</div>
 </div>
 
 <script type="module">

@@ -26,6 +26,11 @@ h2 {
 	font-weight: normal;
 	font-style: italic;
 }
+h3 {
+	font-family: var(--font-heading);
+	font-size: var(--font-xl);
+	margin-bottom: var(--spacing-1);
+}
 
 time {
 	font-weight: bold;
@@ -49,10 +54,9 @@ menu {
 			color: var(--primary-fg);
 			font-family: var(--font-heading);
 			text-decoration: none;
-			font-size: var(--font-xl);
 		}
 
-		p a {
+		p {
 			font-family: var(--font-base);
 			font-size: var(--font-md);
 		}
@@ -75,7 +79,7 @@ main {
 	top: var(--spacing-4);
 	left: var(--spacing-4);
 	padding: var(--spacing-2);
-	z-index: 100;
+	z-index: 20;
 }
 
 /* Button layout */
@@ -124,19 +128,23 @@ button, a.btn {
 
 .overlay {
 	position: fixed;
-	top: var(--spacing-2);
-	bottom: var(--spacing-2);
-	right: var(--spacing-2);
-	left: var(--spacing-2);
+	top: var(--spacing-4);
+	bottom: var(--spacing-4);
+	right: var(--spacing-4);
+	left: var(--spacing-4);
 	z-index: 50;
-	background-color: var(--secondary-bg);
-	color: var(--secondary-fg);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: var(--spacing-8);
-	padding: var(--spacing-8);
+
+	div {
+		height: 100%;
+		background-color: var(--secondary-bg);
+		color: var(--secondary-fg);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: var(--spacing-8);
+		padding: var(--spacing-8);
+	}
 
 	.btn {
 		display: block;
@@ -214,13 +222,13 @@ button, a.btn {
 }
 
 /* https://theosoti.com/blog/animated-gradient-borders/ */
-.animating {
-	position: relative;
-}
-
 .animating::after, .animating::before {
 	content: '';
-	position: absolute;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
 	z-index: -1;
 	border-radius: inherit;
 	background: conic-gradient(
