@@ -19,15 +19,31 @@
 	<h1>Knack</h1>
 	<h2>A Knack for Games</h2>
 
-	<menu>
-		<li>
-			<a href="/mambo.html">
-				<h3>’Bo</h3>
-				<p>Harmonise the grid of elements</p>
+	<menu data-q-component="menu">
+		<li data-q-each="games">
+			<a data-q-href="url">
+				<h3 data-q-text="title"></h3>
+				<p data-q-text="strapline"></p>
+				<dl data-q-if="showStats">
+					<dt>Best:</dt>
+					<dd data-q-text="best"></dd>
+					<dt>Last:</dt>
+					<dd data-q-text="last"></dd>
+				</dl>
 			</a>
 		</li>
 	</menu>
 </main>
+
+<script type="module">
+
+import { directives } from 'q/reactive/directives.js'
+import Menu from './js/modules/menu/component.js'
+
+directives.registerComponent('menu', Menu)
+directives.load(document.body)
+
+</script>
 
 </body>
 </html>

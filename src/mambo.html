@@ -4,7 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>A Knack for Games: Mambo</title>
-<link rel="stylesheet" href="css/styles.css" / >
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/mambo.css" />
 <script type="importmap">
 {
 	"imports": {
@@ -65,7 +66,7 @@ game.on(States.TIME, (time) => {
 	const current = local.get(MAMBO)
 	const [now, ] = new Date().toISOString().split('T')
 
-	current.push({ data: now, time })
+	current.push({ date: now, time })
 
 	local.set(MAMBO, current)
 

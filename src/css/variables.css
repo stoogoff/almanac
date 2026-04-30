@@ -96,6 +96,7 @@
 
 	--primary-bg: var(--grey-200);
 	--primary-fg: var(--grey-800);
+	--primary-border: 1px solid var(--grey-400);
 
 	--secondary-bg: var(--grey-200);
 	--secondary-fg: var(--grey-950);
