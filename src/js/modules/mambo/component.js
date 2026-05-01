@@ -1,8 +1,8 @@
 
 import { isNull } from 'q/utils/assert.js'
-import { mulberry32 } from '../../utils/mulberry32.js'
-import { game } from '../../components/state.js'
-import { Mambo } from './mambo.js'
+import { mulberry32 } from 'utils/mulberry32.js'
+import { game } from 'components/state.js'
+import { Mambo } from 'mambo/mambo.js'
 
 export default {
 	data: {

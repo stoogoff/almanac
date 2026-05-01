@@ -8,7 +8,10 @@
 <script type="importmap">
 {
 	"imports": {
-		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/"
+		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/",
+		"utils/": "./js/utils/",
+		"components/": "./js/components/",
+		"menu/": "./js/modules/menu/"
 	}
 }
 </script>
@@ -38,7 +41,7 @@
 <script type="module">
 
 import { directives } from 'q/reactive/directives.js'
-import Menu from './js/modules/menu/component.js'
+import Menu from 'menu/component.js'
 
 directives.registerComponent('menu', Menu)
 directives.load(document.body)

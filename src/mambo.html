@@ -9,7 +9,10 @@
 <script type="importmap">
 {
 	"imports": {
-		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/"
+		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/",
+		"utils/": "./js/utils/",
+		"components/": "./js/components/",
+		"mambo/": "./js/modules/mambo/"
 	}
 }
 </script>
@@ -46,10 +49,10 @@
 
 import { local } from 'q/utils/storage.js'
 import { directives } from 'q/reactive/directives.js'
-import { formatTime } from './js/utils/number.js'
-import { game, States } from './js/components/state.js'
-import Timer from './js/components/timer.js'
-import Mambo from './js/modules/mambo/component.js'
+import { formatTime } from 'utils/number.js'
+import { game, States } from 'components/state.js'
+import Timer from 'components/timer.js'
+import Mambo from 'mambo/component.js'
 
 const MAMBO = 'mambo'
 

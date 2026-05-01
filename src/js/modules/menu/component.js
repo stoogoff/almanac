@@ -1,7 +1,7 @@
 
 import { local } from 'q/utils/storage.js'
 import { min, sortByProperty } from 'q/utils/list.js'
-import { formatTime } from '../../utils/number.js'
+import { formatTime } from 'utils/number.js'
 
 export default {
 	data: {

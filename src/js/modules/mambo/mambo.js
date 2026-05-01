@@ -1,7 +1,7 @@
 
 import { notEmptyArray } from 'q/utils/assert.js'
 import { sum, unique } from 'q/utils/list.js'
-import { CssClass, TileState } from './types.js'
+import { CssClass, TileState } from 'mambo/types.js'
 
 export class Mambo {
 	#isVerifying = false
