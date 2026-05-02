@@ -1,6 +1,6 @@
 
 import { local } from 'q/utils/storage.js'
-import { min, sortByProperty } from 'q/utils/list.js'
+import { min } from 'q/utils/list.js'
 import { formatTime } from 'utils/number.js'
 
 export default {
@@ -28,7 +28,7 @@ export default {
 				}
 
 				game.best = formatTime(times.map(({ time }) => time).reduce(min, 1000))
-				game.last = formatTime(times.sort(sortByProperty('date'))[0].time)
+				game.last = formatTime(times[times.length - 1].time)
 				game.showStats = true
 			}
 		})
