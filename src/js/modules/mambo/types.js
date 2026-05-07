@@ -1,4 +1,6 @@
 
+export const STORAGE_KEY = 'mambo'
+
 export const TileState = {
 	EMPTY: 0,
 	GREEN: 1,
