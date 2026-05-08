@@ -3,3 +3,5 @@
 *.hcl
 .terraform
 infra/state
+.env
+dist/
