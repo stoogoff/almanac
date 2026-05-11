@@ -37,7 +37,7 @@
 	</div>
 </main>
 
-<div id="overlay" class="overlay animating hidden">
+<div id="overlay" class="overlay animating">
 	<div>
 		<h1>Success!</h1>
 		<img src="/media/trophy.svg" alt="" />
@@ -46,17 +46,43 @@
 	</div>
 </div>
 
+<canvas id="victory" class=""></canvas>
+
 <script type="module">
 
 import { directives } from 'q/reactive/directives.js'
 import { formatTime } from 'utils/number.js'
 import { game, States } from 'components/state.js'
+import { Victory } from 'components/victory.js'
 import Timer from 'components/timer.js'
 import Mambo from 'mambo/component.js'
 import { save } from 'mambo/save.js'
 
 game.on(States.GAMEOVER, () => {
 	document.getElementById('overlay').classList.remove('hidden')
+	document.getElementById('victory').classList.remove('hidden')
+
+	const victory = new Victory('victory')
+
+	victory.create(victory.width / 2, victory.height * 0.55, Math.floor((Math.random() * 50) + 150))
+
+	let tick = 50
+	let times = 3
+
+	const animation = () => {
+		victory.animate()
+
+		if(--tick < 0 && times >= 0) {
+			victory.create(victory.width / 2, victory.height * 0.55, Math.floor((Math.random() * 50) + 150))
+			tick = 50
+
+			--times
+		}
+
+		requestAnimationFrame(animation)
+	}
+
+	animation()
 })
 
 // store the completion time in local storage
