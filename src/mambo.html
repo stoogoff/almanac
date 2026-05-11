@@ -37,7 +37,7 @@
 	</div>
 </main>
 
-<div id="overlay" class="overlay animating">
+<div id="overlay" class="overlay hidden animating">
 	<div>
 		<h1>Success!</h1>
 		<img src="/media/trophy.svg" alt="" />
@@ -46,7 +46,7 @@
 	</div>
 </div>
 
-<canvas id="victory" class=""></canvas>
+<canvas id="victory" class="hidden"></canvas>
 
 <script type="module">
 
@@ -66,7 +66,7 @@ game.on(States.GAMEOVER, () => {
 
 	victory.create(victory.width / 2, victory.height * 0.55, Math.floor((Math.random() * 50) + 150))
 
-	let tick = 50
+	let tick = 75
 	let times = 3
 
 	const animation = () => {
@@ -74,7 +74,7 @@ game.on(States.GAMEOVER, () => {
 
 		if(--tick < 0 && times >= 0) {
 			victory.create(victory.width / 2, victory.height * 0.55, Math.floor((Math.random() * 50) + 150))
-			tick = 50
+			tick = 75
 
 			--times
 		}
