@@ -13,11 +13,11 @@ export class Mambo {
 	#history = () => {}
 
 	constructor(size, onComplete, history) {
+		this.#complete = onComplete
+		this.#history = history
 		this.#size  = size
 		this.#length = size * size
-		this.#complete = onComplete
 		this.#startingState = this.#boardState = new Array(this.#length)
-		this.#history = history
 	}
 
 	get size() {
@@ -72,7 +72,7 @@ export class Mambo {
 
 				window.setTimeout(() => {
 					if(!this.#isVerifying) {
-						this.verifyBoard(i)
+						this.verifyBoard()
 					}
 				}, 300)
 			}

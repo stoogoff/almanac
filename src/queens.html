@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>A Knack for Games: Mambo</title>
+<title>A Knack for Games: Queens</title>
 <link rel="stylesheet" href="css/styles.css" />
-<link rel="stylesheet" href="css/mambo.css" />
+<link rel="stylesheet" href="css/queens.css" />
 <script type="importmap">
 {
 	"imports": {
 		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/",
 		"utils/": "./js/utils/",
 		"components/": "./js/components/",
-		"mambo/": "./js/modules/mambo/"
+		"queens/": "./js/modules/queens/"
 	}
 }
 </script>
@@ -22,14 +22,14 @@
 <a href="/" class="back">&laquo; Back</a>
 
 <main>
-	<h1>’Bo</h1>
+	<h1>Queens</h1>
 
 	<div data-q-component="timer" class="timer">
 		<span data-q-text="formattedTime"></span>
 	</div>
 
-	<div data-q-component="mambo">
-		<div id="mambo-board" class="board"></div>
+	<div data-q-component="queens">
+		<div id="queens-board" class="board"></div>
 		<div class="buttons">
 			<button data-q-click="reset">Restart</button>
 			<button data-q-click="undo" data-q-disabled="!canUndo">Undo</button>
@@ -56,8 +56,8 @@ import { game, States } from 'components/state.js'
 import { Victory } from 'components/victory.js'
 import { Save } from 'components/save.js'
 import Timer from 'components/timer.js'
-import Mambo from 'mambo/component.js'
-import { STORAGE_KEY } from 'mambo/types.js'
+import Queens from 'queens/component.js'
+import { STORAGE_KEY } from 'queens/types.js'
 
 game.on(States.GAMEOVER, () => {
 	document.getElementById('overlay').classList.remove('hidden')
@@ -96,7 +96,7 @@ game.on(States.TIME, (time) => {
 game.on(States.PAUSE, (time) => console.log('pause'))
 
 directives.registerComponent('timer', Timer)
-directives.registerComponent('mambo', Mambo)
+directives.registerComponent('queens', Queens)
 directives.load(document.body)
 
 </script>

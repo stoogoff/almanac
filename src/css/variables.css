@@ -113,11 +113,6 @@
 }
 
 :root {
-	--mambo-green: var(--amber-500);
-	--mambo-blue: var(--indigo-500);
-	--mambo-error: var(--red-600);
-	--mambo-tile: white;
-
 	--primary-bg: var(--grey-200);
 	--primary-fg: var(--grey-800);
 	--primary-border: 1px solid var(--grey-400);

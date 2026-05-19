@@ -1,10 +1,10 @@
 
 import { isNull } from 'q/utils/assert.js'
 import { mulberry32 } from 'utils/mulberry32.js'
-import { Save } from 'components/save.js'
 import { game } from 'components/state.js'
-import { Mambo } from 'mambo/mambo.js'
-import { STORAGE_KEY } from 'mambo/types.js'
+import { Save } from 'components/save.js'
+import { Queens } from 'queens/queens.js'
+import { STORAGE_KEY } from 'queens/types.js'
 
 export default {
 	data: {
@@ -24,14 +24,14 @@ export default {
 		const now = new Date()
 		const seed = now.getFullYear() + (now.getMonth() * 100) + now.getDate()
 		const randomiser = mulberry32(seed)
-		const board = document.getElementById('mambo-board')
+		const board = document.getElementById('queens-board')
 
-		this.mambo = new Mambo(6, () => {
+		this.queens = new Queens(5, () => {
 			game.gameover()
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
 		})
-		this.mambo.create(board, randomiser)
+		this.queens.create(board, randomiser)
 		game.start()
 	},
 
@@ -50,11 +50,11 @@ export default {
 			return
 		}
 
-		this.mambo.undo(state)
+		this.queens.undo(state)
 	},
 
 	reset() {
 		game.start()
-		this.mambo.reset()
+		this.queens.reset()
 	},
 }

@@ -7,11 +7,14 @@ export const TileState = {
 	BLUE: 2,
 }
 
+const GREEN = 'green'
+const BLUE = 'blue'
+
 export const CssClass = {
 	[TileState.EMPTY]: '',
-	[TileState.GREEN]: 'green',
-	[TileState.BLUE]: 'blue',
+	[TileState.GREEN]: GREEN,
+	[TileState.BLUE]: BLUE,
 
-	GREEN: 'green',
-	BLUE: 'blue',
+	GREEN,
+	BLUE,
 }
