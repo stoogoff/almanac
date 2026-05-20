@@ -17,11 +17,21 @@ export class Queens {
 		this.#startingState = this.#boardState = new Array(this.#grid.size).fill(TileState.EMPTY)
 	}
 
-	create(node, randomiser) {
+	create(node, randomiser, created) {
 		//const puzzle = this.generatePuzzle(randomiser)
 		console.log({ boardState: this.#boardState })
 
 		node.classList.add(`grid-${this.#grid.width}`)
+
+		const CssClasses = {
+			0: 'red',
+			1: 'green',
+			2: 'blue',
+			3: 'purple',
+			4: 'orange',
+			5: 'brown',
+		}
+
 
 		// create the board
 		for(let i = 0; i < this.#grid.size; i++) {
@@ -34,6 +44,9 @@ export class Queens {
 			span.id = `tile-${i}`
 			span.classList.add('tile')
 			span.innerHTML = i
+
+			// board colour
+			span.classList.add(CssClasses[created.board[i]])
 
 			span.onclick = () => {
 				this.#history({ index: i, state: this.#boardState[i] })

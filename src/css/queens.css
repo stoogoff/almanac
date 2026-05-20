@@ -27,4 +27,23 @@
 	span.error {
 		outline: 2px solid var(--queens-error);
 	}
+
+	span.red {
+		background-color: red;
+	}
+	span.green {
+		background-color: green;
+	}
+	span.blue {
+		background-color: blue;
+	}
+	span.purple {
+		background-color: purple;
+	}
+	span.orange {
+		background-color: orange;
+	}
+	span.brown {
+		background-color: brown;
+	}
 }

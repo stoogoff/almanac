@@ -18,3 +18,12 @@ export const CssClass = {
 	QUEEN,
 	DOT,
 }
+
+/*export const TileColour = {
+red
+orange
+green
+purple
+blue
+brown
+}*/
