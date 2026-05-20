@@ -1,36 +1,34 @@
 
-import { CssClass, TileState } from 'queens/types.js'
 import { Grid } from 'components/grid.js'
+import { ActionType, CssClass, TileColours, TileState } from 'queens/types.js'
+import { Tile } from 'queens/tile.js'
 
 export class Queens {
 	#isVerifying = false
 	#grid = null
 	#boardState = []
-	#startingState = []
+	#board = []
 	#complete = () => {}
 	#history = () => {}
 
-	constructor(size, onComplete, history) {
+	constructor(board, onComplete, history) {
+		const size = Math.sqrt(board.length)
+
 		this.#complete = onComplete
 		this.#history = history
 		this.#grid = new Grid(size, size)
-		this.#startingState = this.#boardState = new Array(this.#grid.size).fill(TileState.EMPTY)
+		this.#boardState = new Array(this.#grid.size).fill(
+			new Tile(TileState.EMPTY, ActionType.NONE)
+		)
+		this.#board = board
 	}
 
-	create(node, randomiser, created) {
+	create(node, randomiser) {
 		//const puzzle = this.generatePuzzle(randomiser)
 		console.log({ boardState: this.#boardState })
 
 		node.classList.add(`grid-${this.#grid.width}`)
 
-		const CssClasses = {
-			0: 'red',
-			1: 'green',
-			2: 'blue',
-			3: 'purple',
-			4: 'orange',
-			5: 'brown',
-		}
 
 
 		// create the board
@@ -43,10 +41,10 @@ export class Queens {
 
 			span.id = `tile-${i}`
 			span.classList.add('tile')
-			span.innerHTML = i
+			//span.innerHTML = i
 
 			// board colour
-			span.classList.add(CssClasses[created.board[i]])
+			span.classList.add(TileColours[this.#board[i]])
 
 			span.onclick = () => {
 				this.#history({ index: i, state: this.#boardState[i] })
@@ -57,27 +55,34 @@ export class Queens {
 					// all in row
 					// all adjacent
 					// all in colour
+
+					// set tile from dot to queen
 					span.classList.remove(CssClass.DOT)
 					span.classList.add(CssClass.QUEEN)
-					this.#boardState[i] = TileState.QUEEN
+					this.#boardState[i] = new Tile(TileState.QUEEN, ActionType.PLAYER)
+					this.setDotsFromQueen(i)
 				}
 				else if(span.classList.contains(CssClass.QUEEN)) {
-					// TODO remove dots that would be set by this queen
+					// set tile from queen to empty
 					span.classList.remove(CssClass.QUEEN)
-					this.#boardState[i] = TileState.EMPTY
+					this.#boardState[i] = new Tile(TileState.EMPTY, ActionType.PLAYER)
+					this.clearDotsFromQueen(i)
 				}
 				else {
+					// set tile to empty
 					span.classList.add(CssClass.DOT)
-					this.#boardState[i] = TileState.DOT
+					this.#boardState[i] = new Tile(TileState.DOT, ActionType.PLAYER)
 				}
 
 				window.setTimeout(() => {
-					this.updateBoard()
+					
 
 					/*if(!this.#isVerifying) {
 						this.verifyBoard()
 					}*/
 				}, 100)
+
+				//this.#complete()
 			}
 
 			node.appendChild(span)
@@ -89,7 +94,7 @@ export class Queens {
 	}
 
 	undo(state) {
-		this.#boardState[state.index] = state.state
+		/*this.#boardState[state.index] = state.state
 
 		const tile = document.getElementById(`tile-${state.index}`)
 
@@ -98,66 +103,79 @@ export class Queens {
 
 		if(state.state !== TileState.EMPTY) {
 			tile.classList.add(CssClass[state.state])
-		}
+		}*/
 
 		//this.verifyBoard()*/
 	}
 
-	updateBoard() {
-		console.log(this.#boardState, TileState.QUEEN)
+	getRelatedTiles(tile) {
+		const colour = this.#board[tile]
 
-		for(let tile = 0; tile < this.#grid.size; ++tile) {
-			if(this.#boardState[tile] === TileState.QUEEN) {
-				console.log(`got QUEEN at ${tile}`)
-
-				this.fillRowOrColWithDot([
-					...this.#grid.rowIndicesExclusive(tile),
-					...this.#grid.columnIndicesExclusive(tile),
-					...this.#grid.neighbours(tile)
-				])
-			}
-		}
-
-		/*for(let tile = 0; tile < this.size; ++tile) {
-			console.log(this.#boardState[tile] === TileState.QUEEN)
-			if(this.#boardState[tile] !== TileState.QUEEN) {
-				continue
-			}
-
-
-			const rows = []
-			const cols = []
-
-			// check row - row indexes are sequential
-			for(let i = tile * this.size; i < (tile * this.size) + this.size; i++) {
-				rows.push(i)
-			}
-
-			// check column - columnn indexes are length apart
-			for(let i = tile; i < this.length; i += this.size) {
-				cols.push(i)
-			}
-
-			this.fillRowOrColWithDot([...rows, ...cols])
-		}*/
+		return [
+			...this.#grid.rowIndicesExclusive(tile),
+			...this.#grid.columnIndicesExclusive(tile),
+			...this.#grid.neighbours(tile),
+			...this.#board
+				.map((colour, index) => ({
+					colour,
+					index,
+				}))
+				.filter(item => item.colour === colour)
+				.map(item => item.index)
+		]
 	}
 
-	fillRowOrColWithDot(tiles) {
-		console.log('fillRowOrColWithDot', tiles)
+	setDotsFromQueen(tile) {
+		if(!this.#boardState[tile].isQueen) {
+			return
+		}
+
+		const tiles = this.getRelatedTiles(tile)
 
 		for(let i = 0; i < tiles.length; i++) {
 			const index = tiles[i]
 
-			console.log({ index, board: this.#boardState[index] })
-
-			if(this.#boardState[index] === TileState.EMPTY) {
+			if(this.#boardState[index].isEmpty) {
 				const tile = document.getElementById(`tile-${index}`)
 
 				tile.classList.add(CssClass.DOT)
-				this.#boardState[index] = TileState.Dot
+				this.#boardState[index] = new Tile(TileState.DOT, ActionType.AUTOMATIC)
 			}
 		}
 	}
+
+	clearDotsFromQueen(tile) {
+		if(this.#boardState[tile].isQueen) {
+			return
+		}
+
+		const tiles = this.getRelatedTiles(tile)
+
+		for(let i = 0; i < tiles.length; i++) {
+			const index = tiles[i]
+
+			// TODO may need to rethink this as it clears dots which have been set by another queen
+			if(this.#boardState[index].isDot && this.#boardState[index].isAutomatic) {
+				const tile = document.getElementById(`tile-${index}`)
+
+				tile.classList.remove(CssClass.DOT)
+				this.#boardState[index] = new Tile(TileState.EMPTY, ActionType.AUTOMATIC)
+			}
+		}
+	}
+
+	/*setRowOrCol(tiles, tileState) {
+		for(let i = 0; i < tiles.length; i++) {
+			const index = tiles[i]
+
+			if(this.#boardState[index].isEmpty) {
+				const tile = document.getElementById(`tile-${index}`)
+
+				tile.classList.add(CssClass.DOT)
+				this.#boardState[index] = new Tile(TileState.DOT, ActionType.AUTOMATIC)
+			}
+		}
+	}*/
 
 	verifyBoard() {
 		this.#isVerifying = true
@@ -203,10 +221,5 @@ export class Queens {
 		}*/
 
 		return errors
-	}
-
-	generatePuzzle(randomiser) {
-		// TODO randomly place queens following the rules of the game
-		// TODO randomly generate contiguous colour blocks around the queens
 	}
 }

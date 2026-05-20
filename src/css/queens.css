@@ -28,22 +28,35 @@
 		outline: 2px solid var(--queens-error);
 	}
 
+	/* colour background for tiles*/
 	span.red {
-		background-color: red;
-	}
-	span.green {
-		background-color: green;
-	}
-	span.blue {
-		background-color: blue;
-	}
-	span.purple {
-		background-color: purple;
+		background-color: var(--red-400);
 	}
 	span.orange {
-		background-color: orange;
+		background-color: var(--orange-700);
 	}
-	span.brown {
-		background-color: brown;
+	span.amber {
+		background-color: var(--amber-400);
+	}
+	span.yellow {
+		background-color: var(--yellow-700);
+	}
+	span.lime {
+		background-color: var(--lime-500);
+	}
+	span.emerald {
+		background-color: var(--emerald-700);
+	}
+	span.cyan {
+		background-color: var(--cyan-400);
+	}
+	span.blue {
+		background-color: var(--blue-500);
+	}
+	span.indigo {
+		background-color: var(--indigo-400);
+	}
+	span.purple {
+		background-color: var(--purple-500);
 	}
 }

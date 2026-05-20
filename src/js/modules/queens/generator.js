@@ -1,6 +1,4 @@
 
-import { mulberry32 } from 'utils/mulberry32.js'
-
 function shuffled(arr, rand) {
 	const a = [...arr]
 	for (let i = a.length - 1; i > 0; i--) {
@@ -101,13 +99,13 @@ function growRegions(size, tokens, rand) {
 	return board
 }
 
-export function generateBoard(size, seed) {
+export function generate(size, rand) {
 	if (size < 5) throw new Error('Size must be at least 5')
 	
 	// A few attempts in case growRegions hits its rare null path,
 	// but the happy path almost always succeeds on attempt 0.
 	for (let attempt = 0; attempt < 20; attempt++) {
-		const rand = mulberry32(seed + attempt * 0x9E3779B1)
+		//const rand = mulberry32(seed + attempt * 0x9E3779B1)
 		
 		const tokens = placeTokens(size, rand)
 		if (!tokens) continue

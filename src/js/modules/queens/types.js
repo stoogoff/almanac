@@ -7,6 +7,12 @@ export const TileState = {
 	QUEEN: 2,
 }
 
+export const ActionType = {
+	NONE: 0,
+	AUTOMATIC: 1,
+	PLAYER: 2,
+}
+
 const QUEEN = 'queen'
 const DOT = 'dot'
 
@@ -19,11 +25,15 @@ export const CssClass = {
 	DOT,
 }
 
-/*export const TileColour = {
-red
-orange
-green
-purple
-blue
-brown
-}*/
+export const TileColours = {
+	0: 'blue',
+	1: 'amber',
+	2: 'cyan',
+	3: 'red',
+	4: 'purple',
+	5: 'lime',
+	6: 'emerald',
+	7: 'yellow',
+	8: 'orange',
+	9: 'indigo',
+}

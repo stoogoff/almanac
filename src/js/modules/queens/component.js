@@ -5,8 +5,7 @@ import { game } from 'components/state.js'
 import { Save } from 'components/save.js'
 import { Queens } from 'queens/queens.js'
 import { STORAGE_KEY } from 'queens/types.js'
-
-import { generateBoard } from './board.js'
+import { generate } from 'queens/generator.js'
 
 export default {
 	data: {
@@ -14,11 +13,6 @@ export default {
 	},
 
 	mounted() {
-		const SIZE = 6
-		const board2 = generateBoard(SIZE, 42)
-
-		console.log({ board2 })
-
 		const save = new Save(STORAGE_KEY)
 
 		if(save.hasPlayedToday) {
@@ -31,14 +25,17 @@ export default {
 		const now = new Date()
 		const seed = now.getFullYear() + (now.getMonth() * 100) + now.getDate()
 		const randomiser = mulberry32(seed)
-		const board = document.getElementById('queens-board')
+		const node = document.getElementById('queens-board')
 
-		this.queens = new Queens(SIZE, () => {
+		const SIZE = 10
+		const board = generate(SIZE, randomiser)
+
+		this.queens = new Queens(board.board, () => {
 			game.gameover()
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
 		})
-		this.queens.create(board, randomiser, board2)
+		this.queens.create(node, randomiser)
 		game.start()
 	},
 

@@ -1,12 +1,12 @@
 
 import { notEmptyArray } from 'q/utils/assert.js'
 import { sum, unique } from 'q/utils/list.js'
+import { Grid } from 'components/grid.js'
 import { CssClass, TileState } from 'mambo/types.js'
 
 export class Mambo {
 	#isVerifying = false
-	#size = 4 // number of tiles on each side
-	#length = 16 // total number of tiles on the board
+	#grid = null
 	#boardState = []
 	#startingState = []
 	#complete = () => {}
@@ -15,17 +15,16 @@ export class Mambo {
 	constructor(size, onComplete, history) {
 		this.#complete = onComplete
 		this.#history = history
-		this.#size  = size
-		this.#length = size * size
-		this.#startingState = this.#boardState = new Array(this.#length)
+		this.#grid = new Grid(size, size)
+		this.#startingState = this.#boardState = new Array(this.#grid.size)
 	}
 
 	get size() {
-		return this.#size
+		return this.#grid.width
 	}
 
 	get length() {
-		return this.#length
+		return this.#grid.size
 	}
 
 	/**
