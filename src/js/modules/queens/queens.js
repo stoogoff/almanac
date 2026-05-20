@@ -1,10 +1,10 @@
 
 import { CssClass, TileState } from 'queens/types.js'
+import { Grid } from 'components/grid.js'
 
 export class Queens {
 	#isVerifying = false
-	#size = 10 // number of tiles on each side
-	#length = 100 // total number of tiles on the board
+	#grid = null
 	#boardState = []
 	#startingState = []
 	#complete = () => {}
@@ -13,26 +13,18 @@ export class Queens {
 	constructor(size, onComplete, history) {
 		this.#complete = onComplete
 		this.#history = history
-		this.#size  = size
-		this.#length = size * size
-		this.#startingState = this.#boardState = new Array(this.#length)
-	}
-
-	get size() {
-		return this.#size
-	}
-
-	get length() {
-		return this.#length
+		this.#grid = new Grid(size, size)
+		this.#startingState = this.#boardState = new Array(this.#grid.size).fill(TileState.EMPTY)
 	}
 
 	create(node, randomiser) {
-		const puzzle = this.generatePuzzle(randomiser)
+		//const puzzle = this.generatePuzzle(randomiser)
+		console.log({ boardState: this.#boardState })
 
-		node.classList.add(`grid-${this.size}`)
+		node.classList.add(`grid-${this.#grid.width}`)
 
 		// create the board
-		for(let i = 0; i < this.length; i++) {
+		for(let i = 0; i < this.#grid.size; i++) {
 			const span = document.createElement('span')
 
 			/*if(this.#boardState[i] !== TileState.EMPTY) {
@@ -41,6 +33,7 @@ export class Queens {
 
 			span.id = `tile-${i}`
 			span.classList.add('tile')
+			span.innerHTML = i
 
 			span.onclick = () => {
 				this.#history({ index: i, state: this.#boardState[i] })
@@ -71,7 +64,7 @@ export class Queens {
 					/*if(!this.#isVerifying) {
 						this.verifyBoard()
 					}*/
-				}, 300)
+				}, 100)
 			}
 
 			node.appendChild(span)
@@ -100,9 +93,15 @@ export class Queens {
 	updateBoard() {
 		console.log(this.#boardState, TileState.QUEEN)
 
-		for(let tile = 0; tile < this.length; ++tile) {
+		for(let tile = 0; tile < this.#grid.size; ++tile) {
 			if(this.#boardState[tile] === TileState.QUEEN) {
 				console.log(`got QUEEN at ${tile}`)
+
+				this.fillRowOrColWithDot([
+					...this.#grid.rowIndicesExclusive(tile),
+					...this.#grid.columnIndicesExclusive(tile),
+					...this.#grid.neighbours(tile)
+				])
 			}
 		}
 
@@ -134,10 +133,15 @@ export class Queens {
 		console.log('fillRowOrColWithDot', tiles)
 
 		for(let i = 0; i < tiles.length; i++) {
-			if(this.#boardState[i] === TileState.EMPTY) {
-				const tile = document.getElementById(`tile-${i}`)
+			const index = tiles[i]
+
+			console.log({ index, board: this.#boardState[index] })
+
+			if(this.#boardState[index] === TileState.EMPTY) {
+				const tile = document.getElementById(`tile-${index}`)
 
 				tile.classList.add(CssClass.DOT)
+				this.#boardState[index] = TileState.Dot
 			}
 		}
 	}

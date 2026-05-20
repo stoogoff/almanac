@@ -26,7 +26,7 @@ export default {
 		const randomiser = mulberry32(seed)
 		const board = document.getElementById('queens-board')
 
-		this.queens = new Queens(5, () => {
+		this.queens = new Queens(10, () => {
 			game.gameover()
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
