@@ -23,6 +23,7 @@ export const CssClass = {
 
 	QUEEN,
 	DOT,
+	ERROR: 'error',
 }
 
 export const TileColours = {
@@ -30,10 +31,10 @@ export const TileColours = {
 	1: 'amber',
 	2: 'cyan',
 	3: 'red',
-	4: 'purple',
+	4: 'emerald',
 	5: 'lime',
-	6: 'emerald',
-	7: 'yellow',
+	6: 'purple',
+	7: 'pink',
 	8: 'orange',
 	9: 'indigo',
 }

@@ -27,7 +27,7 @@ export default {
 		const randomiser = mulberry32(seed)
 		const node = document.getElementById('queens-board')
 
-		const SIZE = 10
+		const SIZE = 8
 		const board = generate(SIZE, randomiser)
 
 		this.queens = new Queens(board.board, () => {
@@ -35,7 +35,7 @@ export default {
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
 		})
-		this.queens.create(node, randomiser)
+		this.queens.create(node)
 		game.start()
 	},
 

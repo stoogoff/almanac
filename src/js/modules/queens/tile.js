@@ -4,10 +4,25 @@ import { ActionType, TileState } from 'queens/types.js'
 export class Tile {
 	#state
 	#action
+	#cell
+	#error = false
 
-	constructor(state, action) {
+	constructor(state, action, cell) {
 		this.#state = state
 		this.#action = action
+		this.#cell = cell
+	}
+
+	get cell() {
+		return this.#cell
+	}
+
+	set error(value) {
+		this.#error = value === true
+	}
+
+	get isError() {
+		return this.#error
 	}
 
 	get isEmpty() {
