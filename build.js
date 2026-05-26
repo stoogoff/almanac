@@ -1,6 +1,6 @@
 
-import { join } from 'jsr:@std/path'
-import { load } from 'jsr:@std/dotenv'
+import { join } from '@std/path'
+import { load } from '@std/dotenv'
 
 // remove directory and swallow errors
 const clean = async dir => {
@@ -44,7 +44,7 @@ const versionHtml = async (source, target, version) => {
 }
 
 // load env vars
-const env = await load({
+const _env = await load({
 	envPath: '.env',
 	export: true,
 })

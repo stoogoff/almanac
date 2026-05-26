@@ -3,5 +3,16 @@
 		"dev": "cd src; python3 -m http.server",
 		"serve": "cd dist; python3 -m http.server",
 		"build": "deno --allow-read --allow-write --allow-env build.js"
+	},
+	"imports": {
+		"@std/dotenv": "jsr:@std/dotenv@^0.225.0",
+		"@std/path": "jsr:@std/path@^1.1.0"
+	},
+	"lint": {
+		"include": ["src/"],
+		"rules": {
+			"include": ["no-console"],
+			"exclude": ["no-window-prefix", "no-window"]
+		}
 	}
 }

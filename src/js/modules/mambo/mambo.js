@@ -1,5 +1,4 @@
 
-import { notEmptyArray } from 'q/utils/assert.js'
 import { sum, unique } from 'q/utils/list.js'
 import { Grid } from 'components/grid.js'
 import { CssClass, TileState } from 'mambo/types.js'
@@ -201,12 +200,9 @@ export class Mambo {
 
 		const solve = idx => {
 			if(idx === this.length) return true
-			
-			const row = Math.floor(idx / this.size)
-			const col = idx % this.size
-			
+
 			const colours = randomiser() < 0.5 ? [TileState.GREEN, TileState.BLUE] : [TileState.BLUE, TileState.GREEN]
-			
+
 			for(const colour of colours) {
 				board[idx] = colour
 
