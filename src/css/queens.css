@@ -1,11 +1,4 @@
 
-:root {
-	/*--mambo-green: var(--amber-500);
-	--mambo-blue: var(--indigo-500);
-	--mambo-error: var(--red-600);*/
-
-}
-
 #queens-board {
 	--queens-tile: var(--grey-400);
 	--queens-error: var(--red-700);

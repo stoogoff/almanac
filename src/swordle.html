@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A Knack for Games: 6wordle</title>
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/swordle.css" />
+<script type="importmap">
+{
+	"imports": {
+		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/",
+		"utils/": "./js/utils/",
+		"components/": "./js/components/",
+		"swordle/": "./js/modules/swordle/"
+	}
+}
+</script>
+</head>
+<body>
+
+<a href="/" class="back">&laquo; Back</a>
+
+<main>
+	<h1>6wordle</h1>
+
+	<div data-q-component="timer" class="timer">
+		<span data-q-text="formattedTime"></span>
+	</div>
+
+	<div data-q-component="swordle">
+		<div id="swordle-board" class="board"></div>
+		<div class="keyboard">
+			<div>
+				<span data-q-click="type">q</span>
+				<span data-q-click="type">w</span>
+				<span data-q-click="type">e</span>
+				<span data-q-click="type">r</span>
+				<span data-q-click="type">t</span>
+				<span data-q-click="type">y</span>
+				<span data-q-click="type">u</span>
+				<span data-q-click="type">i</span>
+				<span data-q-click="type">o</span>
+				<span data-q-click="type">p</span>
+			</div>
+			<div>
+				<span data-q-click="type">a</span>
+				<span data-q-click="type">s</span>
+				<span data-q-click="type">d</span>
+				<span data-q-click="type">f</span>
+				<span data-q-click="type">g</span>
+				<span data-q-click="type">h</span>
+				<span data-q-click="type">j</span>
+				<span data-q-click="type">k</span>
+				<span data-q-click="type">l</span>
+			</div>
+			<div>
+				<span data-q-click="type" class="enter">Enter</span>
+				<span data-q-click="type">z</span>
+				<span data-q-click="type">x</span>
+				<span data-q-click="type">c</span>
+				<span data-q-click="type">v</span>
+				<span data-q-click="type">b</span>
+				<span data-q-click="type">n</span>
+				<span data-q-click="type">m</span>
+				<span data-q-click="type" class="enter">Delete</span>
+			</div>
+		</div>
+	</div>
+</main>
+
+<div id="overlay" class="overlay hidden animating">
+	<div>
+		<h1>Success!</h1>
+		<img src="/media/trophy.svg" alt="" />
+		<p>You completed today’s game in <time id="time"></time>!</p>
+		<a href="/" class="btn">Return</a>
+	</div>
+</div>
+
+<canvas id="victory" class="hidden"></canvas>
+
+<script type="module">
+
+import { directives } from 'q/reactive/directives.js'
+import { formatTime } from 'utils/number.js'
+import { game, States } from 'components/state.js'
+import { Victory } from 'components/victory.js'
+import { Save } from 'components/save.js'
+import Timer from 'components/timer.js'
+import Swordle from 'swordle/component.js'
+import { STORAGE_KEY } from 'swordle/types.js'
+
+game.on(States.GAMEOVER, () => {
+	document.getElementById('overlay').classList.remove('hidden')
+	document.getElementById('victory').classList.remove('hidden')
+
+	const victory = new Victory('victory')
+
+	victory.create(victory.width / 2, victory.height * 0.55, Math.floor((Math.random() * 50) + 150))
+
+	let tick = 75
+	let times = 3
+
+	const animation = () => {
+		victory.animate()
+
+		if(--tick < 0 && times >= 0) {
+			victory.create(victory.width / 2, victory.height * 0.55, Math.floor((Math.random() * 50) + 150))
+			tick = 75
+
+			--times
+		}
+
+		requestAnimationFrame(animation)
+	}
+
+	animation()
+})
+
+// store the completion time in local storage
+game.on(States.TIME, (time) => {
+	const save = new Save(STORAGE_KEY)
+	const result = save.save(time)
+
+	document.getElementById('time').innerText = formatTime(result)
+})
+game.on(States.PAUSE, (time) => console.log('pause'))
+
+directives.registerComponent('timer', Timer)
+directives.registerComponent('swordle', Swordle)
+directives.load(document.body)
+
+</script>
+
+</body>
+</html>

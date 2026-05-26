@@ -4,6 +4,7 @@ import { min } from 'q/utils/list.js'
 import { formatTime } from 'utils/number.js'
 import { STORAGE_KEY as MAMBO } from 'mambo/types.js'
 import { STORAGE_KEY as QUEENS } from 'queens/types.js'
+import { STORAGE_KEY as SWORDLE } from 'swordle/types.js'
 
 export default {
 	data: {
@@ -22,6 +23,15 @@ export default {
 				title: 'Queens',
 				strapline: 'Crown each region with a single Queen',
 				url: '/queens.html',
+				last: false,
+				best: false,
+				showStats: false,
+			},
+			{
+				id: SWORDLE,
+				title: '6wordle',
+				strapline: 'Six letter Wordle',
+				url: '/swordle.html',
 				last: false,
 				best: false,
 				showStats: false,

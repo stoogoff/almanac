@@ -18,5 +18,11 @@
         "jsr:@std/internal"
       ]
     }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/dotenv@0.225",
+      "jsr:@std/path@^1.1.0"
+    ]
   }
 }
