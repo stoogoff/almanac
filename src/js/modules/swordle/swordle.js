@@ -1,5 +1,6 @@
 
 import { CssClass } from 'swordle/types.js'
+import { words } from 'swordle/words.js'
 
 export class Swordle {
 	#guesses = 7
@@ -9,12 +10,16 @@ export class Swordle {
 	#word = []
 
 	constructor(word, onComplete) {
-		this.#word = word.split('')
+		this.#word = word.toLowerCase().split('')
 		this.#complete = onComplete
 	}
 
 	get size() {
 		return this.#word.length
+	}
+
+	get guess() {
+		return this.#letters.join('').toLowerCase()
 	}
 
 	create(node) {
@@ -43,12 +48,46 @@ export class Swordle {
 	}
 
 	enter() {
-		if(this.#letters.length === this.size) {
-			this.verifyWord()
-			this.#currentRow++
-			this.#letters = []
+		if(!words.includes(this.guess)) {
+			// TODO notify the user
+			// wordle gives a little shake and raises a notification
+			// it also has a little flip animation when you enter a word
+			// there's a little shake when you enter a letter
+			// apart from the notification this could probably all be handled in CSS
+			this.applyCurrentRow((node, index, cell) => {
+				node.classList.add('error')
+			})
 
-			// TODO verify word is in the dictionary
+			window.setTimeout(()  => {
+				this.applyCurrentRow((node, index, cell) => {
+					node.classList.remove('error')
+				})
+			}, 1000)
+
+			return
+		}
+
+		if(this.#letters.length === this.size) {
+			const result = this.verifyWord()
+
+			if(result) {
+				this.#complete()
+				return
+			}
+
+			this.applyCurrentRow((node, index, cell) => {
+				node.classList.add('chosen')
+			})
+
+			window.setTimeout(() => {
+				this.applyCurrentRow((node, index, cell) => {
+					node.classList.remove('chosen')
+				})
+
+				this.#currentRow++
+				this.#letters = []
+			}, 500)
+
 		}
 	}
 
@@ -62,14 +101,11 @@ export class Swordle {
 	}
 
 	verifyWord() {
-		console.log(this.#word, this.#letters)
 		let correct = 0
 
-		for(let i = 0; i < this.size; i++) {
-			const guess = this.#letters[i].toLowerCase()
-			const actual = this.#word[i]
-			const cell = (this.#currentRow * this.size) + i
-			const node = document.getElementById(`letter-${cell}`)
+		this.applyCurrentRow((node, index, cell) => {
+			const guess = this.#letters[index].toLowerCase()
+			const actual = this.#word[index]
 
 			node.classList.remove(CssClass.NEARLY, CssClass.CORRECT, CssClass.USED)
 
@@ -83,22 +119,25 @@ export class Swordle {
 			else {
 				node.classList.add(CssClass.USED)
 			}
-		}
+		})
 
-		if(correct === this.size) {
-			this.#complete()
-		}
+		return correct === this.size
 
 		// TODO highlight keys as well
 	}
 
-	draw() {
+	applyCurrentRow(callback) {
 		for(let i = 0; i < this.size; i++) {
-			const letter = this.#letters[i] ?? ''
 			const cell = (this.#currentRow * this.size) + i
 			const node = document.getElementById(`letter-${cell}`)
 
-			node.innerText = letter
-		}
+			callback(node, i, cell)
+		}		
+	}
+
+	draw() {
+		this.applyCurrentRow((node, index, cell) => {
+			node.innerText = this.#letters[index] ?? ''
+		})
 	}
 }
