@@ -17,6 +17,8 @@ export default {
 				last: false,
 				best: false,
 				showStats: false,
+				scoreKey: 'time',
+				format: formatTime,
 			},
 			{
 				id: QUEENS,
@@ -26,6 +28,8 @@ export default {
 				last: false,
 				best: false,
 				showStats: false,
+				scoreKey: 'time',
+				format: formatTime,
 			},
 			{
 				id: SWORDLE,
@@ -35,6 +39,8 @@ export default {
 				last: false,
 				best: false,
 				showStats: false,
+				scoreKey: 'guesses',
+				format: x => `${x} guesses`,
 			},
 		],
 	},
@@ -42,14 +48,14 @@ export default {
 	created() {
 		this.data.games.forEach(game => {
 			if(local.has(game.id)) {
-				const times = local.get(game.id)
+				const stats = local.get(game.id)
 
-				if(times.length === 0) {
+				if(stats.length === 0) {
 					return
 				}
 
-				game.best = formatTime(times.map(({ time }) => time).reduce(min, 1000))
-				game.last = formatTime(times[times.length - 1].time)
+				game.best = game.format(stats.map(({ score }) => score[game.scoreKey]).reduce(min, 1000))
+				game.last = game.format(stats[stats.length - 1].score[game.scoreKey])
 				game.showStats = true
 			}
 		})

@@ -25,10 +25,6 @@
 <main>
 	<h1>6wordle</h1>
 
-	<div data-q-component="timer" class="timer">
-		<span data-q-text="formattedTime"></span>
-	</div>
-
 	<div data-q-component="swordle">
 		<div id="swordle-board" class="board"></div>
 		<div class="keyboard">
@@ -64,7 +60,7 @@
 				<span data-q-click="type">b</span>
 				<span data-q-click="type">n</span>
 				<span data-q-click="type">m</span>
-				<span data-q-click="type" class="enter">Delete</span>
+				<span data-q-click="type" class="delete"><svg fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.6 2.5H4.49a1.25 1.25 0 0 0-1 .51L.39 7.26a1.26 1.26 0 0 0 0 1.48L3.48 13a1.26 1.26 0 0 0 1 .51H14.6a1.25 1.25 0 0 0 1.25-1.25V3.75A1.25 1.25 0 0 0 14.6 2.5zm0 9.75H4.49L1.4 8l3.09-4.25H14.6z"/><path d="m7.86 10.55 1.99-1.72 1.99 1.72.82-.94L10.81 8l1.85-1.61-.82-.94-1.99 1.72-1.99-1.72-.82.94L8.9 8 7.04 9.61l.82.94z"/></svg></span>
 			</div>
 		</div>
 	</div>
@@ -74,7 +70,7 @@
 	<div>
 		<h1>Success!</h1>
 		<img src="/media/trophy.svg" alt="" />
-		<p>You completed today’s game in <time id="time"></time>!</p>
+		<p>You completed today’s game with <span id="guesses"></span> guesses!</p>
 		<a href="/" class="btn">Return</a>
 	</div>
 </div>
@@ -88,7 +84,6 @@ import { formatTime } from 'utils/number.js'
 import { game, States } from 'components/state.js'
 import { Victory } from 'components/victory.js'
 import { Save } from 'components/save.js'
-import Timer from 'components/timer.js'
 import Swordle from 'swordle/component.js'
 import { STORAGE_KEY } from 'swordle/types.js'
 
@@ -98,37 +93,23 @@ game.on(States.GAMEOVER, () => {
 
 	const victory = new Victory('victory')
 
-	victory.create(victory.width / 2, victory.height * 0.55, Math.floor((Math.random() * 50) + 150))
+	victory.init(
+		victory.width / 2,
+		victory.height * 0.55,
+		Math.floor((Math.random() * 50) + 150)
+	)
 
-	let tick = 75
-	let times = 3
-
-	const animation = () => {
-		victory.animate()
-
-		if(--tick < 0 && times >= 0) {
-			victory.create(victory.width / 2, victory.height * 0.55, Math.floor((Math.random() * 50) + 150))
-			tick = 75
-
-			--times
-		}
-
-		requestAnimationFrame(animation)
-	}
-
-	animation()
+	victory.start()
 })
 
 // store the completion time in local storage
-game.on(States.TIME, (time) => {
+game.on(States.SCORE, (score) => {
 	const save = new Save(STORAGE_KEY)
-	const result = save.save(time)
+	const result = save.save(score)
 
-	document.getElementById('time').innerText = formatTime(result)
+	document.getElementById('guesses').innerText = result.guesses
 })
-game.on(States.PAUSE, (time) => console.log('pause'))
 
-directives.registerComponent('timer', Timer)
 directives.registerComponent('swordle', Swordle)
 directives.load(document.body)
 

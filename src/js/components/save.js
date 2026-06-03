@@ -21,7 +21,7 @@ export class Save {
 		return notNull(today)
 	}
 
-	save(time) {
+	save(score) {
 		if(!local.has(this.#storageKey)) {	
 			local.set(this.#storageKey, [])
 		}
@@ -30,15 +30,15 @@ export class Save {
 		const [now, ] = new Date().toISOString().split('T')
 		const today = current.find(row => row.date === now)
 
-		// there's an existing time for today so return it
+		// there's an existing score for today so return it
 		if(notNull(today)) {
-			return today.time
+			return today.score
 		}
 
-		current.push({ date: now, time })
+		current.push({ date: now, score })
 
 		local.set(this.#storageKey, current)
 
-		return time
+		return score
 	}
 }

@@ -77,10 +77,10 @@ menu {
 			gap: var(--spacing-1);
 			font-family: var(--font-base);
 			font-size: var(--font-md);
-			text-transform: uppercase;
 		}
 
 		dt {
+			text-transform: uppercase;
 			font-weight: bold;
 		}
 	}

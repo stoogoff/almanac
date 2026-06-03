@@ -4,10 +4,11 @@ import { Emitter } from 'q/utils/emitter.js'
 const events = new Emitter()
 
 export const States = {
-	START: 'start',
+	FAIL: 'fail',
 	GAMEOVER: 'gameover',
-	TIME: 'time',
 	PAUSE: 'pause',
+	START: 'start',
+	SCORE: 'score',
 }
 
 export const game = {
@@ -19,8 +20,12 @@ export const game = {
 		events.emit(States.GAMEOVER)
 	},
 
-	time(time) {
-		events.emit(States.TIME, time)
+	fail() {
+		events.emit(States.FAIL)
+	},
+
+	score(score) {
+		events.emit(States.SCORE, score)
 	},
 
 	on(event, callback) {

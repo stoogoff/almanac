@@ -9,6 +9,10 @@ export class Victory {
 	#width = 0
 	#height = 0
 
+	#x = 0
+	#y = 0
+	#count = 0
+
 	constructor(nodeOrId) {
 		this.#screen = nodeOrId.constructor === String ? document.getElementById(nodeOrId) : nodeOrId
 		this.#context = this.#screen.getContext('2d')
@@ -19,7 +23,6 @@ export class Victory {
 		this.#context.canvas.width = this.#width
 		this.#context.canvas.height = this.#height
 	}
-
 
 	get context() {
 		return this.#context
@@ -33,16 +36,22 @@ export class Victory {
 		return this.#height
 	}
 
-	create(x, y, count) {
+	init(x, y, count) {
+		this.#x = x
+		this.#y = y
+		this.#count = count
+	}
+
+	create() {
 		this.#particles = []
 
-		for(let i = 0; i < count; i++) {
+		for(let i = 0; i < this.#count; i++) {
 			const angle = Math.random() * Math.PI * 2
 			const speed = 3 + Math.random() * 9
 
 			this.#particles.push({
-				x,
-				y,
+				x: this.#x,
+				y: this.#y,
 				vector: {
 					x: Math.cos(angle) * speed,
 					y: Math.sin(angle) * speed - 4,
@@ -84,5 +93,27 @@ export class Victory {
 			this.#context.fillRect(-particle.size / 2, -particle.size / 3, particle.size, particle.size * 0.66)
 			this.#context.restore()
 		}
+	}
+
+	start() {
+		this.create()
+
+		let tick = 75
+		let times = 3
+
+		const animation = () => {
+			this.animate()
+
+			if(--tick < 0 && times >= 0) {
+				this.create()
+				tick = 75
+
+				--times
+			}
+
+			requestAnimationFrame(animation)
+		}
+
+		animation()
 	}
 }

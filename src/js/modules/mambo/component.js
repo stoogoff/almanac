@@ -15,7 +15,7 @@ export default {
 		const save = new Save(STORAGE_KEY)
 
 		if(save.hasPlayedToday) {
-			game.time(save.save(0))
+			game.score({ time: 0 })
 			game.gameover()
 
 			return

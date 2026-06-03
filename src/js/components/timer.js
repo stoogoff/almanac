@@ -17,7 +17,7 @@ export default {
 	mounted() {
 		game.on(States.GAMEOVER, () => {
 			this.stop()
-			game.time(this.data.seconds)
+			game.score({ time: this.data.seconds })
 		})
 
 		game.on(States.START, () => {
