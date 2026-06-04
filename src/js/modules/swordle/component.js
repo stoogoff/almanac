@@ -24,7 +24,7 @@ export default {
 		//const SIZE = 8
 		//const board = generate(SIZE, randomiser)
 
-		this.swordle = new Swordle('should', (guesses) => {
+		this.swordle = new Swordle('abbess', (guesses) => {
 			game.score({ guesses })
 			game.gameover()
 		}, () => {

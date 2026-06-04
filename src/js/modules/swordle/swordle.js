@@ -33,7 +33,7 @@ export class Swordle {
 			const span = document.createElement('span')
 
 			span.id = `letter-${i}`
-			span.classList.add('letter')
+			//span.classList.add('letter')
 			//span.innerHTML = i
 
 			//if(i === 0) span.classList.add('used')
@@ -146,7 +146,16 @@ export class Swordle {
 
 	draw() {
 		this.applyCurrentRow((node, index, _cell) => {
-			node.innerText = this.#letters[index] ?? ''
+			const letter = this.#letters[index] ?? ''
+
+			node.innerText = letter
+			
+			if(letter === '') {
+				node.classList.remove('letter')
+			}
+			else {
+				node.classList.add('letter')
+			}
 		})
 	}
 }

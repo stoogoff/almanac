@@ -15,7 +15,7 @@
 	span {
 		color: var(--swordle-empty-text);
 		background-color: var(--swordle-empty);
-		border: 2px solid var(--swordle-used);
+		border: 2px solid var(--slate-500);
 		align-content: center;
 		text-align: center;
 		font-weight: bold;
@@ -26,10 +26,14 @@
 		transform-style: preserve-3d;
 	}
 
+	span.letter {
+		border-color: var(--swordle-empty-text);
+		box-shadow: var(--shadow-sm);
+		animation: expand 0.3s;
+	}
 	span.error {
 		animation: shake 0.5s;
 	}
-
 	span.chosen {
 		transform: rotateX(180deg);
 	}
@@ -52,6 +56,7 @@
 
 .keyboard {
 	padding: var(--spacing-2);
+	margin-top: var(--spacing-8);
 
 	div {
 		margin-bottom: var(--spacing-2);
@@ -97,6 +102,11 @@
 			width: var(--spacing-7);
 		}
 	}
+}
+
+@keyframes expand {
+	0% { transform: translate(-1px, -1px) scale(1.1); }
+	100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes shake {
