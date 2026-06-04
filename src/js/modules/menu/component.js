@@ -54,9 +54,16 @@ export default {
 					return
 				}
 
-				game.best = game.format(stats.map(({ score }) => score[game.scoreKey]).reduce(min, 1000))
-				game.last = game.format(stats[stats.length - 1].score[game.scoreKey])
-				game.showStats = true
+				try {
+					game.best = game.format(stats.map(({ score }) => score[game.scoreKey]).reduce(min, 1000))
+					game.last = game.format(stats[stats.length - 1].score[game.scoreKey])
+					game.showStats = true
+				}
+				catch {
+					game.best = false
+					game.last = false
+					game.showStats = false
+				}
 			}
 		})
 	},

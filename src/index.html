@@ -12,6 +12,7 @@
 {
 	"imports": {
 		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/",
+		"migrations/": "./js/migrations/",
 		"utils/": "./js/utils/",
 		"components/": "./js/components/",
 		"menu/": "./js/modules/menu/",
@@ -47,7 +48,10 @@
 <script type="module">
 
 import { directives } from 'q/reactive/directives.js'
+import { runMigrations } from 'migrations/index.js'
 import Menu from 'menu/component.js'
+
+runMigrations()
 
 directives.registerComponent('menu', Menu)
 directives.load(document.body)
