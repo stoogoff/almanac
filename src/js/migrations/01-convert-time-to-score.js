@@ -27,6 +27,8 @@ export const convertTime = {
 		const keys = [MAMBO, QUEENS]
 
 		keys.forEach(key => {
+			if(!local.has(key)) return
+
 			const original = local.get(key)
 			const updated = original.filter(row => 'time' in row).map(row => ({
 				date: row.date,

@@ -157,6 +157,9 @@ button, a.btn {
 	left: var(--spacing-8);
 	z-index: 50;
 
+	transition: opacity 1s ease;
+	opacity: 1;
+
 	div {
 		height: 100%;
 		background-color: var(--secondary-bg);
@@ -186,7 +189,9 @@ canvas#victory {
 }
 
 .hidden {
-	display: none;
+	/*display: none;*/
+	pointer-events: none;
+	opacity: 0;
 }
 
 /* Animate background */
