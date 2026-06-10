@@ -1,6 +1,7 @@
 
 import { local } from 'q/utils/storage.js'
 import { min } from 'q/utils/list.js'
+import { Save } from 'components/save.js'
 import { formatTime } from 'utils/number.js'
 import { STORAGE_KEY as MAMBO } from 'mambo/types.js'
 import { STORAGE_KEY as QUEENS } from 'queens/types.js'
@@ -16,6 +17,7 @@ export default {
 				last: false,
 				best: false,
 				showStats: false,
+				icon: null,
 			},
 			{
 				id: QUEENS,
@@ -25,6 +27,7 @@ export default {
 				last: false,
 				best: false,
 				showStats: false,
+				icon: null,
 			},
 		],
 	},
@@ -36,6 +39,12 @@ export default {
 
 				if(times.length === 0) {
 					return
+				}
+
+				const save = new Save(game.id)
+
+				if(save.hasPlayedToday) {
+					game.icon = 'media/trophy.svg'
 				}
 
 				game.best = formatTime(times.map(({ time }) => time).reduce(min, 1000))

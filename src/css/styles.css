@@ -61,6 +61,18 @@ menu {
 			color: var(--primary-fg);
 			font-family: var(--font-heading);
 			text-decoration: none;
+
+			& > div {
+				display: flex;
+
+				div {
+					flex: 1;
+				}
+			}
+		}
+
+		img {
+			width: var(--spacing-16);
 		}
 
 		p {
