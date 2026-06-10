@@ -11,3 +11,5 @@ export const formatTime = time => {
 
 	return `${pad(minute)}:${pad(seconds)}`
 }
+
+export const getRandomInt = max => Math.floor(Math.random() * max)

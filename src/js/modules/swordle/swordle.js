@@ -1,9 +1,10 @@
 
+import { getRandomInt } from 'utils/number.js'
 import { CssClass } from 'swordle/types.js'
 import { words } from 'swordle/words.js'
 
 export class Swordle {
-	#guesses = 6
+	#guesses = 2
 	#complete = () => {}
 	#fail = () => {}
 	#letters = []
@@ -22,6 +23,10 @@ export class Swordle {
 
 	get guess() {
 		return this.#letters.join('').toLowerCase()
+	}
+
+	get word() {
+		return this.#word.join('').toLowerCase()
 	}
 
 	create(node) {
@@ -53,13 +58,10 @@ export class Swordle {
 		if(!words.includes(this.guess)) {
 			// TODO notify the user
 			// wordle gives a little shake and raises a notification
-			// it also has a little flip animation when you enter a word
-			// there's a little shake when you enter a letter
-			// apart from the notification this could probably all be handled in CSS
-			this.applyCurrentRow((node, _index, _cell) => {
+			this.applyCurrentRow((node, index, _cell) => {
 				window.setTimeout(() => {
 					node.classList.add('error')
-				}, 0)
+				}, (index * 100) + getRandomInt(200))
 			})
 
 			window.setTimeout(()  => {
@@ -79,8 +81,10 @@ export class Swordle {
 				return
 			}
 
-			this.applyCurrentRow((node, _index, _cell) => {
-				node.classList.add('chosen')
+			this.applyCurrentRow((node, index, _cell) => {
+				window.setTimeout(() => {
+					node.classList.add('chosen')
+				}, index * 150)
 			})
 
 			window.setTimeout(() => {
@@ -92,9 +96,9 @@ export class Swordle {
 				this.#letters = []
 
 				if(this.#currentRow >= this.#guesses) {
-					this.#fail()
+					this.#fail(this.word)
 				}
-			}, 500)
+			}, 1000)
 		}
 	}
 

@@ -20,8 +20,8 @@ export const game = {
 		events.emit(States.GAMEOVER)
 	},
 
-	fail() {
-		events.emit(States.FAIL)
+	fail(args) {
+		events.emit(States.FAIL, args)
 	},
 
 	score(score) {

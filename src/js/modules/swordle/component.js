@@ -27,10 +27,8 @@ export default {
 		this.swordle = new Swordle('abbess', (guesses) => {
 			game.score({ guesses })
 			game.gameover()
-		}, () => {
-			console.log('fail')
-			// TODO what to do in a fail
-			game.fail()
+		}, (word) => {
+			game.fail({ word })
 		})
 		this.swordle.create(node)
 		game.start()
