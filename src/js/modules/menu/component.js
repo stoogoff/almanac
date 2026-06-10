@@ -44,7 +44,7 @@ export default {
 				const save = new Save(game.id)
 
 				if(save.hasPlayedToday) {
-					game.icon = 'media/trophy.svg'
+					game.icon = '/v1.1.1/media/trophy.svg' // TODO make this static media
 				}
 
 				game.best = formatTime(times.map(({ time }) => time).reduce(min, 1000))
