@@ -27,16 +27,21 @@ export const convertTime = {
 		const keys = [MAMBO, QUEENS]
 
 		keys.forEach(key => {
-			if(!local.has(key)) return
+			try {
+				if(!local.has(key)) return
 
-			const original = local.get(key)
-			const updated = original.filter(row => 'time' in row).map(row => ({
-				date: row.date,
-				score: { time: row.time },
-			}))
+				const original = local.get(key)
+				const updated = original.filter(row => 'time' in row).map(row => ({
+					date: row.date,
+					score: { time: row.time },
+				}))
 
-			if(updated.length > 0) {
-				local.set(key, updated)
+				if(updated.length > 0) {
+					local.set(key, updated)
+				}
+			}
+			catch(error) {
+				console.error(error)
 			}
 		})
 	}

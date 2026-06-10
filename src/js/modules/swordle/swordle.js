@@ -3,7 +3,7 @@ import { CssClass } from 'swordle/types.js'
 import { words } from 'swordle/words.js'
 
 export class Swordle {
-	#guesses = 7
+	#guesses = 6
 	#complete = () => {}
 	#fail = () => {}
 	#letters = []
@@ -57,7 +57,9 @@ export class Swordle {
 			// there's a little shake when you enter a letter
 			// apart from the notification this could probably all be handled in CSS
 			this.applyCurrentRow((node, _index, _cell) => {
-				node.classList.add('error')
+				window.setTimeout(() => {
+					node.classList.add('error')
+				}, 0)
 			})
 
 			window.setTimeout(()  => {
