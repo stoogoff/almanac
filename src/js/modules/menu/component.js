@@ -1,6 +1,7 @@
 
 import { local } from 'q/utils/storage.js'
 import { min } from 'q/utils/list.js'
+import { Save } from 'components/save.js'
 import { formatTime } from 'utils/number.js'
 import { STORAGE_KEY as MAMBO } from 'mambo/types.js'
 import { STORAGE_KEY as QUEENS } from 'queens/types.js'
@@ -19,6 +20,7 @@ export default {
 				showStats: false,
 				scoreKey: 'time',
 				format: formatTime,
+				icon: null,
 			},
 			{
 				id: QUEENS,
@@ -30,6 +32,7 @@ export default {
 				showStats: false,
 				scoreKey: 'time',
 				format: formatTime,
+				icon: null,
 			},
 			{
 				id: SWORDLE,
@@ -41,6 +44,7 @@ export default {
 				showStats: false,
 				scoreKey: 'guesses',
 				format: x => `${x} guesses`,
+				icon: null,
 			},
 		],
 	},
@@ -52,6 +56,12 @@ export default {
 
 				if(stats.length === 0) {
 					return
+				}
+
+				const save = new Save(game.id)
+
+				if(save.hasPlayedToday) {
+					game.icon = '/media/trophy.svg' // TODO make this static media
 				}
 
 				try {
