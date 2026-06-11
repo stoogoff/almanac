@@ -4,7 +4,7 @@ import { CssClass } from 'swordle/types.js'
 import { words } from 'swordle/words.js'
 
 export class Swordle {
-	#guesses = 2
+	#guesses = 6
 	#complete = () => {}
 	#fail = () => {}
 	#letters = []
@@ -56,8 +56,6 @@ export class Swordle {
 
 	enter() {
 		if(!words.includes(this.guess)) {
-			// TODO notify the user
-			// wordle gives a little shake and raises a notification
 			this.applyCurrentRow((node, index, _cell) => {
 				window.setTimeout(() => {
 					node.classList.add('error')
@@ -114,10 +112,23 @@ export class Swordle {
 	verifyWord() {
 		let correct = 0
 
-		// TODO if a letter appears once in the word but twice in the guess
-		// it should only be highlighted once
-		// if it's in a correct position then that should take precedent
+		const correctLetters = []
+		const nearlyLetters = []
+		const usedLetters = []
 
+		const actualLetterCount = {}
+		const usedLetterCount = {}
+
+		this.#word.forEach(letter => {
+			if(!(letter in actualLetterCount)) {
+				actualLetterCount[letter] = 0
+				usedLetterCount[letter] = 0
+			}
+
+			actualLetterCount[letter]++
+		})
+
+		// loop through letters and handle correct letters only
 		this.applyCurrentRow((node, index, _cell) => {
 			const guess = this.#letters[index].toLowerCase()
 			const actual = this.#word[index]
@@ -127,18 +138,62 @@ export class Swordle {
 			if(guess === actual) {
 				correct++
 				node.classList.add(CssClass.CORRECT)
-			}
-			else if(this.#word.includes(guess)) {
-				node.classList.add(CssClass.NEARLY)
-			}
-			else {
-				node.classList.add(CssClass.USED)
+
+				usedLetterCount[guess]++
+				correctLetters.push(guess)
 			}
 		})
 
-		return correct === this.size
+		// loop through letters and handle nearly (i.e. is in the word
+		// but is in the wrong place) and used letters
+		// this prevents letters which occur in the word once being marked as nearly
+		// when they're in the wrong place and the correct place has been selected
+		this.applyCurrentRow((node, index, _cell) => {
+			const guess = this.#letters[index].toLowerCase()
+			const actual = this.#word[index]
 
-		// TODO highlight keys as well
+			// this situation has already been handled
+			if(guess === actual) {
+				return
+			}
+
+			if(this.#word.includes(guess)) {
+				if(usedLetterCount[guess] !== actualLetterCount[guess]) {
+					node.classList.add(CssClass.NEARLY)
+					nearlyLetters.push(guess)
+					usedLetterCount[guess]++
+
+					return
+				}
+			}
+
+			node.classList.add(CssClass.USED)
+			usedLetters.push(guess)
+		})
+
+		// highlight keyboard letters
+		usedLetters.forEach(letter => {
+			const node = document.getElementById(`keyboard-${letter}`)
+
+			node.classList.add('used')
+		})
+
+		nearlyLetters.forEach(letter => {
+			const node = document.getElementById(`keyboard-${letter}`)
+
+			node.classList.add('nearly')
+			node.classList.remove('used')
+		})
+
+		correctLetters.forEach(letter => {
+			const node = document.getElementById(`keyboard-${letter}`)
+
+			node.classList.add('correct')
+			node.classList.remove('nearly')
+			node.classList.remove('used')
+		})
+
+		return correct === this.size
 	}
 
 	applyCurrentRow(callback) {

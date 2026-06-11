@@ -1,6 +1,6 @@
 
 import { isNull } from 'q/utils/assert.js'
-import { mulberry32 } from 'utils/mulberry32.js'
+import { rand } from 'utils/seed.js'
 import { Save } from 'components/save.js'
 import { game } from 'components/state.js'
 import { Mambo } from 'mambo/mambo.js'
@@ -21,9 +21,6 @@ export default {
 			return
 		}
 
-		const now = new Date()
-		const seed = now.getFullYear() + (now.getMonth() * 100) + now.getDate()
-		const randomiser = mulberry32(seed)
 		const board = document.getElementById('mambo-board')
 
 		this.mambo = new Mambo(6, () => {
@@ -31,7 +28,8 @@ export default {
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
 		})
-		this.mambo.create(board, randomiser)
+
+		this.mambo.create(board, rand)
 		game.start()
 	},
 

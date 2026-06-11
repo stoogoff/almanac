@@ -9,6 +9,21 @@
 	--swordle-text: var(--slate-50);
 }
 
+span.correct {
+	color: var(--swordle-text) !important;
+	background-color: var(--swordle-correct) !important;
+	border-color: var(--swordle-correct) !important;
+}
+span.nearly {
+	color: var(--swordle-text) !important;
+	background-color: var(--swordle-nearly) !important;
+	border-color: var(--swordle-nearly) !important;
+}
+span.used {
+	color: var(--swordle-text) !important;
+	background-color: var(--swordle-used) !important;
+}
+
 #swordle-board {
 	gap: var(--spacing-2);
 
@@ -38,20 +53,7 @@
 		transform: rotateX(180deg);
 	}
 
-	span.correct {
-		color: var(--swordle-text);
-		background-color: var(--swordle-correct);
-		border-color: var(--swordle-correct);
-	}
-	span.nearly {
-		color: var(--swordle-text);
-		background-color: var(--swordle-nearly);
-		border-color: var(--swordle-nearly);
-	}
-	span.used {
-		color: var(--swordle-text);
-		background-color: var(--swordle-used);
-	}
+
 }
 
 .keyboard {

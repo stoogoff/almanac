@@ -1,6 +1,6 @@
 
 import { isNull } from 'q/utils/assert.js'
-import { mulberry32 } from 'utils/mulberry32.js'
+import { rand } from 'utils/seed.js'
 import { game } from 'components/state.js'
 import { Save } from 'components/save.js'
 import { Queens } from 'queens/queens.js'
@@ -22,19 +22,16 @@ export default {
 			return
 		}
 
-		const now = new Date()
-		const seed = now.getFullYear() + (now.getMonth() * 100) + now.getDate()
-		const randomiser = mulberry32(seed)
 		const node = document.getElementById('queens-board')
-
 		const SIZE = 8
-		const board = generate(SIZE, randomiser)
+		const board = generate(SIZE, rand)
 
 		this.queens = new Queens(board.board, () => {
 			game.gameover()
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
 		})
+
 		this.queens.create(node)
 		game.start()
 	},
