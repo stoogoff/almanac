@@ -41,6 +41,7 @@ export const convertTime = {
 				}
 			}
 			catch(error) {
+				// deno-lint-ignore no-console
 				console.error(error)
 			}
 		})
