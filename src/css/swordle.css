@@ -59,6 +59,7 @@ span.used {
 .keyboard {
 	padding: var(--spacing-2);
 	margin-top: var(--spacing-8);
+	user-select: none;
 
 	div {
 		margin-bottom: var(--spacing-2);
