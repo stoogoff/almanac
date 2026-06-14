@@ -43,7 +43,7 @@ export default {
 				best: false,
 				showStats: false,
 				scoreKey: 'guesses',
-				format: x => `${x} guesses`,
+				format: x => x === 'x' ? 'failed' : `${x} guesses`,
 				icon: null,
 			},
 		],
@@ -65,7 +65,12 @@ export default {
 				}
 
 				try {
-					game.best = game.format(stats.map(({ score }) => score[game.scoreKey]).reduce(min, 1000))
+					const best = stats
+						.map(({ score }) => score[game.scoreKey])
+						.filter(score => !isNaN(parseInt(score)))
+						.reduce(min, 1000)
+
+					game.best = best === 1000 ? '–' : game.format(best)
 					game.last = game.format(stats[stats.length - 1].score[game.scoreKey])
 					game.showStats = true
 				}

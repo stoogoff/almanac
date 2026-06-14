@@ -69,7 +69,7 @@
 	<div>
 		<h1>Success!</h1>
 		<img src="/media/trophy.svg" alt="" />
-		<p>You completed today’s game with <span id="guesses"></span> guesses!</p>
+		<p>Today’s word was <strong id="word-success"></strong> which you guessed in <span id="guesses"></span> guesses!</p>
 		<a href="/" class="btn">Return</a>
 	</div>
 </div>
@@ -78,7 +78,7 @@
 	<div>
 		<h1>Oh no!</h1>
 		<img src="/media/shock.svg" alt="" />
-		<p>Today’s word was <strong id="word"></strong></p>
+		<p>Today’s word was <strong id="word-fail"></strong></p>
 		<a href="/" class="btn">Return</a>
 	</div>
 </div>
@@ -115,11 +115,15 @@ game.on(States.SCORE, (score) => {
 	const save = new Save(STORAGE_KEY)
 	const result = save.save(score)
 
+	document.getElementById('word-success').innerText = result.word
 	document.getElementById('guesses').innerText = result.guesses
 })
 
-game.on(States.FAIL, (result) => {
-	document.getElementById('word').innerText = result.word
+game.on(States.FAIL, (score) => {
+	const save = new Save(STORAGE_KEY)
+	const result = save.save(score)
+
+	document.getElementById('word-fail').innerText = result.word
 	document.getElementById('fail').classList.remove('hidden')
 })
 

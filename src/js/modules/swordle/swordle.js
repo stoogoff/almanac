@@ -11,7 +11,8 @@ export class Swordle {
 	#currentRow = 0
 	#word = []
 
-	constructor(word, onComplete, onFail) {
+	constructor(guesses, word, onComplete, onFail) {
+		this.#guesses = guesses
 		this.#word = word.toLowerCase().split('')
 		this.#complete = onComplete
 		this.#fail = onFail

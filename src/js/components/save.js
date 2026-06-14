@@ -10,15 +10,19 @@ export class Save {
 	}
 
 	get hasPlayedToday() {
+		return notNull(this.todaysScore)
+	}
+
+	get todaysScore() {
 		if(!local.has(this.#storageKey)) {
-			return false
+			return null
 		}
 
 		const stats = local.get(this.#storageKey)
 		const [now, ] = new Date().toISOString().split('T')
 		const today = stats.find(row => row.date === now)
 
-		return notNull(today)
+		return today
 	}
 
 	save(score) {
