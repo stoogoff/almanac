@@ -1,7 +1,7 @@
 
 import { notNull } from 'q/utils/assert.js'
 import { formatTime } from 'utils/number.js'
-import { game, States } from './state.js'
+import { game, States } from 'components/state.js'
 
 export default {
 	data: {

@@ -1,6 +1,6 @@
 
 import { local } from 'q/utils/storage.js'
-import { convertTime } from './01-convert-time-to-score.js'
+import { convertTime } from 'migrations/01-convert-time-to-score.js'
 
 const MIGRATION_KEY = 'migrations'
 
