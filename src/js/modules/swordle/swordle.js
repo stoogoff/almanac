@@ -69,7 +69,7 @@ export class Swordle {
 				})
 			}, 1000)
 
-			return
+			return null
 		}
 
 		if(this.#letters.length === this.size) {
@@ -77,7 +77,7 @@ export class Swordle {
 
 			if(result) {
 				this.#complete(this.#currentRow + 1)
-				return
+				return this.guess
 			}
 
 			this.applyCurrentRow((node, index, _cell) => {
@@ -99,6 +99,8 @@ export class Swordle {
 				}
 			}, 1000)
 		}
+
+		return this.guess
 	}
 
 	type(letter) {

@@ -1,4 +1,5 @@
 
+import { notNull } from 'q/utils/assert.js'
 import { rand } from 'utils/seed.js'
 import { game } from 'components/state.js'
 import { Save } from 'components/save.js'
@@ -8,9 +9,6 @@ import { words } from 'swordle/words.js'
 
 export default {
 	mounted() {
-		const index = Math.floor(rand() * words.length)
-		const word = words[index]
-
 		const save = new Save(STORAGE_KEY)
 
 		if(save.hasPlayedToday) {
@@ -26,6 +24,14 @@ export default {
 
 			return
 		}
+
+		let word = null
+
+		do {
+			const index = Math.floor(rand() * words.length)
+			
+			word = words[index]
+		} while(word.endsWith('s'))
 
 		const node = document.getElementById('swordle-board')
 
@@ -44,7 +50,11 @@ export default {
 		const letter = context.node.innerText
 
 		if(letter === KEYBOARD_ENTER) {
-			this.swordle.enter()
+			const addedWord = this.swordle.enter()
+
+			if(notNull(addedWord)) {
+				// TODO add to localstorage
+			}
 		}
 		else if(context.node.classList.contains(KEYBOARD_BACKSPACE)) {
 			this.swordle.backspace()
