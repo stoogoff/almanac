@@ -1,7 +1,7 @@
 
 import { local } from 'q/utils/storage.js'
 import { min } from 'q/utils/list.js'
-import { Save } from 'components/save.js'
+import { getGame } from 'components/game.js'
 import { formatTime } from 'utils/number.js'
 import { STORAGE_KEY as MAMBO } from 'mambo/types.js'
 import { STORAGE_KEY as QUEENS } from 'queens/types.js'
@@ -58,10 +58,10 @@ export default {
 					return
 				}
 
-				const save = new Save(game.id)
+				const currentGame = getGame(game.id)
 
-				if(save.hasPlayedToday) {
-					game.icon = '/media/trophy.svg' // TODO make this static media
+				if(currentGame.hasPlayedToday) {
+					game.icon = '/media/trophy.svg'
 				}
 
 				try {

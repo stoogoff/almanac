@@ -1,25 +1,24 @@
 
 import { notNull } from 'q/utils/assert.js'
 import { rand } from 'utils/seed.js'
-import { game } from 'components/state.js'
-import { Save } from 'components/save.js'
+import { getGame } from 'components/game.js'
 import { Swordle } from 'swordle/swordle.js'
 import { GUESSES, STORAGE_KEY, KEYBOARD_ENTER, KEYBOARD_BACKSPACE } from 'swordle/types.js'
 import { words } from 'swordle/words.js'
 
+const game = getGame(STORAGE_KEY)
+
 export default {
+	words: [],
+
 	mounted() {
-		const save = new Save(STORAGE_KEY)
-
-		if(save.hasPlayedToday) {
-			const result = save.todaysScore
-
-			if(result.score.guesses == 'x') {
+		if(game.hasPlayedToday) {
+			const result = game.state
+			if(result.score.guesses === 'x') {
 				game.fail(result)
 			}
 			else {
-				game.score(result)
-				game.gameover()
+				game.gameover(result)
 			}
 
 			return
@@ -29,20 +28,24 @@ export default {
 
 		do {
 			const index = Math.floor(rand() * words.length)
-			
+
 			word = words[index]
-		} while(word.endsWith('s'))
+		} while(word.endsWith('s') && !word.endsWith('ss'))
 
 		const node = document.getElementById('swordle-board')
 
 		this.swordle = new Swordle(GUESSES, word, (guesses) => {
-			game.score({ word, guesses })
-			game.gameover()
+			game.gameover({ score: { word, guesses }})
 		}, (word) => {
-			game.fail({ word, guesses: 'x' })
+			game.fail({ score: { word, guesses: 'x' }})
 		})
 
 		this.swordle.create(node)
+
+		if(notNull(game.state?.words ?? null)) {
+			this.swordle.setGuesses(game.state.words)
+		}
+
 		game.start()
 	},
 
@@ -53,7 +56,9 @@ export default {
 			const addedWord = this.swordle.enter()
 
 			if(notNull(addedWord)) {
-				// TODO add to localstorage
+				this.words.push(addedWord)
+
+				game.save({ words: [...this.words]})
 			}
 		}
 		else if(context.node.classList.contains(KEYBOARD_BACKSPACE)) {

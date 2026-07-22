@@ -88,14 +88,16 @@
 <script type="module">
 
 import { directives } from 'q/reactive/directives.js'
-import { formatTime } from 'utils/number.js'
-import { game, States } from 'components/state.js'
+import { getGame, GameStates } from 'components/game.js'
 import { Victory } from 'components/victory.js'
-import { Save } from 'components/save.js'
 import Swordle from 'swordle/component.js'
 import { STORAGE_KEY } from 'swordle/types.js'
 
-game.on(States.GAMEOVER, () => {
+const game = getGame(STORAGE_KEY)
+
+game.on(GameStates.GAMEOVER, result => {
+	document.getElementById('word-success').innerText = result.score.word
+	document.getElementById('guesses').innerText = result.score.guesses
 	document.getElementById('overlay').classList.remove('hidden')
 	document.getElementById('victory').classList.remove('hidden')
 
@@ -110,20 +112,8 @@ game.on(States.GAMEOVER, () => {
 	victory.start()
 })
 
-// store the completion time in local storage
-game.on(States.SCORE, (score) => {
-	const save = new Save(STORAGE_KEY)
-	const result = save.save(score)
-
-	document.getElementById('word-success').innerText = result.word
-	document.getElementById('guesses').innerText = result.guesses
-})
-
-game.on(States.FAIL, (score) => {
-	const save = new Save(STORAGE_KEY)
-	const result = save.save(score)
-
-	document.getElementById('word-fail').innerText = result.word
+game.on(GameStates.FAIL, result => {
+	document.getElementById('word-fail').innerText = result.score.word
 	document.getElementById('fail').classList.remove('hidden')
 })
 

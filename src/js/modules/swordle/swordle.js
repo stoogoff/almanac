@@ -39,15 +39,19 @@ export class Swordle {
 			const span = document.createElement('span')
 
 			span.id = `letter-${i}`
-			//span.classList.add('letter')
-			//span.innerHTML = i
-
-			//if(i === 0) span.classList.add('used')
-			//if(i === 1) span.classList.add('correct')
-			//if(i === 2) span.classList.add('nearly')
-
 			node.appendChild(span)
 		}
+	}
+
+	setGuesses(words) {
+		words.forEach(word => {
+			this.#letters = word.split('')
+			this.verifyWord()
+			this.draw()
+			this.#currentRow++
+		})
+
+		this.#letters = []
 	}
 
 	backspace() {
@@ -56,6 +60,7 @@ export class Swordle {
 	}
 
 	enter() {
+		// word doesn't exist in the dictionary
 		if(!words.includes(this.guess)) {
 			this.applyCurrentRow((node, index, _cell) => {
 				window.setTimeout(() => {
@@ -72,6 +77,7 @@ export class Swordle {
 			return null
 		}
 
+		// all letters are filled in
 		if(this.#letters.length === this.size) {
 			const result = this.verifyWord()
 

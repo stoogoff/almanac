@@ -1,5 +1,5 @@
 
-import { notNull } from 'q/utils/assert.js'
+import { isNull, notNull } from 'q/utils/assert.js'
 import { local } from 'q/utils/storage.js'
 
 export class Save {
@@ -10,7 +10,16 @@ export class Save {
 	}
 
 	get hasPlayedToday() {
-		return notNull(this.todaysScore)
+		const score = this.todaysScore
+
+		console.log({ score })
+
+		if(isNull(score)) return false
+		if(isNull(score.score)) return false
+
+		console.log('returning true')
+
+		return true
 	}
 
 	get todaysScore() {
@@ -39,7 +48,7 @@ export class Save {
 			return today.score
 		}
 
-		current.push({ date: now, score })
+		current.push({ date: now, ...score })
 
 		local.set(this.#storageKey, current)
 
