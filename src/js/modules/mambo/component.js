@@ -1,10 +1,11 @@
 
 import { isNull } from 'q/utils/assert.js'
 import { rand } from 'utils/seed.js'
-import { Save } from 'components/save.js'
-import { game } from 'components/state.js'
+import { getGame } from 'components/game.js'
 import { Mambo } from 'mambo/mambo.js'
 import { STORAGE_KEY } from 'mambo/types.js'
+
+const game = getGame(STORAGE_KEY)
 
 export default {
 	data: {
@@ -12,11 +13,10 @@ export default {
 	},
 
 	mounted() {
-		const save = new Save(STORAGE_KEY)
+		if(game.hasPlayedToday) {
+			const result = game.state
 
-		if(save.hasPlayedToday) {
-			game.score({ time: 0 })
-			game.gameover()
+			game.gameover(game.state)
 
 			return
 		}

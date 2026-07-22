@@ -14,6 +14,7 @@ export default {
 	mounted() {
 		if(game.hasPlayedToday) {
 			const result = game.state
+
 			if(result.score.guesses === 'x') {
 				game.fail(result)
 			}

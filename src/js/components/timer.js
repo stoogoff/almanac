@@ -1,7 +1,7 @@
 
 import { notNull } from 'q/utils/assert.js'
 import { formatTime } from 'utils/number.js'
-import { game, States } from 'components/state.js'
+import { getGame, GameStates } from 'components/game.js'
 
 export default {
 	data: {
@@ -15,17 +15,16 @@ export default {
 	},
 
 	mounted() {
-		game.on(States.GAMEOVER, () => {
+		const game = getGame(this.data.key)
+
+		game.on(GameStates.GAMEOVER, () => {
+			console.log(this.data.seconds)
 			this.stop()
-			game.score({ time: this.data.seconds })
+			game.save({ score: { time: this.data.seconds }})
 		})
 
-		game.on(States.START, () => {
+		game.on(GameStates.START, () => {
 			this.start()
-		})
-
-		game.on(States.PAUSE, () => {
-			this.stop()
 		})
 	},
 

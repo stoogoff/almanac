@@ -1,11 +1,12 @@
 
 import { isNull } from 'q/utils/assert.js'
 import { rand } from 'utils/seed.js'
-import { game } from 'components/state.js'
-import { Save } from 'components/save.js'
+import { getGame } from 'components/game.js'
 import { Queens } from 'queens/queens.js'
 import { STORAGE_KEY } from 'queens/types.js'
 import { generate } from 'queens/generator.js'
+
+const game = getGame(STORAGE_KEY)
 
 export default {
 	data: {
@@ -13,11 +14,10 @@ export default {
 	},
 
 	mounted() {
-		const save = new Save(STORAGE_KEY)
-
-		if(save.hasPlayedToday) {
-			game.score({ time: 0 })
-			game.gameover()
+		if(game.hasPlayedToday) {
+			const result = game.state
+			console.log(result)
+			game.gameover(result)
 
 			return
 		}

@@ -52,14 +52,19 @@
 
 import { directives } from 'q/reactive/directives.js'
 import { formatTime } from 'utils/number.js'
-import { game, States } from 'components/state.js'
+import { getGame, GameStates } from 'components/game.js'
 import { Victory } from 'components/victory.js'
-import { Save } from 'components/save.js'
 import Timer from 'components/timer.js'
 import Queens from 'queens/component.js'
 import { STORAGE_KEY } from 'queens/types.js'
 
-game.on(States.GAMEOVER, () => {
+const game = getGame(STORAGE_KEY)
+
+game.on(GameStates.GAMEOVER, () => {
+	window.setTimeout(() => {
+		console.log(game.state)
+		document.getElementById('time').innerText = formatTime(game.state?.score.time)
+	})
 	document.getElementById('overlay').classList.remove('hidden')
 	document.getElementById('victory').classList.remove('hidden')
 
@@ -74,17 +79,13 @@ game.on(States.GAMEOVER, () => {
 	victory.start()
 })
 
-// store the completion time in local storage
-game.on(States.SCORE, (score) => {
-	const save = new Save(STORAGE_KEY)
-	const result = save.save(score)
-
-	document.getElementById('time').innerText = formatTime(result.time)
-})
-
 directives.registerComponent('timer', Timer)
 directives.registerComponent('queens', Queens)
-directives.load(document.body)
+directives.load(document.body, {
+	data: {
+		key: STORAGE_KEY,
+	}
+})
 
 </script>
 
