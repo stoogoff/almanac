@@ -18,9 +18,10 @@ export default {
 		const game = getGame(this.data.key)
 
 		game.on(GameStates.GAMEOVER, () => {
-			console.log(this.data.seconds)
-			this.stop()
-			game.save({ score: { time: this.data.seconds }})
+			if(notNull(this.timer)) {
+				this.stop()
+				game.save({ score: { time: this.data.seconds }})
+			}
 		})
 
 		game.on(GameStates.START, () => {

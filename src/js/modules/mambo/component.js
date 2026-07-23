@@ -14,9 +14,7 @@ export default {
 
 	mounted() {
 		if(game.hasPlayedToday) {
-			const result = game.state
-
-			game.gameover(game.state)
+			game.gameover()
 
 			return
 		}

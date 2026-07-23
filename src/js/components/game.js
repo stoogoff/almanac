@@ -28,13 +28,13 @@ class Game {
 	}
 
 	gameover(args) {
-		const score = this.save(args)
+		const score = notNull(args) ? this.save(args) : this.state
 
 		this.#emitter.emit(GameStates.GAMEOVER, score)
 	}
 
 	fail(args) {
-		const score = this.save(args)
+		const score = notNull(args) ? this.save(args) : this.state
 
 		this.#emitter.emit(GameStates.FAIL, score)
 	}

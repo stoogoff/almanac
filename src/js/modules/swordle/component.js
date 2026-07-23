@@ -13,13 +13,11 @@ export default {
 
 	mounted() {
 		if(game.hasPlayedToday) {
-			const result = game.state
-
-			if(result.score.guesses === 'x') {
-				game.fail(result)
+			if(game.state.score.guesses === 'x') {
+				game.fail()
 			}
 			else {
-				game.gameover(result)
+				game.gameover()
 			}
 
 			return
@@ -44,6 +42,7 @@ export default {
 		this.swordle.create(node)
 
 		if(notNull(game.state?.words ?? null)) {
+			this.words = game.state?.words ?? []
 			this.swordle.setGuesses(game.state.words)
 		}
 
