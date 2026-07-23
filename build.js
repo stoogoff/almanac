@@ -12,11 +12,28 @@ const clean = async dir => {
 	}
 }
 
+const isDir = path => {
+	try {
+		return Deno.statSync(path).isDirectory
+	}
+	catch(error) {
+		if(error instanceof Deno.errors.NotFound) {
+			return false
+		}
+
+		console.error(error)
+	}
+}
+
 // recursively create directory structure
 const create = async dir => await Deno.mkdir(dir, { recursive: true })
 
 // recursively copy non-html files
 const copy = async (source, target) => {
+	if(!isDir(target)) {
+		create(target)
+	}
+
 	for await (const file of Deno.readDir(source)) {
 		if(file.isFile && !file.name.endsWith('.html')) {
 			await Deno.copyFile(join(source, file.name), join(target, file.name))
@@ -60,8 +77,12 @@ const distVersioned = join(dist, version)
 await clean(dist)
 await create(distVersioned)
 
-// copy media files
-await copy(source, distVersioned)
+// copy versioned media files
+await copy(join(source, 'js'), join(distVersioned, 'js'))
+await copy(join(source, 'css'), join(distVersioned, 'css'))
+
+// copy unversioned media files
+await copy(join(source, 'media'), join(dist, 'media'))
 
 // copy and update HTML
 await versionHtml(source, dist, version)
