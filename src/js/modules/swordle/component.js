@@ -29,7 +29,9 @@ export default {
 			const index = Math.floor(rand() * words.length)
 
 			word = words[index]
-		} while(word.endsWith('s') && !word.endsWith('ss'))
+
+			if(word.endsWith('ss')) break
+		} while(word.endsWith('s'))
 
 		const node = document.getElementById('swordle-board')
 
