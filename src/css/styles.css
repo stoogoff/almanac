@@ -104,6 +104,15 @@ main {
 	margin: var(--spacing-12) 0;
 }
 
+/* Version */
+.version {
+	font-size: var(--font-xs);
+	color: var(--primary-fg);
+	position: fixed;
+	bottom: var(--spacing-2);
+	right: var(--spacing-2);
+}
+
 /* Back button */
 .back {
 	text-decoration: none;
