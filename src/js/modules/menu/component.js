@@ -61,7 +61,7 @@ export default {
 				const currentGame = getGame(game.id)
 
 				if(currentGame.hasPlayedToday) {
-					game.icon = '/media/trophy.svg'
+					game.icon = currentGame.failedToday ? '/media/shock.svg' : '/media/trophy.svg'
 				}
 
 				try {

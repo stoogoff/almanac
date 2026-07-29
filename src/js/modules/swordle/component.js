@@ -3,7 +3,13 @@ import { notNull } from 'q/utils/assert.js'
 import { rand } from 'utils/seed.js'
 import { getGame } from 'components/game.js'
 import { Swordle } from 'swordle/swordle.js'
-import { GUESSES, STORAGE_KEY, KEYBOARD_ENTER, KEYBOARD_BACKSPACE } from 'swordle/types.js'
+import { 
+	FAILED_SCORE,
+	GUESSES,
+	KEYBOARD_BACKSPACE,
+	KEYBOARD_ENTER,
+	STORAGE_KEY,
+} from 'swordle/types.js'
 import { words } from 'swordle/words.js'
 
 const game = getGame(STORAGE_KEY)
@@ -13,7 +19,7 @@ export default {
 
 	mounted() {
 		if(game.hasPlayedToday) {
-			if(game.state.score.guesses === 'x') {
+			if(game.state.score.guesses === FAILED_SCORE) {
 				game.fail()
 			}
 			else {
@@ -38,7 +44,7 @@ export default {
 		this.swordle = new Swordle(GUESSES, word, (guesses) => {
 			game.gameover({ score: { word, guesses }})
 		}, (word) => {
-			game.fail({ score: { word, guesses: 'x' }})
+			game.fail({ score: { word, guesses: FAILED_SCORE }})
 		})
 
 		this.swordle.create(node)

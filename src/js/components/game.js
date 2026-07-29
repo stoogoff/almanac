@@ -49,6 +49,16 @@ class Game {
 		return true
 	}
 
+	get failedToday() {
+		const score = this.state
+
+		if(isNull(score)) return false
+		if(isNull(score.score)) return false
+
+		// NOTE this is specific to swordle
+		return score.score.guesses === 'x'
+	}
+
 	get state() {
 		if(!local.has(this.#storageKey)) {
 			return null

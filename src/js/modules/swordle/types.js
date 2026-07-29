@@ -11,3 +11,5 @@ export const CssClass = {
 	NEARLY: 'nearly',
 	USED: 'used',
 }
+
+export const FAILED_SCORE = 'x'

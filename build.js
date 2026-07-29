@@ -53,7 +53,6 @@ const versionHtml = async (source, target, version) => {
 			const converted = text
 				.replace(/href="css/g, `href="${version}/css`)
 				.replace(/"\.\/js/g, `"./${version}/js`)
-				.replace(/src="\/media/g, `src="${version}/media`)
 				.replace('$VERSION', version)
 
 			await Deno.writeTextFile(join(target, file.name), converted)
