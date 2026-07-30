@@ -5,7 +5,7 @@
 	--swordle-used: var(--slate-700);
 	--swordle-correct: var(--emerald-500);
 	--swordle-nearly: var(--amber-500);
-	--swordle-key: var(--slate-500);
+	--swordle-key: var(--slate-700);
 	--swordle-text: var(--slate-50);
 }
 
@@ -53,13 +53,11 @@ span.used {
 	span.chosen {
 		transform: rotateX(180deg);
 	}
-
-
 }
 
 .keyboard {
 	padding: var(--spacing-2);
-	margin-top: var(--spacing-8);
+	margin-top: var(--spacing-4);
 	user-select: none;
 
 	div {
@@ -83,11 +81,16 @@ span.used {
 		text-transform: uppercase;
 		font-weight: bold;
 		font-size: var(--font-2xl);
-		display: inline-block;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		color: var(--swordle-text);
 		background-color: var(--swordle-key);
 		border-radius: var(--spacing-1);
-		align-content: center;
+
+		&.used {
+			background-color: var(--slate-400) !important;
+		}
 	}
 
 	span.enter {
@@ -114,15 +117,7 @@ span.used {
 }
 
 @keyframes shake {
-	0% { transform: translate(1px, 1px) rotate(0deg); }
-	10% { transform: translate(-1px, -2px) rotate(-1deg); }
-	20% { transform: translate(-3px, 0px) rotate(1deg); }
-	30% { transform: translate(3px, 2px) rotate(0deg); }
-	40% { transform: translate(1px, -1px) rotate(1deg); }
-	50% { transform: translate(-1px, 2px) rotate(-1deg); }
-	60% { transform: translate(-3px, 1px) rotate(0deg); }
-	70% { transform: translate(3px, 1px) rotate(-1deg); }
-	80% { transform: translate(-1px, -1px) rotate(1deg); }
-	90% { transform: translate(1px, 2px) rotate(0deg); }
-	100% { transform: translate(1px, -2px) rotate(-1deg); }
+	0%, 100% { transform: translateX(0); }
+	10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+	20%, 40%, 60%, 80% { transform: translateX(4px); }
 }

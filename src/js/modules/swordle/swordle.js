@@ -65,7 +65,7 @@ export class Swordle {
 			this.applyCurrentRow((node, index, _cell) => {
 				window.setTimeout(() => {
 					node.classList.add('error')
-				}, (index * 100) + getRandomInt(200))
+				}, (index * 100) + 200)
 			})
 
 			window.setTimeout(()  => {
