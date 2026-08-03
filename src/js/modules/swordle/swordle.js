@@ -1,7 +1,7 @@
 
 import { getRandomInt } from 'utils/number.js'
 import { CssClass } from 'swordle/types.js'
-import { words } from 'swordle/words.js'
+import { dictionary } from 'swordle/dictionary.js'
 
 export class Swordle {
 	#guesses = 6
@@ -61,7 +61,7 @@ export class Swordle {
 
 	enter() {
 		// word doesn't exist in the dictionary
-		if(!words.includes(this.guess)) {
+		if(!dictionary.includes(this.guess)) {
 			this.applyCurrentRow((node, index, _cell) => {
 				window.setTimeout(() => {
 					node.classList.add('error')

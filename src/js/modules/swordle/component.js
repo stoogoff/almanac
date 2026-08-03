@@ -29,16 +29,7 @@ export default {
 			return
 		}
 
-		let word = null
-
-		do {
-			const index = Math.floor(rand() * words.length)
-
-			word = words[index]
-
-			if(word.endsWith('ss')) break
-		} while(word.endsWith('s'))
-
+		const word = words[Math.floor(rand() * words.length)]
 		const node = document.getElementById('swordle-board')
 
 		this.swordle = new Swordle(GUESSES, word, (guesses) => {
