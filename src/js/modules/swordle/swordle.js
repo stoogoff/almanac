@@ -1,5 +1,4 @@
 
-import { getRandomInt } from 'utils/number.js'
 import { CssClass } from 'swordle/types.js'
 import { dictionary } from 'swordle/dictionary.js'
 
