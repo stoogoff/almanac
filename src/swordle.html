@@ -65,20 +65,20 @@
 	</div>
 </main>
 
-<div id="overlay" class="overlay hidden animating">
+<div class="overlay hidden animating" data-q-component="success">
 	<div>
 		<h1>Success!</h1>
 		<img src="/media/trophy.svg" alt="" />
-		<p>Today’s word was <strong id="word-success"></strong> which you guessed in <span id="guesses"></span> guesses!</p>
+		<p>Today’s word was <strong data-q-text="word"></strong> which you guessed in <strong data-q-text="guesses"></strong> guesses!</p>
 		<a href="/" class="btn">Return</a>
 	</div>
 </div>
 
-<div id="fail" class="overlay hidden">
+<div class="overlay hidden" data-q-component="fail">
 	<div>
 		<h1>Oh no!</h1>
 		<img src="/media/shock.svg" alt="" />
-		<p>Today’s word was <strong id="word-fail"></strong></p>
+		<p>Today’s word was <strong data-q-text="word"></strong></p>
 		<a href="/" class="btn">Return</a>
 	</div>
 </div>
@@ -88,35 +88,12 @@
 <script type="module">
 
 import { directives } from 'q/reactive/directives.js'
-import { getGame, GameStates } from 'components/game.js'
-import { Victory } from 'components/victory.js'
 import Swordle from 'swordle/component.js'
-import { STORAGE_KEY } from 'swordle/types.js'
+import Success from 'swordle/success.js'
+import Fail from 'swordle/fail.js'
 
-const game = getGame(STORAGE_KEY)
-
-game.on(GameStates.GAMEOVER, result => {
-	document.getElementById('word-success').innerText = result.score.word
-	document.getElementById('guesses').innerText = result.score.guesses
-	document.getElementById('overlay').classList.remove('hidden')
-	document.getElementById('victory').classList.remove('hidden')
-
-	const victory = new Victory('victory')
-
-	victory.init(
-		victory.width / 2,
-		victory.height * 0.55,
-		Math.floor((Math.random() * 50) + 150)
-	)
-
-	victory.start()
-})
-
-game.on(GameStates.FAIL, result => {
-	document.getElementById('word-fail').innerText = result.score.word
-	document.getElementById('fail').classList.remove('hidden')
-})
-
+directives.registerComponent('success', Success)
+directives.registerComponent('fail', Fail)
 directives.registerComponent('swordle', Swordle)
 directives.load(document.body)
 

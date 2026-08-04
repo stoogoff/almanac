@@ -66,7 +66,8 @@ export default {
 
 				try {
 					const best = stats
-						.map(({ score }) => score[game.scoreKey])
+						.filter(({ score }) => !!score)
+						.map(({ score }) => game.scoreKey in score ? score[game.scoreKey] : null)
 						.filter(score => !isNaN(parseInt(score)))
 						.reduce(min, 1000)
 
