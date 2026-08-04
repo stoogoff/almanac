@@ -1,7 +1,7 @@
 
 import { Victory } from 'components/victory.js'
 import { getGame, GameStates } from 'components/game.js'
-import { STORAGE_KEY } from 'mambo/types.js'
+import { STORAGE_KEY } from 'swordle/types.js'
 
 const game = getGame(STORAGE_KEY)
 

@@ -15,7 +15,7 @@ export default {
 
 	mounted() {
 		if(game.hasPlayedToday) {
-			game.gameover()
+			window.setTimeout(() => game.gameover(), 0)
 
 			return
 		}
