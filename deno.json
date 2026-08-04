@@ -1,7 +1,7 @@
 {
 	"tasks": {
 		"dev": "cd src; python3 -m http.server",
-		"serve": "cd dist; python3 -m http.server",
+		"serve": "cd dist; python3 -m http.server 8001",
 		"build": "deno --allow-read --allow-write --allow-env build.js"
 	},
 	"imports": {
