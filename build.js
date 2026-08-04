@@ -68,6 +68,8 @@ const _env = await load({
 
 const version = Deno.env.get('VERSION')
 
+console.log(`Building version: ${version}`)
+
 // directories we're working with
 const source = join(Deno.cwd(), 'src')
 const dist = join(Deno.cwd(), 'dist')
