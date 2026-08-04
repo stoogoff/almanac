@@ -109,7 +109,7 @@ main {
 	font-size: var(--font-xs);
 	color: var(--primary-fg);
 	position: fixed;
-	bottom: var(--spacing-2);
+	top: var(--spacing-6);
 	right: var(--spacing-2);
 }
 
