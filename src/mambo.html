@@ -37,11 +37,11 @@
 	</div>
 </main>
 
-<div id="overlay" class="overlay hidden animating">
+<div id="overlay" class="overlay hidden animating" data-q-component="success">
 	<div>
 		<h1>Success!</h1>
 		<img src="/media/trophy.svg" alt="" />
-		<p>You completed today’s game in <time id="time"></time>!</p>
+		<p>You completed today’s game in <time data-q-text="time"></time>!</p>
 		<a href="/" class="btn">Return</a>
 	</div>
 </div>
@@ -51,35 +51,14 @@
 <script type="module">
 
 import { directives } from 'q/reactive/directives.js'
-import { formatTime } from 'utils/number.js'
-import { getGame, GameStates } from 'components/game.js'
-import { Victory } from 'components/victory.js'
 import Timer from 'components/timer.js'
 import Mambo from 'mambo/component.js'
+import Success from 'mambo/success.js'
 import { STORAGE_KEY } from 'mambo/types.js'
-
-const game = getGame(STORAGE_KEY)
-
-game.on(GameStates.GAMEOVER, () => {
-	window.setTimeout(() => {
-		document.getElementById('time').innerText = formatTime(game.state?.score.time)
-	})
-	document.getElementById('overlay').classList.remove('hidden')
-	document.getElementById('victory').classList.remove('hidden')
-
-	const victory = new Victory('victory')
-
-	victory.init(
-		victory.width / 2,
-		victory.height * 0.55,
-		Math.floor((Math.random() * 50) + 150)
-	)
-
-	victory.start()
-})
 
 directives.registerComponent('timer', Timer)
 directives.registerComponent('mambo', Mambo)
+directives.registerComponent('success', Success)
 directives.load(document.body, {
 	data: {
 		key: STORAGE_KEY,

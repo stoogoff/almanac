@@ -20,10 +20,10 @@ export default {
 	mounted() {
 		if(game.hasPlayedToday) {
 			if(game.state.score.guesses === FAILED_SCORE) {
-				window.setTimeout(() => game.fail(), 0)
+				game.fail()
 			}
 			else {
-				window.setTimeout(() => game.gameover(), 0)
+				game.gameover()
 			}
 
 			return

@@ -9,7 +9,7 @@ export default {
 		word: '',
 	},
 
-	mounted() {
+	created() {
 		game.on(GameStates.FAIL, result => {
 			this.data.word = result.score.word
 
