@@ -25,11 +25,11 @@
 </head>
 <body>
 
-<main>
+<main data-q-component="menu">
 	<h1>Knack</h1>
 	<h2>A Knack for Games</h2>
 
-	<menu data-q-component="menu">
+	<menu>
 		<li data-q-each="games">
 			<a data-q-href="url">
 				<div>
@@ -48,9 +48,12 @@
 			</a>
 		</li>
 	</menu>
+	<div class="share"><button data-q-click="share" data-q-disabled="!canShare">Share</button></div>
 </main>
 
 <div class="version">$VERSION</div>
+
+<div id="toast" class="toast"></div>
 
 <script type="module">
 

@@ -2,6 +2,7 @@
 import { local } from 'q/utils/storage.js'
 import { min } from 'q/utils/list.js'
 import { getGame } from 'components/game.js'
+import { isMobile, showToast } from 'utils/lib.js'
 import { formatTime } from 'utils/number.js'
 import { STORAGE_KEY as MAMBO } from 'mambo/types.js'
 import { STORAGE_KEY as QUEENS } from 'queens/types.js'
@@ -49,6 +50,16 @@ export default {
 		],
 	},
 
+	computed: {
+		canShare() {
+			return this.data.games.every(game => {
+				const currentGame = getGame(game.id)
+
+				return currentGame.hasPlayedToday
+			})
+		},
+	},
+
 	created() {
 		this.data.games.forEach(game => {
 			if(local.has(game.id)) {
@@ -82,5 +93,35 @@ export default {
 				}
 			}
 		})
+	},
+
+	async share() {
+		const gameInfo = this.data.games.map(game => {
+			const currentGame = getGame(game.id)
+
+			return `${currentGame.failedToday ? '✘' : '✔'} ${game.title}: ${game.last}`
+		})
+
+		const text = `${gameInfo.join('\n')}\n\nPlay at: knack.we-evolve.co.uk\n\n#DailyWordPuzzle #IndieDev`
+
+		if(isMobile() && navigator.share) {
+			try {
+				await navigator.share({ title: "A Knack for Games", text })
+
+				return
+			}
+			catch(e) {
+				console.error(e)
+			}
+		}
+
+		try {
+			await navigator.clipboard.writeText(text)
+
+			showToast("Copied to Clipboard!")
+		}
+		catch(e) {
+			showToast("Error: Could not copy");
+		}
 	},
 }

@@ -62,4 +62,8 @@
 	--button-disabled-bg: var(--grey-500);
 	--button-disabled-fg: var(--grey-200);
 	--button-disabled-border: 2px solid var(--grey-700);
+
+	--toast-bg: var(--emerald-200);
+	--toast-fg: var(--emerald-700);
+	--toast-border: 2px solid var(--emerald-500);
 }
