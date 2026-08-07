@@ -99,7 +99,7 @@ export default {
 		const gameInfo = this.data.games.map(game => {
 			const currentGame = getGame(game.id)
 
-			return `${currentGame.failedToday ? '✘' : '✔'} ${game.title}: ${game.last}`
+			return `${currentGame.failedToday ? '❌' : '✅'} ${game.title}: ${game.last}`
 		})
 
 		const text = `${gameInfo.join('\n')}\n\nPlay at: knack.we-evolve.co.uk\n\n#DailyWordPuzzle #IndieDev`
