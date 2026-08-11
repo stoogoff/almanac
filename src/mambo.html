@@ -16,6 +16,22 @@
 	}
 }
 </script>
+<link rel="modulepreload" href="./js/components/game.js" />
+<link rel="modulepreload" href="./js/components/grid.js" />
+<link rel="modulepreload" href="./js/components/timer.js" />
+<link rel="modulepreload" href="./js/components/victory.js" />
+<link rel="modulepreload" href="./js/modules/mambo/component.js" />
+<link rel="modulepreload" href="./js/modules/mambo/main.js" />
+<link rel="modulepreload" href="./js/modules/mambo/mambo.js" />
+<link rel="modulepreload" href="./js/modules/mambo/success.js" />
+<link rel="modulepreload" href="./js/modules/mambo/types.js" />
+<link rel="modulepreload" href="./js/utils/number.js" />
+<link rel="modulepreload" href="./js/utils/seed.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/reactive/directives.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/utils/assert.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/utils/emitter.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/utils/list.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/utils/storage.js" />
 </head>
 <body>
 
@@ -50,24 +66,7 @@
 
 <div class="version">$VERSION</div>
 
-<script type="module">
-
-import { directives } from 'q/reactive/directives.js'
-import Timer from 'components/timer.js'
-import Mambo from 'mambo/component.js'
-import Success from 'mambo/success.js'
-import { STORAGE_KEY } from 'mambo/types.js'
-
-directives.registerComponent('timer', Timer)
-directives.registerComponent('mambo', Mambo)
-directives.registerComponent('success', Success)
-directives.load(document.body, {
-	data: {
-		key: STORAGE_KEY,
-	}
-})
-
-</script>
+<script type="module" src="./js/modules/mambo/main.js"></script>
 
 </body>
 </html>

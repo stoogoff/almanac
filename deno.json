@@ -2,7 +2,8 @@
 	"tasks": {
 		"dev": "cd src; python3 -m http.server",
 		"serve": "cd dist; python3 -m http.server 8001",
-		"build": "deno --allow-read --allow-write --allow-env build.js"
+		"build": "deno --allow-read --allow-write --allow-env build.js",
+		"generate": "deno --allow-run generate-preloads.js"
 	},
 	"imports": {
 		"@std/dotenv": "jsr:@std/dotenv@^0.225.0",
@@ -11,6 +12,8 @@
 		"utils/": "./src/js/utils/",
 		"components/": "./src/js/components/",
 		"mambo/": "./src/js/modules/mambo/",
+		"menu/": "./src/js/modules/menu/",
+		"migrations/": "./src/js/migrations/",
 		"queens/": "./src/js/modules/queens/",
 		"swordle/": "./src/js/modules/swordle/"
 	},

@@ -16,6 +16,21 @@
 	}
 }
 </script>
+<link rel="modulepreload" href="./js/components/game.js" />
+<link rel="modulepreload" href="./js/components/victory.js" />
+<link rel="modulepreload" href="./js/modules/swordle/component.js" />
+<link rel="modulepreload" href="./js/modules/swordle/dictionary.js" />
+<link rel="modulepreload" href="./js/modules/swordle/fail.js" />
+<link rel="modulepreload" href="./js/modules/swordle/main.js" />
+<link rel="modulepreload" href="./js/modules/swordle/success.js" />
+<link rel="modulepreload" href="./js/modules/swordle/swordle.js" />
+<link rel="modulepreload" href="./js/modules/swordle/types.js" />
+<link rel="modulepreload" href="./js/modules/swordle/words.js" />
+<link rel="modulepreload" href="./js/utils/seed.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/reactive/directives.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/utils/assert.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/utils/emitter.js" />
+<link rel="modulepreload" href="https://cdn.we-evolve.co.uk/js/q/v1.1.1/utils/storage.js" />
 </head>
 <body>
 
@@ -87,19 +102,7 @@
 
 <div class="version">$VERSION</div>
 
-<script type="module">
-
-import { directives } from 'q/reactive/directives.js'
-import Swordle from 'swordle/component.js'
-import Success from 'swordle/success.js'
-import Fail from 'swordle/fail.js'
-
-directives.registerComponent('success', Success)
-directives.registerComponent('fail', Fail)
-directives.registerComponent('swordle', Swordle)
-directives.load(document.body)
-
-</script>
+<script type="module" src="./js/modules/swordle/main.js"></script>
 
 </body>
 </html>
