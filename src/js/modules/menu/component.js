@@ -3,6 +3,7 @@ import { local } from 'q/utils/storage.js'
 import { min } from 'q/utils/list.js'
 import { getGame } from 'components/game.js'
 import { isMobile, showToast } from 'utils/lib.js'
+import { logger } from 'utils/logger.js'
 import { formatTime } from 'utils/number.js'
 import { STORAGE_KEY as MAMBO } from 'mambo/types.js'
 import { STORAGE_KEY as QUEENS } from 'queens/types.js'
@@ -83,10 +84,21 @@ export default {
 						.reduce(min, 1000)
 
 					game.best = best === 1000 ? '–' : game.format(best)
-					game.last = game.format(stats[stats.length - 1].score[game.scoreKey])
+
+					for(let i = stats.length - 1; i >= 0; i--) {
+						const stat = stats[i]
+
+						if('score' in stat && game.scoreKey in stat.score) {
+							game.last = game.format(stat.score[game.scoreKey])
+							break
+						}
+					}
+
 					game.showStats = true
 				}
-				catch {
+				catch(err) {
+					logger().error(err)
+
 					game.best = false
 					game.last = false
 					game.showStats = false
@@ -111,7 +123,7 @@ export default {
 				return
 			}
 			catch(e) {
-				console.error(e)
+				logger().error(e)
 			}
 		}
 

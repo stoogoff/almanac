@@ -27,14 +27,14 @@ export const CssClass = {
 }
 
 export const TileColours = {
-	0: 'blue',
+	0: 'pink',
 	1: 'amber',
 	2: 'cyan',
 	3: 'red',
 	4: 'emerald',
 	5: 'lime',
 	6: 'purple',
-	7: 'pink',
+	7: 'blue',
 	8: 'orange',
 	9: 'indigo',
 }

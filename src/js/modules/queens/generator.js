@@ -113,7 +113,7 @@ function growRegions(size, tokens, rand) {
 
 export function generate(size, rand) {
 	if(size < 5) throw new Error('Size must be at least 5')
-	
+
 	for(let attempt = 0; attempt < 20; attempt++) {
 		const tokens = placeTokens(size, rand)
 
