@@ -1,7 +1,8 @@
 
 function shuffled(arr, rand) {
 	const a = [...arr]
-	for (let i = a.length - 1; i > 0; i--) {
+
+	for(let i = a.length - 1; i > 0; i--) {
 		const j = Math.floor(rand() * (i + 1))
 		;[a[i], a[j]] = [a[j], a[i]]
 	}
@@ -12,25 +13,33 @@ function placeTokens(size, rand) {
 	const tokens = new Array(size).fill(-1)
 	
 	function tryRow(row) {
-		if (row === size) return true
+		if(row === size) return true
 		
 		const cols = shuffled(
 			Array.from({ length: size }, (_, i) => i),
 			rand
 		)
 		
-		for (const col of cols) {
+		for(const col of cols) {
 			let conflict = false
-			for (let r = 0; r < row; r++) {
-				if (tokens[r] === col) { conflict = true; break }
-				if (r === row - 1 && Math.abs(tokens[r] - col) <= 1) {
-					conflict = true; break
+			for(let r = 0; r < row; r++) {
+				if(tokens[r] === col) {
+					conflict = true
+					break
+				}
+
+				if(r === row - 1 && Math.abs(tokens[r] - col) <= 1) {
+					conflict = true
+					break
 				}
 			}
-			if (conflict) continue
+
+			if(conflict) continue
 			
 			tokens[row] = col
-			if (tryRow(row + 1)) return true
+
+			if(tryRow(row + 1)) return true
+
 			tokens[row] = -1
 		}
 		
@@ -49,8 +58,9 @@ function growRegions(size, tokens, rand) {
 	const frontiers = Array.from({ length: regions }, () => new Set())
 	
 	function addFrontier(region, r, c) {
-		if (!inBounds(r, c)) return
-		if (board[idx(r, c)] !== -1) return
+		if(!inBounds(r, c)) return
+		if(board[idx(r, c)] !== -1) return
+
 		frontiers[region].add(idx(r, c))
 	}
 	
@@ -66,18 +76,18 @@ function growRegions(size, tokens, rand) {
 	let remaining = size * size - regions
 	const sizes = new Array(regions).fill(1)
 	
-	while (remaining > 0) {
+	while(remaining > 0) {
 		let pickRegion = -1
 		let minSize = Infinity
-		for (let r = 0; r < regions; r++) {
-			if (frontiers[r].size === 0) continue
-			if (sizes[r] < minSize) {
+		for(let r = 0; r < regions; r++) {
+			if(frontiers[r].size === 0) continue
+			if(sizes[r] < minSize) {
 				minSize = sizes[r]
 				pickRegion = r
 			}
 		}
 		
-		if (pickRegion === -1) return null
+		if(pickRegion === -1) return null
 		
 		const cells = [...frontiers[pickRegion]]
 		const chosen = cells[Math.floor(rand() * cells.length)]
@@ -88,7 +98,9 @@ function growRegions(size, tokens, rand) {
 		sizes[pickRegion]++
 		remaining--
 		
-		for (const f of frontiers) f.delete(chosen)
+		for(const f of frontiers) {
+			f.delete(chosen)
+		}
 		
 		addFrontier(pickRegion, r - 1, c)
 		addFrontier(pickRegion, r + 1, c)
@@ -100,18 +112,16 @@ function growRegions(size, tokens, rand) {
 }
 
 export function generate(size, rand) {
-	if (size < 5) throw new Error('Size must be at least 5')
+	if(size < 5) throw new Error('Size must be at least 5')
 	
-	// A few attempts in case growRegions hits its rare null path,
-	// but the happy path almost always succeeds on attempt 0.
-	for (let attempt = 0; attempt < 20; attempt++) {
-		//const rand = mulberry32(seed + attempt * 0x9E3779B1)
-		
+	for(let attempt = 0; attempt < 20; attempt++) {
 		const tokens = placeTokens(size, rand)
-		if (!tokens) continue
+
+		if(!tokens) continue
 		
 		const board = growRegions(size, tokens, rand)
-		if (!board) continue
+
+		if(!board) continue
 		
 		return {
 			board,
