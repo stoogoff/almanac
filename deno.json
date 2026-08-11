@@ -6,7 +6,13 @@
 	},
 	"imports": {
 		"@std/dotenv": "jsr:@std/dotenv@^0.225.0",
-		"@std/path": "jsr:@std/path@^1.1.0"
+		"@std/path": "jsr:@std/path@^1.1.0",
+		"q/": "https://cdn.we-evolve.co.uk/js/q/v1.1.1/",
+		"utils/": "./src/js/utils/",
+		"components/": "./src/js/components/",
+		"mambo/": "./src/js/modules/mambo/",
+		"queens/": "./src/js/modules/queens/",
+		"swordle/": "./src/js/modules/swordle/"
 	},
 	"lint": {
 		"include": ["src/"],
