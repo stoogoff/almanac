@@ -1,0 +1,27 @@
+
+#soduku-board {
+	--soduku-tile: var(--slate-200);
+	--soduku-border: var(--slate-800);
+	--soduku-highlight: var(--blue-800);
+	
+
+	span {
+		background-color: var(--soduku-tile);
+		padding: var(--spacing-1);
+		border: 1px solid var(--soduku-border);
+
+		/* right hand border */
+		&:nth-child(3n):not(:nth-child(9n)) {
+			border-right-width: 3px;
+			border-right-color: var(--soduku-border);
+		}
+
+		/* bottom border */
+		&:nth-child(n+19):nth-child(-n+27),
+		&:nth-child(n+46):nth-child(-n+54) {
+			border-bottom-width: 3px;
+			border-bottom-color: var(--soduku-border);
+		}
+	}
+
+}
