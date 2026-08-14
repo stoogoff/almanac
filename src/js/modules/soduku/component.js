@@ -3,13 +3,14 @@ import { isNull } from 'q/utils/assert.js'
 import { rand } from 'utils/seed.js'
 import { getGame } from 'components/game.js'
 import { Soduku } from 'soduku/soduku.js'
-import { STORAGE_KEY } from 'soduku/types.js'
+import { CssClass, STORAGE_KEY } from 'soduku/types.js'
 
 const game = getGame(STORAGE_KEY)
 
 export default {
 	data: {
 		history: [],
+		notes: false,
 	},
 
 	mounted() {
@@ -26,7 +27,7 @@ export default {
 
 		const node = document.getElementById('soduku-board')
 
-		this.soduku = new Soduku(0, () => {
+		this.soduku = new Soduku([], () => {
 			game.gameover()
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
@@ -39,7 +40,32 @@ export default {
 	computed: {
 		canUndo() {
 			return this.data.history.length > 0
+		},
+
+		keyboardClass() {
+			return this.data.notes ? CssClass.Notes : ''
+		},
+	},
+
+	type(_event, context) {
+		const number = parseInt(context.node.innerText)
+
+		try {
+			if(this.data.notes) {
+				this.soduku.setNote(number)
+			}
+			else {
+				this.soduku.setNumber(number)
+			}
 		}
+		catch(error) {
+			// TODO show toast
+			console.log(error)
+		}
+	},
+
+	toggleNotes() {
+		this.data.notes = !this.data.notes
 	},
 
 	undo() {

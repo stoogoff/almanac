@@ -31,8 +31,8 @@
 	<div data-q-component="soduku">
 		<div id="soduku-board" class="board grid-9"></div>
 		<div class="keyboard">
-			<div>
-				<span id="keyboard-0" data-q-click="type">0</span>
+			<div></div>
+			<div data-q-class="keyboardClass">
 				<span id="keyboard-1" data-q-click="type">1</span>
 				<span id="keyboard-2" data-q-click="type">2</span>
 				<span id="keyboard-3" data-q-click="type">3</span>
@@ -47,7 +47,7 @@
 		<div class="buttons">
 			<button data-q-click="reset">Restart</button>
 			<button data-q-click="undo" data-q-disabled="!canUndo">Undo</button>
-			<button data-q-click="notes">Notes</button>
+			<button data-q-click="toggleNotes">Notes</button>
 		</div>
 	</div>
 </main>

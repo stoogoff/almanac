@@ -369,13 +369,7 @@ canvas#victory {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: var(--slate-50);
-		background-color: var(--slate-700);
 		border-radius: var(--spacing-1);
-
-		&.used {
-			background-color: var(--slate-400) !important;
-		}
 	}
 
 	span.enter {

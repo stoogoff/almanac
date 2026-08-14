@@ -52,7 +52,7 @@ export default {
 			{
 				id: SODUKU,
 				title: 'Soduku',
-				strapline: '',
+				strapline: 'Numbers nine by nine',
 				url: '/soduku.html',
 				last: false,
 				best: false,

@@ -85,7 +85,7 @@ export class Queens {
 		return unique([
 			...this.#grid.rowIndicesExclusive(tile),
 			...this.#grid.columnIndicesExclusive(tile),
-			...this.#grid.neighbours(tile),
+			...this.#grid.neighboursExclusive(tile),
 			...this.#board
 				.map((colour, index) => ({
 					colour,

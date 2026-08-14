@@ -55,6 +55,15 @@ span.used {
 	}
 }
 
+.keyboard span {
+	color: var(--swordle-text);
+	background-color: var(--swordle-key);
+
+	&.used {
+		background-color: var(--slate-400) !important;
+	}
+}
+
 @keyframes expand {
 	0% { transform: translate(-1px, -1px) scale(1.1); }
 	100% { transform: translate(0, 0) scale(1); }
