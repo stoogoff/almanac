@@ -4,6 +4,7 @@ import { rand } from 'utils/seed.js'
 import { getGame } from 'components/game.js'
 import { Soduku } from 'soduku/soduku.js'
 import { CssClass, STORAGE_KEY } from 'soduku/types.js'
+import { generateBoard } from 'soduku/generator.js'
 
 const game = getGame(STORAGE_KEY)
 
