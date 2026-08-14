@@ -1,9 +1,7 @@
 
 import { Grid } from 'components/grid.js'
-import { ActionType, CssClass, TileState } from 'soduku/types.js'
+import { ActionType, CssClass, TileState, BOARD_SIZE } from 'soduku/types.js'
 import { Tile } from 'soduku/tile.js'
-
-const BOARD_SIZE = 9
 
 export class Soduku {
 	#startingState = []
@@ -19,11 +17,9 @@ export class Soduku {
 		this.#grid = new Grid(BOARD_SIZE, BOARD_SIZE)
 		this.#boardState = new Array(this.#grid.size)
 
-		console.log(this.#boardState.length)
-
 		// TODO this is going to need to be called from reset as well
 		for(let i = 0; i < this.#boardState.length; i++) {
-			if(board[i]) {
+			if(board[i] !== 0) {
 				this.#boardState[i] = new Tile(TileState.FILLED, ActionType.AUTOMATIC, i, board[i])
 			}
 			else {
@@ -53,6 +49,8 @@ export class Soduku {
 			}
 			node.appendChild(span)
 		}
+
+		this.draw()
 	}
 
 	setNote(number) {
@@ -70,6 +68,8 @@ export class Soduku {
 		const tile = this.selectedTile
 
 		if(!tile) throw new Error("No tile selected")
+
+		if(tile.isAutomatic) return
 
 		const index = tile.cell
 
@@ -150,6 +150,10 @@ export class Soduku {
 			if(!node) {
 				console.error(`Node with ID: 'tile-${i}'' not found`)
 				continue
+			}
+
+			if(tile.isAutomatic) {
+				node.classList.add(CssClass.Chosen)
 			}
 
 			if(tile.isError) {

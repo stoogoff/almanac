@@ -25,10 +25,13 @@ export default {
 		// TODO clicking on a button adds the number if NOTES is off
 		// TODO clicking on a button adds a note if NOTES is on
 		// TODO clicking on a filled tile should do nothing
+		const board = generateBoard('Hard', 0)
+
+		console.log(board)
 
 		const node = document.getElementById('soduku-board')
 
-		this.soduku = new Soduku([], () => {
+		this.soduku = new Soduku(board.puzzle, () => {
 			game.gameover()
 		}, (state) => {
 			this.data.history = [...this.data.history, state]

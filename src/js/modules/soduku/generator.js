@@ -1,18 +1,12 @@
-import { mulberry32 } from 'utils/mulberry32.js'
 
-const SIZE = 9
+import { mulberry32 } from 'utils/seed.js'
+import { BOARD_SIZE, DIFFICULTY } from 'soduku/types.js'
+
 const BOX = 3
-
-// Rough clue counts per difficulty. Real puzzles usually land within ±3.
-const DIFFICULTY = {
-	easy: 40,
-	medium: 32,
-	hard: 26
-}
 
 function shuffled(arr, rand) {
 	const a = [...arr]
-	for (let i = a.length - 1; i > 0; i--) {
+	for(let i = a.length - 1; i > 0; i--) {
 		const j = Math.floor(rand() * (i + 1))
 		;[a[i], a[j]] = [a[j], a[i]]
 	}
@@ -22,17 +16,19 @@ function shuffled(arr, rand) {
 // --- validity check for a candidate value at a cell -------------
 
 function canPlace(board, idx, value) {
-	const row = Math.floor(idx / SIZE)
-	const col = idx % SIZE
+	const row = Math.floor(idx / BOARD_SIZE)
+	const col = idx % BOARD_SIZE
 	const boxRow = Math.floor(row / BOX) * BOX
 	const boxCol = Math.floor(col / BOX) * BOX
 	
-	for (let i = 0; i < SIZE; i++) {
-		if (board[row * SIZE + i] === value) return false
-		if (board[i * SIZE + col] === value) return false
+	for(let i = 0; i < BOARD_SIZE; i++) {
+		if(board[row * BOARD_SIZE + i] === value) return false
+		if(board[i * BOARD_SIZE + col] === value) return false
+
 		const br = boxRow + Math.floor(i / BOX)
 		const bc = boxCol + (i % BOX)
-		if (board[br * SIZE + bc] === value) return false
+
+		if(board[br * BOARD_SIZE + bc] === value) return false
 	}
 	return true
 }
@@ -40,17 +36,21 @@ function canPlace(board, idx, value) {
 // --- stage 1: fill a complete valid board -----------------------
 
 function fillBoard(board, rand, idx = 0) {
-	if (idx === SIZE * SIZE) return true
-	if (board[idx] !== 0) return fillBoard(board, rand, idx + 1)
+	if(idx === BOARD_SIZE * BOARD_SIZE) return true
+	if(board[idx] !== 0) return fillBoard(board, rand, idx + 1)
 	
 	const values = shuffled([1, 2, 3, 4, 5, 6, 7, 8, 9], rand)
-	for (const v of values) {
-		if (canPlace(board, idx, v)) {
+
+	for(const v of values) {
+		if(canPlace(board, idx, v)) {
 			board[idx] = v
-			if (fillBoard(board, rand, idx + 1)) return true
+
+			if(fillBoard(board, rand, idx + 1)) return true
+
 			board[idx] = 0
 		}
 	}
+
 	return false
 }
 
@@ -61,24 +61,26 @@ function countSolutions(board, limit = 2) {
 	let count = 0
 	
 	function solve(idx) {
-		if (count >= limit) return
-		if (idx === SIZE * SIZE) {
+		if(count >= limit) return
+		if(idx === BOARD_SIZE * BOARD_SIZE) {
 			count++
 			return
 		}
-		if (work[idx] !== 0) return solve(idx + 1)
+		if(work[idx] !== 0) return solve(idx + 1)
 		
-		for (let v = 1; v <= 9; v++) {
-			if (canPlace(work, idx, v)) {
+		for(let v = 1; v <= 9; v++) {
+			if(canPlace(work, idx, v)) {
 				work[idx] = v
 				solve(idx + 1)
 				work[idx] = 0
-				if (count >= limit) return
+
+				if(count >= limit) return
 			}
 		}
 	}
 	
 	solve(0)
+
 	return count
 }
 
@@ -87,21 +89,23 @@ function countSolutions(board, limit = 2) {
 function removeCells(board, targetClues, rand) {
 	const puzzle = [...board]
 	const indices = shuffled(
-		Array.from({ length: SIZE * SIZE }, (_, i) => i),
+		Array.from({ length: BOARD_SIZE * BOARD_SIZE }, (_, i) => i),
 		rand
 	)
 	
-	let remaining = SIZE * SIZE
+	let remaining = BOARD_SIZE * BOARD_SIZE
 	
-	for (const idx of indices) {
-		if (remaining <= targetClues) break
+	for(const idx of indices) {
+		if(remaining <= targetClues) break
 		
 		const saved = puzzle[idx]
+
 		puzzle[idx] = 0
 		
-		if (countSolutions(puzzle, 2) === 1) {
+		if(countSolutions(puzzle, 2) === 1) {
 			remaining--
-		} else {
+		}
+		else {
 			puzzle[idx] = saved
 		}
 	}
@@ -113,14 +117,16 @@ function removeCells(board, targetClues, rand) {
 
 export function generateBoard(difficulty, seed) {
 	const targetClues = DIFFICULTY[difficulty]
-	if (!targetClues) throw new Error(`Unknown difficulty: ${difficulty}`)
+
+	if(!targetClues) throw new Error(`Unknown difficulty: ${difficulty}`)
 	
 	// Fresh rand per attempt so retries are independent but deterministic
-	for (let attempt = 0; attempt < 20; attempt++) {
+	for(let attempt = 0; attempt < 20; attempt++) {
 		const rand = mulberry32(seed + attempt * 0x9E3779B1)
 		
-		const solution = new Array(SIZE * SIZE).fill(0)
-		if (!fillBoard(solution, rand)) continue
+		const solution = new Array(BOARD_SIZE * BOARD_SIZE).fill(0)
+
+		if(!fillBoard(solution, rand)) continue
 		
 		const { puzzle, clueCount } = removeCells(solution, targetClues, rand)
 		
