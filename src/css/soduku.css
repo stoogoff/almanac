@@ -1,10 +1,11 @@
 
 :root {
-	--soduku-tile-bg: var(--slate-200);
+	--soduku-tile-bg: var(--slate-50);
 	--soduku-tile-fg: var(--blue-800);
 	--soduku-chosen-fg: var(--slate-700);
 	--soduku-border: var(--slate-700);
-	--soduku-highlight: var(--blue-500);
+	--soduku-highlight: var(--blue-300);
+	--soduku-matched: var(--slate-300);
 	--soduku-keyboard-fg: var(--slate-50);
 	--soduku-keyboard-bg: var(--blue-700);
 	--soduku-keyboard-notes-bg: var(--slate-600);
@@ -35,7 +36,11 @@
 		}
 
 		&.highlight {
-			border: 3px solid var(--soduku-highlight) !important;
+			background-color: var(--soduku-highlight);
+		}
+
+		&.matched {
+			background-color: var(--soduku-matched);
 		}
 
 		&.chosen {

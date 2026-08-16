@@ -2,16 +2,15 @@
 import { ActionType, TileState } from 'soduku/types.js'
 
 export class Tile {
-	#state
 	#action
 	#cell
 	#error = false
 	#notes = []
 	#value = 0
 	#highlight = false
+	#match = false
 
-	constructor(state, action, cell, value = 0) {
-		this.#state = state
+	constructor(action, cell, value = 0) {
 		this.#action = action
 		this.#cell = cell
 		this.#value = value
@@ -23,6 +22,10 @@ export class Tile {
 
 	set value(value) {
 		this.#value = value
+	}
+
+	get hasValue() {
+		return this.#value !== 0
 	}
 
 	get cell() {
@@ -37,24 +40,30 @@ export class Tile {
 		this.#highlight = value === true
 	}
 
+	get isMatch() {
+		return this.#match
+	}
+
+	set match(value) {
+		this.#match = value === true
+	}
+
 	set error(value) {
 		this.#error = value === true
 	}
 
-	get isError() {
+	get hasError() {
 		return this.#error
-	}
-
-	get isEmpty() {
-		return this.#state === TileState.EMPTY
-	}
-
-	get isFilled() {
-		return this.#state === TileState.FILLED
 	}
 
 	get isAutomatic() {
 		return this.#action === ActionType.AUTOMATIC
+	}
+
+	toggleNote(number) {
+		this.#notes = this.#notes.includes(number)
+			? this.#notes.filter(note => note !== number)
+			: [...this.#notes, number]
 	}
 
 	state() {

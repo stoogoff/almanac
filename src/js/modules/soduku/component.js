@@ -1,5 +1,6 @@
 
 import { isNull } from 'q/utils/assert.js'
+import { showToast } from 'utils/lib.js'
 import { rand } from 'utils/seed.js'
 import { getGame } from 'components/game.js'
 import { Soduku } from 'soduku/soduku.js'
@@ -21,11 +22,9 @@ export default {
 			return
 		}
 
-		// TODO click on a tile should highlight it
-		// TODO clicking on a button adds the number if NOTES is off
-		// TODO clicking on a button adds a note if NOTES is on
-		// TODO clicking on a filled tile should do nothing
-		const board = generateBoard('Hard', 0)
+		// TODO fade number out when all are selected
+
+		const board = generateBoard('Easy', 0)
 
 		console.log(board)
 
@@ -63,8 +62,7 @@ export default {
 			}
 		}
 		catch(error) {
-			// TODO show toast
-			console.log(error)
+			showToast('No cell selected')
 		}
 	},
 
@@ -85,6 +83,7 @@ export default {
 	},
 
 	reset() {
+		this.data.history = []
 		game.start()
 		this.soduku.reset()
 	},

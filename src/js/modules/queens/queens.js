@@ -9,7 +9,7 @@ export class Queens {
 	#boardState = []
 	#board = []
 	#complete = () => {}
-	#history = () => {}
+	#history = (_state) => {}
 
 	constructor(board, onComplete, history) {
 		const size = Math.sqrt(board.length)

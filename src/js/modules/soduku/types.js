@@ -9,6 +9,7 @@ export const CssClass = {
 	Notes: 'notes',
 	Error: 'error',
 	Chosen: 'chosen',
+	Match: 'matched',
 }
 
 export const TileState = {

@@ -8,24 +8,15 @@ export class Soduku {
 	#boardState = []
 	#grid
 	#complete = () => {}
-	#history = () => {}
+	#history = (_state) => {}
 
 	constructor(board, onComplete, history) {
 		this.#complete = onComplete
 		this.#history = history
 		this.#startingState = board
 		this.#grid = new Grid(BOARD_SIZE, BOARD_SIZE)
-		this.#boardState = new Array(this.#grid.size)
 
-		// TODO this is going to need to be called from reset as well
-		for(let i = 0; i < this.#boardState.length; i++) {
-			if(board[i] !== 0) {
-				this.#boardState[i] = new Tile(TileState.FILLED, ActionType.AUTOMATIC, i, board[i])
-			}
-			else {
-				this.#boardState[i] = new Tile(TileState.EMPTY, ActionType.NONE, i)
-			}
-		}
+		this.setBoardState()
 	}
 
 	get selectedTile() {
@@ -39,12 +30,14 @@ export class Soduku {
 
 			span.id = `tile-${i}`
 			span.classList.add(CssClass.Tile)
-			span.onclick = () => {console.log('onclick')
+			span.onclick = () => {
 				const current = this.selectedTile
 
 				if(current) current.highlight = false
 
 				this.#boardState[i].highlight = true
+
+				this.setMatch(i)
 				this.draw()
 			}
 			node.appendChild(span)
@@ -53,15 +46,25 @@ export class Soduku {
 		this.draw()
 	}
 
+	setMatch(index) {
+		// set matching tiles
+		this.#boardState.forEach(tile => tile.match = false)
+
+		if(this.#boardState[index].hasValue) {
+			this.#boardState
+				.filter(tile => tile.value === this.#boardState[index].value && tile.cell !== this.#boardState[index].cell)
+				.forEach(tile => tile.match = true)
+		}
+	}
+
 	setNote(number) {
 		const tile = this.selectedTile
 
 		if(!tile) throw new Error("No tile selected")
 
-		// TODO draw small numbers as notes
-		// these will all need to be visible but are cleared if are number is written
-		// they need to be stored in the history so if someone adds a number over a square
-		// with notes in then presses undo it will clear the number and put the notes back
+		if(tile.hasValue || tile.isAutomatic) return
+
+		tile.toggleNote(number)
 	}
 
 	setNumber(number) {
@@ -75,18 +78,35 @@ export class Soduku {
 
 		this.#history({ index , state: this.#boardState[index].state() })
 		this.#boardState[index].value = number
+
+		this.setMatch(index)
 		this.verify()
 		this.draw()
 	}
 
+	setBoardState() {
+		this.#boardState = new Array(this.#grid.size)
+
+		for(let i = 0; i < this.#boardState.length; i++) {
+			if(this.#startingState[i] !== 0) {
+				this.#boardState[i] = new Tile(ActionType.AUTOMATIC, i, this.#startingState[i])
+			}
+			else {
+				this.#boardState[i] = new Tile(ActionType.NONE, i)
+			}
+		}
+	}
+
 	reset() {
-		//this.#boardState = this.#startingState
-		//this.draw()
+		this.setBoardState()
+		this.draw()
 	}
 
 	undo(state) {
 		this.#boardState[state.index].value = state.state.value
 		//this.#boardState[state.index].notes = state.state.notes
+
+		this.setMatch(state.index)
 		this.verify()
 		this.draw()
 	}
@@ -140,6 +160,12 @@ export class Soduku {
 		for(let i = 0; i < neighbours.length; i++) {
 			validateGroup(this.#boardState, this.#grid.neighbours(neighbours[i]))
 		}
+
+		const complete = this.#boardState.filter(tile => tile.hasValue && !tile.hasError)
+
+		if(complete.length === this.#boardState.length) {
+			this.#complete()
+		}
 	}
 
 	draw() {
@@ -156,7 +182,7 @@ export class Soduku {
 				node.classList.add(CssClass.Chosen)
 			}
 
-			if(tile.isError) {
+			if(tile.hasError) {
 				node.classList.add(CssClass.Error)
 			}
 			else {
@@ -170,6 +196,14 @@ export class Soduku {
 				node.classList.remove(CssClass.Highlight)
 			}
 
+			if(tile.isMatch) {
+				node.classList.add(CssClass.Match)
+			}
+			else {
+				node.classList.remove(CssClass.Match)
+			}	
+
+			// if tile.hasValue else draw notes
 			node.innerText = tile.value || ''
 		}
 	}
