@@ -24,13 +24,16 @@ export class Soduku {
 	}
 
 	create(node) {
+		// load the template to clone cells from
+		const template = document.getElementById('cell')
+
 		// create the board
 		for(let i = 0; i < this.#boardState.length; i++) {
-			const span = document.createElement('span')
+			const clone = template.content.cloneNode(true)
+			const cell = clone.firstElementChild
 
-			span.id = `tile-${i}`
-			span.classList.add(CssClass.Tile)
-			span.onclick = () => {
+			cell.id = `tile-${i}`
+			cell.onclick = () => {
 				const current = this.selectedTile
 
 				if(current) current.highlight = false
@@ -40,7 +43,8 @@ export class Soduku {
 				this.setMatch(i)
 				this.draw()
 			}
-			node.appendChild(span)
+
+			node.appendChild(cell)
 		}
 
 		this.draw()
@@ -204,7 +208,10 @@ export class Soduku {
 			}	
 
 			// if tile.hasValue else draw notes
-			node.innerText = tile.value || ''
+			//node.innerText = tile.value || ''
+			const value = Array.from(node.getElementsByClassName('value'))
+			console.log({ value })
+			value[0].innerText = '1'//tile.value || ''
 		}
 	}
 }
