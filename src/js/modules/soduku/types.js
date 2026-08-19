@@ -3,6 +3,8 @@ export const STORAGE_KEY = 'soduku'
 
 export const BOARD_SIZE = 9
 
+export const CENTRES = [10, 13, 16, 37, 40, 43, 64, 67, 70]
+
 export const CssClass = {
 	Tile: 'tile',
 	Highlight: 'highlight',

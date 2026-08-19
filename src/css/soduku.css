@@ -33,7 +33,7 @@
 		}
 
 		&.highlight {
-			background-color: var(--soduku-highlight);
+			background-color: var(--soduku-highlight) !important;
 		}
 
 		&.matched {
@@ -46,6 +46,7 @@
 
 		&.error {
 			border-color: var(--red-500);
+			background-color: var(--red-200);
 
 			span.value {
 				color: var(--red-500) !important;

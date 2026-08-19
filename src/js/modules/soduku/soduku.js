@@ -1,7 +1,7 @@
 
 import { unique } from 'q/utils/list.js'
 import { Grid } from 'components/grid.js'
-import { ActionType, CssClass, TileState, BOARD_SIZE } from 'soduku/types.js'
+import { ActionType, CssClass, TileState, BOARD_SIZE, CENTRES } from 'soduku/types.js'
 import { Tile } from 'soduku/tile.js'
 
 export class Soduku {
@@ -82,17 +82,32 @@ export class Soduku {
 		const tile = this.selectedTile
 
 		if(!tile) throw new Error("No tile selected")
-
 		if(tile.isAutomatic) return
+		if(tile.value === number) return
 
 		const index = tile.cell
 
 		this.#history({ index , state: this.#boardState[index].state() })
 		this.#boardState[index].value = number
 
+		this.clearNotes(index, number)
 		this.setMatch(index)
 		this.verify()
 		this.draw()
+	}
+
+	// clear all notes in the same row, column, and square
+	clearNotes(index, number) {
+		const neighbours = new Set(this.#grid.neighbours(index))
+		const centres = new Set(CENTRES)
+		const intersect = Array.from(neighbours.intersection(centres).values())
+
+		unique([
+			...this.#grid.rowIndicesExclusive(index),
+			...this.#grid.columnIndicesExclusive(index),
+			...this.#grid.neighbours(intersect[0]),
+		])
+		.forEach(cell => this.#boardState[cell].clearNote(Number(number)))
 	}
 
 	setBoardState() {
@@ -115,8 +130,6 @@ export class Soduku {
 
 	undo(state) {
 		this.#boardState[state.index].value = state.state.value
-		//this.#boardState[state.index].notes = state.state.notes
-
 		this.setMatch(state.index)
 		this.verify()
 		this.draw()
@@ -166,10 +179,8 @@ export class Soduku {
 		}
 
 		// go through the nine grids
-		const neighbours = [10, 13, 16, 37, 40, 43, 64, 67, 70]
-
-		for(let i = 0; i < neighbours.length; i++) {
-			validateGroup(this.#boardState, this.#grid.neighbours(neighbours[i]))
+		for(let i = 0; i < CENTRES.length; i++) {
+			validateGroup(this.#boardState, this.#grid.neighbours(CENTRES[i]))
 		}
 
 		const complete = this.#boardState.filter(tile => tile.hasValue && !tile.hasError)

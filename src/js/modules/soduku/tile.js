@@ -74,6 +74,10 @@ export class Tile {
 		return this.#notes.includes(number)
 	}
 
+	clearNote(number) {
+		this.#notes = this.#notes.filter(note => note !== number)
+	}
+
 	state() {
 		return {
 			value: this.#value,
