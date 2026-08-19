@@ -25,8 +25,9 @@ export const ActionType = {
 	PLAYER: 2,
 }
 
-export const DIFFICULTY = {
-	Easy: 40,
-	Medium: 32,
-	Hard: 26
+export const Difficulty = {
+	EASY: 50,
+	MEDIUM: 40,
+	HARD: 32,
+	EXTREME: 26
 }

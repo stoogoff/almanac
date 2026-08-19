@@ -176,8 +176,6 @@ button, a.btn {
 	button {
 		display: block;
 		width: 100%;
-		font-size: var(--font-md);
-		padding: var(--spacing-2) var(--spacing-3);
 	}
 }
 

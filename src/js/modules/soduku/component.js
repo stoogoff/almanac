@@ -4,15 +4,32 @@ import { showToast } from 'utils/lib.js'
 import { rand } from 'utils/seed.js'
 import { getGame } from 'components/game.js'
 import { Soduku } from 'soduku/soduku.js'
-import { CssClass, STORAGE_KEY } from 'soduku/types.js'
+import { CssClass, Difficulty, STORAGE_KEY } from 'soduku/types.js'
 import { generateBoard } from 'soduku/generator.js'
 
 const game = getGame(STORAGE_KEY)
+
+function getDifficulty() {
+	const difficulties = Object.keys(Difficulty)
+	const difficulty = Math.floor(rand() * difficulties.length);
+	
+	return difficulties[difficulty]
+}
 
 export default {
 	data: {
 		history: [],
 		notes: false,
+		complete1: false,
+		complete2: false,
+		complete3: false,
+		complete4: false,
+		complete5: false,
+		complete6: false,
+		complete7: false,
+		complete8: false,
+		complete9: false,
+		difficulty: 'EASY',
 	},
 
 	mounted() {
@@ -22,12 +39,11 @@ export default {
 			return
 		}
 
-		// TODO fade number out when all are selected
+		const difficulty = getDifficulty()
 
-		const board = generateBoard('Easy', 0)
+		this.data.difficulty = difficulty
 
-		console.log(board)
-
+		const board = generateBoard(Difficulty[difficulty], rand)
 		const node = document.getElementById('soduku-board')
 
 		this.soduku = new Soduku(board.puzzle, () => {
@@ -53,12 +69,20 @@ export default {
 	type(_event, context) {
 		const number = parseInt(context.node.innerText)
 
+		if(this.data['complete' + number]) {
+			return
+		}
+
 		try {
 			if(this.data.notes) {
 				this.soduku.setNote(number)
 			}
 			else {
-				this.soduku.setNumber(number)
+				const complete = this.soduku.setNumber(number)
+
+				if(complete) {
+					this.data['complete' + number] = true
+				}
 			}
 		}
 		catch(error) {
@@ -79,7 +103,9 @@ export default {
 			return
 		}
 
-		this.soduku.undo(state)
+		const number = this.soduku.undo(state)
+
+		this.data['complete' + number] = false
 	},
 
 	reset() {

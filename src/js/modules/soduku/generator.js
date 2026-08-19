@@ -1,17 +1,9 @@
 
+import { shuffled } from 'utils/lib.js'
 import { mulberry32 } from 'utils/seed.js'
-import { BOARD_SIZE, DIFFICULTY } from 'soduku/types.js'
+import { BOARD_SIZE } from 'soduku/types.js'
 
 const BOX = 3
-
-function shuffled(arr, rand) {
-	const a = [...arr]
-	for(let i = a.length - 1; i > 0; i--) {
-		const j = Math.floor(rand() * (i + 1))
-		;[a[i], a[j]] = [a[j], a[i]]
-	}
-	return a
-}
 
 // --- validity check for a candidate value at a cell -------------
 
@@ -115,29 +107,17 @@ function removeCells(board, targetClues, rand) {
 
 // --- main -------------------------------------------------------
 
-export function generateBoard(difficulty, seed) {
-	const targetClues = DIFFICULTY[difficulty]
+export function generateBoard(difficulty, rand) {
+	const solution = new Array(BOARD_SIZE * BOARD_SIZE).fill(0)
 
-	if(!targetClues) throw new Error(`Unknown difficulty: ${difficulty}`)
+	fillBoard(solution, rand)
 	
-	// Fresh rand per attempt so retries are independent but deterministic
-	for(let attempt = 0; attempt < 20; attempt++) {
-		const rand = mulberry32(seed + attempt * 0x9E3779B1)
-		
-		const solution = new Array(BOARD_SIZE * BOARD_SIZE).fill(0)
-
-		if(!fillBoard(solution, rand)) continue
-		
-		const { puzzle, clueCount } = removeCells(solution, targetClues, rand)
-		
-		return {
-			puzzle,
-			solution,
-			clueCount,
-			difficulty,
-			attempts: attempt + 1
-		}
+	const { puzzle, clueCount } = removeCells(solution, difficulty, rand)
+	
+	return {
+		puzzle,
+		solution,
+		clueCount,
+		difficulty,
 	}
-	
-	return null
 }

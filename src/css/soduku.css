@@ -1,7 +1,7 @@
 
 :root {
 	--soduku-tile-bg: var(--slate-50);
-	--soduku-tile-fg: var(--blue-800);
+	--soduku-tile-fg: var(--blue-700);
 	--soduku-chosen-fg: var(--slate-700);
 	--soduku-border: var(--slate-700);
 	--soduku-highlight: var(--blue-300);
@@ -10,6 +10,12 @@
 	--soduku-keyboard-fg: var(--slate-50);
 	--soduku-keyboard-bg: var(--blue-700);
 	--soduku-keyboard-notes-bg: var(--slate-600);
+}
+
+.difficulty {
+	text-align: center;
+	margin-bottom: var(--spacing-1);
+	font-weight: bold;
 }
 
 #soduku-board {
@@ -40,7 +46,7 @@
 			background-color: var(--soduku-matched);
 		}
 
-		&.chosen {
+		&.chosen .value {
 			color: var(--soduku-chosen-fg);
 		}
 
@@ -98,10 +104,15 @@
 	span {
 		color: var(--soduku-keyboard-fg);
 		background-color: var(--soduku-keyboard-bg);
+
+		&[disabled] {
+			background-color: transparent;
+			color: var(--green-600);
+		}
 	}
 
 	.notes {
-		span {
+		span:not([disabled]) {
 			background-color: var(--soduku-keyboard-notes-bg);
 		}		
 	}

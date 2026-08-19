@@ -1,13 +1,5 @@
 
-function shuffled(arr, rand) {
-	const a = [...arr]
-
-	for(let i = a.length - 1; i > 0; i--) {
-		const j = Math.floor(rand() * (i + 1))
-		;[a[i], a[j]] = [a[j], a[i]]
-	}
-	return a
-}
+import { shuffled } from 'utils/lib.js'
 
 function placeTokens(size, rand) {
 	const tokens = new Array(size).fill(-1)
@@ -114,21 +106,11 @@ function growRegions(size, tokens, rand) {
 export function generate(size, rand) {
 	if(size < 5) throw new Error('Size must be at least 5')
 
-	for(let attempt = 0; attempt < 20; attempt++) {
-		const tokens = placeTokens(size, rand)
-
-		if(!tokens) continue
-		
-		const board = growRegions(size, tokens, rand)
-
-		if(!board) continue
-		
-		return {
-			board,
-			sampleSolution: tokens.map((col, row) => row * size + col),
-			attempts: attempt + 1
-		}
-	}
+	const tokens = placeTokens(size, rand)
+	const board = growRegions(size, tokens, rand)
 	
-	return null
+	return {
+		board,
+		sampleSolution: tokens.map((col, row) => row * size + col),
+	}
 }

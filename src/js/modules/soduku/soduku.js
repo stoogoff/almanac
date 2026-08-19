@@ -94,6 +94,8 @@ export class Soduku {
 		this.setMatch(index)
 		this.verify()
 		this.draw()
+
+		return this.#boardState.filter(tile => tile.value === number && !tile.hasError).length === BOARD_SIZE
 	}
 
 	// clear all notes in the same row, column, and square
@@ -129,10 +131,14 @@ export class Soduku {
 	}
 
 	undo(state) {
+		const currentValue = this.#boardState[state.index].value
+
 		this.#boardState[state.index].value = state.state.value
 		this.setMatch(state.index)
 		this.verify()
 		this.draw()
+
+		return currentValue
 	}
 
 	verify() {
