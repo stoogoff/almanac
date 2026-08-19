@@ -116,7 +116,7 @@ function removeCells(board, targetClues, rand) {
 // --- main -------------------------------------------------------
 
 export function generateBoard(difficulty, seed) {
-	const targetClues = 70//DIFFICULTY[difficulty]
+	const targetClues = DIFFICULTY[difficulty]
 
 	if(!targetClues) throw new Error(`Unknown difficulty: ${difficulty}`)
 	

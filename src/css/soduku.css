@@ -6,7 +6,7 @@
 	--soduku-border: var(--slate-700);
 	--soduku-highlight: var(--blue-300);
 	--soduku-matched: var(--slate-300);
-	--soduku-note: var(--slate-200);
+	--soduku-note: var(--slate-600);
 	--soduku-keyboard-fg: var(--slate-50);
 	--soduku-keyboard-bg: var(--blue-700);
 	--soduku-keyboard-notes-bg: var(--slate-600);
@@ -46,7 +46,10 @@
 
 		&.error {
 			border-color: var(--red-500);
-			color: var(--red-500) !important;
+
+			span.value {
+				color: var(--red-500) !important;
+			}
 		}
 
 		.value, .notes {
@@ -56,27 +59,35 @@
 			bottom: 0;
 			right: 0;
 			pointer-events: none;
+			background-color: transparent;
+			border: 0;
 		}
 
 		.value {
 			display: flex;
-			align-content: center;
-			text-align: center;
+			align-items: center;
+			justify-content: center;
 			font-weight: bold;
 			font-size: var(--font-2xl);
 			color: var(--soduku-tile-fg);
 		}
 
 		.notes {
-			display: grid;
+			display: none;
 			grid-template-columns: repeat(3, 1fr);
 			grid-template-rows: repeat(3, 1fr);
 			color: var(--soduku-note);
-			font-size: var(--font-xs);
-			border: 0;
+			font-size: 0.7rem;
+			padding: 0;
+			gap: 0;
 
 			span {
-				display: none;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-color: transparent;
+				border: 0;
+				padding: 0;
 			}
 		}
 	}

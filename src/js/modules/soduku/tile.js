@@ -28,6 +28,10 @@ export class Tile {
 		return this.#value !== 0
 	}
 
+	get notes() {
+		return this.#notes
+	}
+
 	get cell() {
 		return this.#cell
 	}
@@ -64,6 +68,10 @@ export class Tile {
 		this.#notes = this.#notes.includes(number)
 			? this.#notes.filter(note => note !== number)
 			: [...this.#notes, number]
+	}
+
+	hasNote(number) {
+		return this.#notes.includes(number)
 	}
 
 	state() {

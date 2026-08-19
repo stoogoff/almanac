@@ -1,4 +1,5 @@
 
+import { unique } from 'q/utils/list.js'
 import { Grid } from 'components/grid.js'
 import { ActionType, CssClass, TileState, BOARD_SIZE } from 'soduku/types.js'
 import { Tile } from 'soduku/tile.js'
@@ -55,9 +56,14 @@ export class Soduku {
 		this.#boardState.forEach(tile => tile.match = false)
 
 		if(this.#boardState[index].hasValue) {
-			this.#boardState
-				.filter(tile => tile.value === this.#boardState[index].value && tile.cell !== this.#boardState[index].cell)
-				.forEach(tile => tile.match = true)
+			unique([
+				...this.#grid.rowIndicesExclusive(index),
+				...this.#grid.columnIndicesExclusive(index),
+				...this.#boardState
+					.filter(tile => tile.value === this.#boardState[index].value && tile.cell !== this.#boardState[index].cell)
+					.map(tile => tile.cell)
+			])
+			.forEach(cell => this.#boardState[cell].match = true)
 		}
 	}
 
@@ -69,6 +75,7 @@ export class Soduku {
 		if(tile.hasValue || tile.isAutomatic) return
 
 		tile.toggleNote(number)
+		this.draw()
 	}
 
 	setNumber(number) {
@@ -207,11 +214,24 @@ export class Soduku {
 				node.classList.remove(CssClass.Match)
 			}	
 
-			// if tile.hasValue else draw notes
-			//node.innerText = tile.value || ''
-			const value = Array.from(node.getElementsByClassName('value'))
-			console.log({ value })
-			value[0].innerText = '1'//tile.value || ''
+			const value = Array.from(node.getElementsByClassName('value'))[0]
+			const notes = Array.from(node.getElementsByClassName('notes'))[0]
+
+			if(tile.hasValue) {
+				value.innerText = tile.value
+				notes.style.display = 'none'
+			}
+			else {
+				value.innerText = ''
+				notes.style.display = 'grid'
+
+				for(const note of notes.children) {
+					const attr = note.dataset.n
+					const hasNote = tile.hasNote(Number(attr))
+
+					note.innerText = hasNote ? attr : ''
+				}
+			}
 		}
 	}
 }
