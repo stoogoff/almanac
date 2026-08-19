@@ -10,7 +10,8 @@ import { generateBoard } from 'soduku/generator.js'
 const game = getGame(STORAGE_KEY)
 
 function getDifficulty() {
-	const difficulties = Object.keys(Difficulty)
+	// difficulties weighted towards the middle
+	const difficulties = ['EASY', 'MEDIUM', 'MEDIUM', 'HARD', 'HARD', 'EXTREME']
 	const difficulty = Math.floor(rand() * difficulties.length);
 	
 	return difficulties[difficulty]

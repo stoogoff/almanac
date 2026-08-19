@@ -27,7 +27,7 @@ export const ActionType = {
 
 export const Difficulty = {
 	EASY: 50,
-	MEDIUM: 40,
-	HARD: 32,
-	EXTREME: 26
+	MEDIUM: 48,
+	HARD: 38,
+	EXTREME: 30,
 }
