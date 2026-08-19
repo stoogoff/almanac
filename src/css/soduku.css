@@ -1,7 +1,7 @@
 
 :root {
 	--soduku-tile-bg: var(--slate-50);
-	--soduku-tile-fg: var(--blue-700);
+	--soduku-tile-fg: var(--sky-700);
 	--soduku-chosen-fg: var(--slate-700);
 	--soduku-border: var(--slate-700);
 	--soduku-highlight: var(--blue-300);
@@ -47,7 +47,7 @@
 		}
 
 		&.chosen .value {
-			color: var(--soduku-chosen-fg);
+			color: var(--soduku-chosen-fg) !important;
 		}
 
 		&.error {
