@@ -9,7 +9,7 @@ export class Queens {
 	#boardState = []
 	#board = []
 	#complete = () => {}
-	#history = () => {}
+	#history = (_state) => {}
 
 	constructor(board, onComplete, history) {
 		const size = Math.sqrt(board.length)
@@ -85,7 +85,7 @@ export class Queens {
 		return unique([
 			...this.#grid.rowIndicesExclusive(tile),
 			...this.#grid.columnIndicesExclusive(tile),
-			...this.#grid.neighbours(tile),
+			...this.#grid.neighboursExclusive(tile),
 			...this.#board
 				.map((colour, index) => ({
 					colour,

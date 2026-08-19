@@ -49,6 +49,10 @@ export class Grid {
 	}
 
 	neighbours(i) {
+		return [...this.neighboursExclusive(i), i]
+	}
+
+	neighboursExclusive(i) {
 		const row = Math.floor(i / this.width)
 		const col = i % this.width
 		const result = []

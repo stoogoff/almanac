@@ -7,6 +7,7 @@ import { logger } from 'utils/logger.js'
 import { formatTime } from 'utils/number.js'
 import { STORAGE_KEY as MAMBO } from 'mambo/types.js'
 import { STORAGE_KEY as QUEENS } from 'queens/types.js'
+import { STORAGE_KEY as SODUKU } from 'soduku/types.js'
 import { STORAGE_KEY as SWORDLE } from 'swordle/types.js'
 
 export default {
@@ -46,6 +47,18 @@ export default {
 				showStats: false,
 				scoreKey: 'guesses',
 				format: x => x === 'x' ? 'failed' : `${x} guesses`,
+				icon: null,
+			},
+			{
+				id: SODUKU,
+				title: 'Soduku',
+				strapline: 'Numbers nine by nine',
+				url: '/soduku.html',
+				last: false,
+				best: false,
+				showStats: false,
+				scoreKey: 'time',
+				format: formatTime,
 				icon: null,
 			},
 		],
