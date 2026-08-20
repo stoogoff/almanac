@@ -101,6 +101,8 @@
 }
 
 .keyboard {
+	margin-top: var(--spacing-2);
+
 	span {
 		color: var(--soduku-keyboard-fg);
 		background-color: var(--soduku-keyboard-bg);
