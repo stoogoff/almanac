@@ -172,12 +172,12 @@ export class Soduku {
 		this.#boardState.forEach(tile => tile.error = false)
 
 		// go through every row and check the numbers
-		for(let i = 0; i < this.#grid.width; i++) {
+		for(const i of this.#grid.columnIndices(0)) {
 			validateGroup(this.#boardState, this.#grid.rowIndices(i))
 		}
 
 		// go through every column and check the numbers
-		for(let i = 0; i < this.#grid.width; i++) {
+		for(const i of this.#grid.rowIndices(0)) {
 			validateGroup(this.#boardState, this.#grid.columnIndices(i))
 		}
 
