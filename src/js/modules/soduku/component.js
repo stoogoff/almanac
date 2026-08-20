@@ -21,15 +21,6 @@ export default {
 	data: {
 		history: [],
 		notes: false,
-		complete1: false,
-		complete2: false,
-		complete3: false,
-		complete4: false,
-		complete5: false,
-		complete6: false,
-		complete7: false,
-		complete8: false,
-		complete9: false,
 		difficulty: 'EASY',
 	},
 
@@ -55,6 +46,8 @@ export default {
 
 		this.soduku.create(node)
 		game.start()
+
+		this.emit('change')
 	},
 
 	computed: {
@@ -64,6 +57,42 @@ export default {
 
 		keyboardClass() {
 			return this.data.notes ? CssClass.Notes : ''
+		},
+
+		complete1() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(1)
+		},
+
+		complete2() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(2)
+		},
+
+		complete3() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(3)
+		},
+
+		complete4() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(4)
+		},
+
+		complete5() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(5)
+		},
+
+		complete6() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(6)
+		},
+
+		complete7() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(7)
+		},
+
+		complete8() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(8)
+		},
+
+		complete9() {
+			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(9)
 		},
 	},
 
@@ -79,12 +108,11 @@ export default {
 				this.soduku.setNote(number)
 			}
 			else {
-				const complete = this.soduku.setNumber(number)
-
-				if(complete) {
-					this.data['complete' + number] = true
-				}
+				this.soduku.setNumber(number)
 			}
+
+			// Nasty, but force recompute
+			this.emit('change')
 		}
 		catch(error) {
 			showToast('No cell selected')
@@ -104,9 +132,8 @@ export default {
 			return
 		}
 
-		const number = this.soduku.undo(state)
-
-		this.data['complete' + number] = false
+		this.soduku.undo(state)
+		this.emit('change')
 	},
 
 	reset() {

@@ -61,7 +61,7 @@ export class Soduku {
 				...this.#grid.columnIndicesExclusive(index),
 				...this.#boardState
 					.filter(tile => tile.value === this.#boardState[index].value && tile.cell !== this.#boardState[index].cell)
-					.map(tile => tile.cell)
+					.map(tile => tile.cell),
 			])
 			.forEach(cell => this.#boardState[cell].match = true)
 		}
@@ -70,8 +70,7 @@ export class Soduku {
 	setNote(number) {
 		const tile = this.selectedTile
 
-		if(!tile) throw new Error("No tile selected")
-
+		if(!tile) throw new Error('No tile selected')
 		if(tile.hasValue || tile.isAutomatic) return
 
 		tile.toggleNote(number)
@@ -81,7 +80,7 @@ export class Soduku {
 	setNumber(number) {
 		const tile = this.selectedTile
 
-		if(!tile) throw new Error("No tile selected")
+		if(!tile) throw new Error('No tile selected')
 		if(tile.isAutomatic) return
 		if(tile.value === number) return
 
@@ -94,7 +93,9 @@ export class Soduku {
 		this.setMatch(index)
 		this.verify()
 		this.draw()
+	}
 
+	isNumberComplete(number) {
 		return this.#boardState.filter(tile => tile.value === number && !tile.hasError).length === BOARD_SIZE
 	}
 
@@ -131,14 +132,10 @@ export class Soduku {
 	}
 
 	undo(state) {
-		const currentValue = this.#boardState[state.index].value
-
 		this.#boardState[state.index].value = state.state.value
 		this.setMatch(state.index)
 		this.verify()
 		this.draw()
-
-		return currentValue
 	}
 
 	verify() {
@@ -174,13 +171,13 @@ export class Soduku {
 		// clear error state for the whole board
 		this.#boardState.forEach(tile => tile.error = false)
 
-		// go through every column and check the numbers
+		// go through every row and check the numbers
 		for(let i = 0; i < this.#grid.width; i++) {
 			validateGroup(this.#boardState, this.#grid.rowIndices(i))
 		}
 
-		// go through every row and check the numbers
-		for(let i = 0; i < this.#grid.height; i++) {
+		// go through every column and check the numbers
+		for(let i = 0; i < this.#grid.width; i++) {
 			validateGroup(this.#boardState, this.#grid.columnIndices(i))
 		}
 
