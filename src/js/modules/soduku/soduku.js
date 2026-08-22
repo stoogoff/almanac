@@ -194,6 +194,8 @@ export class Soduku {
 	}
 
 	draw() {
+		const current = this.selectedTile
+
 		for(let i = 0, len = this.#boardState.length; i < len; i++) {
 			const node = document.getElementById(`tile-${i}`)
 			const tile = this.#boardState[i]
@@ -244,6 +246,13 @@ export class Soduku {
 					const hasNote = tile.hasNote(Number(attr))
 
 					note.innerText = hasNote ? attr : ''
+
+					if(current && current.value === Number(attr)) {
+						note.style.fontWeight = 'bold'
+					}
+					else {
+						note.style.fontWeight = 'normal'
+					}
 				}
 			}
 		}
