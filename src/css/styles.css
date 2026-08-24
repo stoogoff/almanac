@@ -20,6 +20,10 @@ body {
 		var(--grey-400) 100%
 	);
 	color: var(--primary-fg);
+
+	&.index {
+		overflow-y: auto;
+	}
 }
 
 h1 {
