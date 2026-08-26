@@ -1,4 +1,9 @@
 
+export const EASY = 'EASY'
+export const MEDIUM = 'MEDIUM'
+export const HARD = 'HARD'
+export const EXTREME = 'EXTREME'
+
 export const isMobile = () =>
 	/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
@@ -18,4 +23,10 @@ export const shuffled = (arr, rand) => {
 	}
 
 	return a
+}
+
+export const pluck = (arr, rand) => {
+	const index = Math.floor(rand() * arr.length);
+	
+	return arr[index]
 }

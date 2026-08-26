@@ -1,6 +1,5 @@
 
 import { shuffled } from 'utils/lib.js'
-import { mulberry32 } from 'utils/seed.js'
 import { BOARD_SIZE } from 'soduku/types.js'
 
 const BOX = 3

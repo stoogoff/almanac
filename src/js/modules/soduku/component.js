@@ -1,6 +1,7 @@
 
 import { isNull } from 'q/utils/assert.js'
-import { showToast } from 'utils/lib.js'
+import { pluck, showToast, EASY, MEDIUM, HARD, EXTREME, } from 'utils/lib.js'
+import { logger } from 'utils/logger.js'
 import { rand } from 'utils/seed.js'
 import { getGame } from 'components/game.js'
 import { Soduku } from 'soduku/soduku.js'
@@ -9,19 +10,11 @@ import { generateBoard } from 'soduku/generator.js'
 
 const game = getGame(STORAGE_KEY)
 
-function getDifficulty() {
-	// difficulties weighted towards the middle
-	const difficulties = ['EASY', 'MEDIUM', 'MEDIUM', 'HARD', 'HARD', 'EXTREME']
-	const difficulty = Math.floor(rand() * difficulties.length);
-	
-	return difficulties[difficulty]
-}
-
 export default {
 	data: {
 		history: [],
 		notes: false,
-		difficulty: 'EASY',
+		difficulty: EASY,
 	},
 
 	mounted() {
@@ -31,7 +24,8 @@ export default {
 			return
 		}
 
-		const difficulty = getDifficulty()
+		const difficulties = [EASY, MEDIUM, MEDIUM, HARD, HARD, HARD, EXTREME, EXTREME]
+		const difficulty = pluck(difficulties, rand)
 
 		this.data.difficulty = difficulty
 
@@ -115,6 +109,7 @@ export default {
 			this.emit('change')
 		}
 		catch(error) {
+			logger().error(error)
 			showToast('No cell selected')
 		}
 	},
@@ -140,5 +135,6 @@ export default {
 		this.data.history = []
 		game.start()
 		this.soduku.reset()
+		this.emit('change')
 	},
 }

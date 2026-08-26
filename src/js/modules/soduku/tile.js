@@ -1,5 +1,5 @@
 
-import { ActionType, TileState } from 'soduku/types.js'
+import { ActionType } from 'soduku/types.js'
 
 export class Tile {
 	#action

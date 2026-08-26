@@ -1,7 +1,8 @@
 
 import { unique } from 'q/utils/list.js'
 import { Grid } from 'components/grid.js'
-import { ActionType, CssClass, TileState, BOARD_SIZE, CENTRES } from 'soduku/types.js'
+import { logger } from 'utils/logger.js'
+import { ActionType, CssClass, BOARD_SIZE, CENTRES } from 'soduku/types.js'
 import { Tile } from 'soduku/tile.js'
 
 export class Soduku {
@@ -201,7 +202,7 @@ export class Soduku {
 			const tile = this.#boardState[i]
 
 			if(!node) {
-				console.error(`Node with ID: 'tile-${i}'' not found`)
+				logger().error(`Node with ID: 'tile-${i}'' not found`)
 				continue
 			}
 
