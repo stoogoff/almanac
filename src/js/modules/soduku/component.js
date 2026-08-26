@@ -1,5 +1,5 @@
 
-import { isNull } from 'q/utils/assert.js'
+import { isNull, notNull } from 'q/utils/assert.js'
 import { pluck, showToast, EASY, MEDIUM, HARD, EXTREME, } from 'utils/lib.js'
 import { logger } from 'utils/logger.js'
 import { rand } from 'utils/seed.js'
@@ -11,6 +11,8 @@ import { generateBoard } from 'soduku/generator.js'
 const game = getGame(STORAGE_KEY)
 
 export default {
+	picked: [],
+
 	data: {
 		history: [],
 		notes: false,
@@ -39,6 +41,12 @@ export default {
 		})
 
 		this.soduku.create(node)
+
+		if(notNull(game.state?.picked ?? null)) {
+			this.picked = game.state?.picked ?? []
+			this.soduku.setPlayerPicks(this.picked)
+		}
+
 		game.start()
 
 		this.emit('change')
@@ -98,11 +106,19 @@ export default {
 		}
 
 		try {
+			let result = null
+
 			if(this.data.notes) {
-				this.soduku.setNote(number)
+				result = this.soduku.setNote(number)
 			}
 			else {
-				this.soduku.setNumber(number)
+				result = this.soduku.setNumber(number)
+			}
+
+			if(notNull(result)) {
+				this.picked.push(result)
+
+				game.save({ picked: [...this.picked]})
 			}
 
 			// Nasty, but force recompute
@@ -133,6 +149,8 @@ export default {
 
 	reset() {
 		this.data.history = []
+		this.picked = []
+		game.save({ picked: []})
 		game.start()
 		this.soduku.reset()
 		this.emit('change')

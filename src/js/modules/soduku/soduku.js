@@ -76,6 +76,8 @@ export class Soduku {
 
 		tile.toggleNote(number)
 		this.draw()
+
+		return tile.state()
 	}
 
 	setNumber(number) {
@@ -94,6 +96,8 @@ export class Soduku {
 		this.setMatch(index)
 		this.verify()
 		this.draw()
+
+		return this.#boardState[index].state()
 	}
 
 	isNumberComplete(number) {
@@ -125,6 +129,16 @@ export class Soduku {
 				this.#boardState[i] = new Tile(ActionType.NONE, i)
 			}
 		}
+	}
+
+	setPlayerPicks(picks) {
+		for(const pick of picks) {
+			this.#boardState[pick.cell].value = pick.value
+			this.#boardState[pick.cell].setNotes(pick.notes)
+		}
+
+		this.verify()
+		this.draw()
 	}
 
 	reset() {
