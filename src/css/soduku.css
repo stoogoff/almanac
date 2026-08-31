@@ -79,6 +79,7 @@
 			grid-template-rows: repeat(3, 1fr);
 			color: var(--soduku-note);
 			font-size: 0.7rem;
+			line-height: 100%;
 			padding: 0;
 			gap: 0;
 

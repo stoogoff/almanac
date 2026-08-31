@@ -62,39 +62,39 @@ export default {
 		},
 
 		complete1() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(1)
+			return this.soduku?.isNumberComplete(1) ?? false
 		},
 
 		complete2() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(2)
+			return this.soduku?.isNumberComplete(2) ?? false
 		},
 
 		complete3() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(3)
+			return this.soduku?.isNumberComplete(3) ?? false
 		},
 
 		complete4() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(4)
+			return this.soduku?.isNumberComplete(4) ?? false
 		},
 
 		complete5() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(5)
+			return this.soduku?.isNumberComplete(5) ?? false
 		},
 
 		complete6() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(6)
+			return this.soduku?.isNumberComplete(6) ?? false
 		},
 
 		complete7() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(7)
+			return this.soduku?.isNumberComplete(7) ?? false
 		},
 
 		complete8() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(8)
+			return this.soduku?.isNumberComplete(8) ?? false
 		},
 
 		complete9() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(9)
+			return this.soduku?.isNumberComplete(9) ?? false
 		},
 	},
 
