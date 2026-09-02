@@ -12,5 +12,5 @@ export default {
 	scoreKey: 'guesses',
 	format: x => x === 'x' ? 'failed' : `${x} guesses`,
 	icon: null,
-	info: '',
+	rules: 'Guess the six-letter word. Green means the letter is in the word and in the correct position. Yellow means the letter is somewhere else in the word.',
 }

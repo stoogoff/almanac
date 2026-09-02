@@ -13,5 +13,5 @@ export default {
 	scoreKey: 'time',
 	format: formatTime,
 	icon: null,
-	info: '',
+	rules: '1 Queen in each row, column and colour. Queens can’t be next to each other.',
 }

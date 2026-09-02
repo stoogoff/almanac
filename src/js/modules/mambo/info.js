@@ -13,5 +13,5 @@ export default {
 	scoreKey: 'time',
 	format: formatTime,
 	icon: null,
-	info: '',
+	rules: 'An even number of each colour in every row and column. No more than two colours in a sequence.',
 }

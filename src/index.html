@@ -66,12 +66,25 @@
 			</a>
 		</li>
 	</menu>
-	<div class="share">
+	<div class="share grid grid-cols-2">
 		<button data-q-click="share" data-q-disabled="!canShare">
 			Share
 		</button>
+		<button data-q-click="rules">
+			Rules
+		</button>
 	</div>
 </main>
+
+<div class="overlay hidden scrollable" data-q-component="rules">
+	<div>
+		<div data-q-each="games" class="rule-info">
+			<h1 data-q-text="title"></h1>
+			<p data-q-text="rules"></p>
+		</div>
+		<button class="btn" data-q-click="close">Close</button>
+	</div>
+</div>
 
 <div class="version">$VERSION</div>
 

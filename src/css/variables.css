@@ -2,6 +2,8 @@
 @import url(https://fonts.bunny.net/css?family=aclonica:400|fira-sans:400,400i);
 
 :root {
+	--screen-max-width: 500px;
+
 	/* Fonts */
 	--font-base: 'Fira Sans', sans-serif;
 	--font-heading: 'Aclonica', sans-serif;

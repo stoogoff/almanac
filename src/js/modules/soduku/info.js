@@ -13,5 +13,5 @@ export default {
 	scoreKey: 'time',
 	format: formatTime,
 	icon: null,
-	info: '',
+	rules: 'Each number can only appear once in a row, column, or large square.',
 }

@@ -107,7 +107,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	margin: var(--spacing-12) auto;
-	max-width: 600px;
+	max-width: var(--screen-max-width);
 }
 
 /* Version */
@@ -191,6 +191,16 @@ button, a.btn {
 	}
 }
 
+.rule-info {
+	background-color: var(--menu-bg);
+	margin-bottom: var(--spacing-3);
+	color: var(--menu-fg);
+	border: var(--menu-border);
+	box-shadow: var(--shadow-lg);
+	border-radius: var(--spacing-2);
+	padding: var(--spacing-2);
+}
+
 .toast {
 	background-color: var(--toast-bg);
 	border: var(--toast-border);
@@ -220,7 +230,12 @@ button, a.btn {
 	transition: opacity 1s ease;
 	opacity: 1;
 
-	div {
+	&.scrollable > div {
+		display: block;
+		overflow: scroll;
+	}
+
+	& > div {
 		height: 100%;
 		background-color: var(--secondary-bg);
 		color: var(--secondary-fg);
@@ -230,6 +245,8 @@ button, a.btn {
 		justify-content: center;
 		gap: var(--spacing-8);
 		padding: var(--spacing-8);
+		max-width: var(--screen-max-width);
+		margin: 0 auto;
 	}
 
 	.btn {

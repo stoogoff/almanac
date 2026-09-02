@@ -4,6 +4,7 @@ import { min } from 'q/utils/list.js'
 import { getGame } from 'components/game.js'
 import { isMobile, showToast } from 'utils/lib.js'
 import { logger } from 'utils/logger.js'
+import { openRules } from 'menu/comms.js'
 import MAMBO from 'mambo/info.js'
 import QUEENS from 'queens/info.js'
 import SODUKU from 'soduku/info.js'
@@ -99,5 +100,9 @@ export default {
 			logger().error(e)
 			showToast("Error: Could not copy");
 		}
+	},
+
+	rules() {
+		openRules()
 	},
 }
