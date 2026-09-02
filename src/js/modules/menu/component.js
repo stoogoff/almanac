@@ -96,6 +96,7 @@ export default {
 			showToast("Copied to Clipboard!")
 		}
 		catch(e) {
+			logger().error(e)
 			showToast("Error: Could not copy");
 		}
 	},

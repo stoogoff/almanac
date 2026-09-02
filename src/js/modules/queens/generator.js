@@ -147,19 +147,11 @@ function growRegions(size, tokens, rand, difficulty = { balancePref: 1, spreadPr
 	return board
 }
 
-const DIFFICULTY = {
-	easy:   { balancePref: 1.0, spreadPref: 0.0 },  // your current behaviour
-	medium: { balancePref: 0.7, spreadPref: 0.4 },
-	hard:   { balancePref: 0.3, spreadPref: 0.8 }
-}
-
-export function generate(size, rand, difficulty = 'hard') {
+export function generate(size, rand, difficulty) {
 	if(size < 5) throw new Error('Size must be at least 5')
 	
-	const profile = typeof difficulty === 'string' ? DIFFICULTY[difficulty] : difficulty
-	
 	const tokens = placeTokens(size, rand)
-	const board = growRegions(size, tokens, rand, profile)
+	const board = growRegions(size, tokens, rand, difficulty)
 	
 	return {
 		board,

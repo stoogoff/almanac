@@ -12,12 +12,6 @@
 	--soduku-keyboard-notes-bg: var(--slate-600);
 }
 
-.difficulty {
-	text-align: center;
-	margin-bottom: var(--spacing-1);
-	font-weight: bold;
-}
-
 #soduku-board {
 	span {
 		background-color: var(--soduku-tile-bg);
@@ -85,6 +79,7 @@
 			grid-template-rows: repeat(3, 1fr);
 			color: var(--soduku-note);
 			font-size: 0.7rem;
+			line-height: 100%;
 			padding: 0;
 			gap: 0;
 

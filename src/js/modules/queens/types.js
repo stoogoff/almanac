@@ -1,4 +1,6 @@
 
+import { EASY, MEDIUM, HARD } from 'utils/lib.js'
+
 export const STORAGE_KEY = 'queens'
 
 export const TileState = {
@@ -37,4 +39,10 @@ export const TileColours = {
 	7: 'blue',
 	8: 'orange',
 	9: 'indigo',
+}
+
+export const Difficulty = {
+	[EASY]: { balancePref: 1.0, spreadPref: 0.0 },
+	[MEDIUM]: { balancePref: 0.7, spreadPref: 0.4 },
+	[HARD]: { balancePref: 0.3, spreadPref: 0.8 },
 }

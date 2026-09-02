@@ -1,5 +1,5 @@
 
-import { ActionType, TileState } from 'soduku/types.js'
+import { ActionType } from 'soduku/types.js'
 
 export class Tile {
 	#action
@@ -78,8 +78,13 @@ export class Tile {
 		this.#notes = this.#notes.filter(note => note !== number)
 	}
 
+	setNotes(notes) {
+		this.#notes = notes
+	}
+
 	state() {
 		return {
+			cell: this.#cell,
 			value: this.#value,
 			notes: this.#notes,
 		}

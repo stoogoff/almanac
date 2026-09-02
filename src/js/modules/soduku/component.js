@@ -1,6 +1,7 @@
 
-import { isNull } from 'q/utils/assert.js'
-import { showToast } from 'utils/lib.js'
+import { isNull, notNull } from 'q/utils/assert.js'
+import { pluck, showToast, EASY, MEDIUM, HARD, EXTREME, } from 'utils/lib.js'
+import { logger } from 'utils/logger.js'
 import { rand } from 'utils/seed.js'
 import { getGame } from 'components/game.js'
 import { Soduku } from 'soduku/soduku.js'
@@ -9,19 +10,13 @@ import { generateBoard } from 'soduku/generator.js'
 
 const game = getGame(STORAGE_KEY)
 
-function getDifficulty() {
-	// difficulties weighted towards the middle
-	const difficulties = ['EASY', 'MEDIUM', 'MEDIUM', 'HARD', 'HARD', 'EXTREME']
-	const difficulty = Math.floor(rand() * difficulties.length);
-	
-	return difficulties[difficulty]
-}
-
 export default {
+	picked: [],
+
 	data: {
 		history: [],
 		notes: false,
-		difficulty: 'EASY',
+		difficulty: EASY,
 	},
 
 	mounted() {
@@ -31,7 +26,8 @@ export default {
 			return
 		}
 
-		const difficulty = getDifficulty()
+		const difficulties = [EASY, MEDIUM, MEDIUM, HARD, HARD, HARD, EXTREME, EXTREME]
+		const difficulty = pluck(difficulties, rand)
 
 		this.data.difficulty = difficulty
 
@@ -45,6 +41,12 @@ export default {
 		})
 
 		this.soduku.create(node)
+
+		if(notNull(game.state?.picked ?? null)) {
+			this.picked = game.state?.picked ?? []
+			this.soduku.setPlayerPicks(this.picked)
+		}
+
 		game.start()
 
 		this.emit('change')
@@ -60,39 +62,39 @@ export default {
 		},
 
 		complete1() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(1)
+			return this.soduku?.isNumberComplete(1) ?? false
 		},
 
 		complete2() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(2)
+			return this.soduku?.isNumberComplete(2) ?? false
 		},
 
 		complete3() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(3)
+			return this.soduku?.isNumberComplete(3) ?? false
 		},
 
 		complete4() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(4)
+			return this.soduku?.isNumberComplete(4) ?? false
 		},
 
 		complete5() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(5)
+			return this.soduku?.isNumberComplete(5) ?? false
 		},
 
 		complete6() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(6)
+			return this.soduku?.isNumberComplete(6) ?? false
 		},
 
 		complete7() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(7)
+			return this.soduku?.isNumberComplete(7) ?? false
 		},
 
 		complete8() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(8)
+			return this.soduku?.isNumberComplete(8) ?? false
 		},
 
 		complete9() {
-			return isNull(this.soduku) ? false : this.soduku.isNumberComplete(9)
+			return this.soduku?.isNumberComplete(9) ?? false
 		},
 	},
 
@@ -104,17 +106,26 @@ export default {
 		}
 
 		try {
+			let result = null
+
 			if(this.data.notes) {
-				this.soduku.setNote(number)
+				result = this.soduku.setNote(number)
 			}
 			else {
-				this.soduku.setNumber(number)
+				result = this.soduku.setNumber(number)
+			}
+
+			if(notNull(result)) {
+				this.picked.push(result)
+
+				game.save({ picked: [...this.picked]})
 			}
 
 			// Nasty, but force recompute
 			this.emit('change')
 		}
 		catch(error) {
+			logger().error(error)
 			showToast('No cell selected')
 		}
 	},
@@ -138,7 +149,10 @@ export default {
 
 	reset() {
 		this.data.history = []
+		this.picked = []
+		game.save({ picked: []})
 		game.start()
 		this.soduku.reset()
+		this.emit('change')
 	},
 }

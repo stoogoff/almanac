@@ -42,11 +42,13 @@
 <main>
 	<h1>Queens</h1>
 
-	<div data-q-component="timer" class="timer">
-		<span data-q-text="formattedTime"></span>
-	</div>
-
 	<div data-q-component="queens">
+		<div class="grid grid-cols-2">
+			<div data-q-component="timer" class="timer">
+				<time data-q-text="formattedTime"></time>
+			</div>
+			<div class="difficulty" data-q-text="difficulty"></div>
+		</div>
 		<div id="queens-board" class="board"></div>
 		<div class="buttons">
 			<button data-q-click="reset">Restart</button>

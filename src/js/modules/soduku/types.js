@@ -1,4 +1,11 @@
 
+import {
+	EASY,
+	MEDIUM,
+	HARD,
+	EXTREME,
+} from 'utils/lib.js'
+
 export const STORAGE_KEY = 'soduku'
 
 export const BOARD_SIZE = 9
@@ -14,11 +21,6 @@ export const CssClass = {
 	Match: 'matched',
 }
 
-export const TileState = {
-	EMPTY: 0,
-	FILLED: 1,
-}
-
 export const ActionType = {
 	NONE: 0,
 	AUTOMATIC: 1,
@@ -26,8 +28,8 @@ export const ActionType = {
 }
 
 export const Difficulty = {
-	EASY: 50,
-	MEDIUM: 48,
-	HARD: 38,
-	EXTREME: 30,
+	[EASY]: 48,
+	[MEDIUM]: 40,
+	[HARD]: 34,
+	[EXTREME]: 30,
 }

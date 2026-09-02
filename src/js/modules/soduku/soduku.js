@@ -1,7 +1,8 @@
 
 import { unique } from 'q/utils/list.js'
 import { Grid } from 'components/grid.js'
-import { ActionType, CssClass, TileState, BOARD_SIZE, CENTRES } from 'soduku/types.js'
+import { logger } from 'utils/logger.js'
+import { ActionType, CssClass, BOARD_SIZE, CENTRES } from 'soduku/types.js'
 import { Tile } from 'soduku/tile.js'
 
 export class Soduku {
@@ -75,6 +76,8 @@ export class Soduku {
 
 		tile.toggleNote(number)
 		this.draw()
+
+		return tile.state()
 	}
 
 	setNumber(number) {
@@ -93,6 +96,8 @@ export class Soduku {
 		this.setMatch(index)
 		this.verify()
 		this.draw()
+
+		return this.#boardState[index].state()
 	}
 
 	isNumberComplete(number) {
@@ -124,6 +129,16 @@ export class Soduku {
 				this.#boardState[i] = new Tile(ActionType.NONE, i)
 			}
 		}
+	}
+
+	setPlayerPicks(picks) {
+		for(const pick of picks) {
+			this.#boardState[pick.cell].value = pick.value
+			this.#boardState[pick.cell].setNotes(pick.notes)
+		}
+
+		this.verify()
+		this.draw()
 	}
 
 	reset() {
@@ -201,7 +216,7 @@ export class Soduku {
 			const tile = this.#boardState[i]
 
 			if(!node) {
-				console.error(`Node with ID: 'tile-${i}'' not found`)
+				logger().error(`Node with ID: 'tile-${i}'' not found`)
 				continue
 			}
 
