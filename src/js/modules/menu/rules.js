@@ -7,7 +7,13 @@ import { onOpenRules } from 'menu/comms.js'
 
 export default {
 	data: {
-		games: [MAMBO, QUEENS, SWORDLE, SODUKU],
+		games: [
+			{
+				"title": "Knack",
+				"rules": "Play each game once per day. No ads, no cookies, no fee (but you can donate if you want), no information leaves your browser.",
+			},
+			MAMBO, QUEENS, SWORDLE, SODUKU,
+		],
 	},
 
 	created() {
