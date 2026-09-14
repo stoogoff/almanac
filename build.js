@@ -60,6 +60,42 @@ const versionHtml = async (source, target, version) => {
 	}
 }
 
+const preparePwa = async (source, target, version) => {
+	const MANIFEST = 'manifest.json'
+	const SERVICE_WORKER = 'sw.js'
+
+	// copy manifest
+	await Deno.copyFile(join(source, MANIFEST), join(target, MANIFEST))
+
+	// recurse target and get all file paths
+	// once everything else has been copied
+	const allFiles = []
+
+	const recurse = async (root) => {
+		for await (const file of Deno.readDir(root)) {
+			if(file.isFile) {
+				allFiles.push(join(root, file.name).replace(target, ''))
+			}
+			else if(file.isDirectory) {
+				await recurse(join(root, file.name))
+			}
+		}
+	}
+
+	await recurse(target)
+
+	// TODO this needs to load all 'q/*' files that the app uses
+
+	const text = await Deno.readTextFile(join(source, SERVICE_WORKER))
+	const converted = text
+		// set version in the file
+		.replace('$VERSION', version)
+		// create array of all files
+		.replace('$PATHS', JSON.stringify(allFiles))
+
+	await Deno.writeTextFile(join(target, SERVICE_WORKER), converted)
+}
+
 // load env vars
 const _env = await load({
 	envPath: '.env',
@@ -88,5 +124,8 @@ await copy(join(source, 'media'), join(dist, 'media'))
 
 // copy and update HTML
 await versionHtml(source, dist, version)
+
+// copy and update PWA related files
+await preparePwa(source, dist, version)
 
 console.log('Done')

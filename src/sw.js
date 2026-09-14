@@ -1,12 +1,11 @@
 
 // This file needs to be copied to the root directory
-// TODO build cache version from the .env var
-const CACHE_VERSION = 'v1.2.0'
+const CACHE_VERSION = '$VERSION'
 const CACHE_NAME = `knack-${CACHE_VERSION}`
 
 // TODO fill with all available files, including those from the CDN
 // this should be part of the build process
-const PRECACHE = []
+const PRECACHE = $PATHS
 
 self.addEventListener('install', event => {
 	event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE)))
@@ -28,13 +27,16 @@ self.addEventListener('fetch', (event) => {
 	if(event.request.method !== 'GET') return
 	
 	event.respondWith(
-		caches.match(event.request).then((cached) => {
+		caches.match(event.request).then(cached => {
 			if(cached) return cached
-			return fetch(event.request).then((response) => {
+
+			return fetch(event.request).then(response => {
 				if(response.ok && response.type === 'basic') {
 					const clone = response.clone()
+
 					caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone))
 				}
+
 				return response
 			})
 		})
