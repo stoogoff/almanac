@@ -26,6 +26,19 @@ export default {
 	},
 
 	created() {
+		document.addEventListener('visibilitychange', evt => {
+			console.log(document.visibilityState)
+			if(document.visibilityState === 'visible') {
+				console.log('preparing games')
+				this.prepareGames()
+			}
+		})
+
+		this.prepareGames()
+	},
+
+	prepareGames() {
+		console.log('this.prepareGames')
 		this.data.games.forEach(game => {
 			if(local.has(game.id)) {
 				const stats = local.get(game.id)
@@ -69,6 +82,8 @@ export default {
 				}
 			}
 		})
+
+		this.emit('changed')
 	},
 
 	async share() {
