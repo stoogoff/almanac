@@ -329,6 +329,10 @@ canvas#victory {
 	&.grid-cols-2 {
 		grid-template-columns: repeat(2, 1fr);
 	}
+
+	.col-span-2 {
+		grid-column: 1 / span 2;
+	}
 }
 
 /* standard game board stuff */
@@ -427,3 +431,52 @@ canvas#victory {
 	}
 }
 
+/* Ko-fi */
+.btn.kofi {
+	text-transform: none;
+	background-color: var(--amber-500);
+	border-color: var(--amber-600);
+	display: flex;
+	align-items: center;
+
+	&:hover {
+		background-color: var(--amber-600);
+	}
+
+	img {
+		height: 15px;
+		width: 22px;
+		animation: kofi-wiggle 3s infinite;
+	}
+
+	span {
+		flex-grow: 1;
+	}
+}
+
+@keyframes kofi-wiggle{0%{transform:rotate(0) scale(1)}60%{transform:rotate(0) scale(1)}75%{transform:rotate(0) scale(1.12)}80%{transform:rotate(0) scale(1.1)}84%{transform:rotate(-10deg) scale(1.1)}88%{transform:rotate(10deg) scale(1.1)}92%{transform:rotate(-10deg) scale(1.1)}96%{transform:rotate(10deg) scale(1.1)}100%{transform:rotate(0) scale(1)}}
+
+/* Paypal */
+.btn.paypal {
+	text-transform: none;
+	background-color: white;
+	font-style: italic;
+	font-weight: bold;
+	color: var(--blue-800);
+	display: flex;
+	align-items: center;
+
+	&:hover {
+		background-color: var(--slate-100);
+		color: var(--blue-800);
+	}
+
+	img {
+		height: 22px;
+		width: 22px;
+	}
+
+	span {
+		flex-grow: 1;
+	}
+}

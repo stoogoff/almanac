@@ -50,9 +50,22 @@ export default {
 		game.start()
 
 		this.emit('change')
+
+		// handling typing on desktop
+		document.addEventListener('keyup', event => {
+			const key = parseInt(event.key)
+
+			if(!isNaN(key)) {
+				this.handleType(key)
+			}
+		})
 	},
 
 	computed: {
+		easyMode() {
+			return this.data.difficulty === EASY
+		},
+
 		canUndo() {
 			return this.data.history.length > 0
 		},
@@ -99,8 +112,10 @@ export default {
 	},
 
 	type(_event, context) {
-		const number = parseInt(context.node.innerText)
+		this.handleType(parseInt(context.node.innerText))
+	},
 
+	handleType(number) {
 		if(this.data['complete' + number]) {
 			return
 		}
@@ -131,6 +146,10 @@ export default {
 	},
 
 	toggleNotes() {
+		if(this.data.easyMode) {
+			return
+		}
+
 		this.data.notes = !this.data.notes
 	},
 

@@ -106,6 +106,10 @@
 			background-color: transparent;
 			color: var(--green-600);
 		}
+
+		&#toggleNotes[disabled] {
+			color: var(--slate-500);
+		}
 	}
 
 	.notes {

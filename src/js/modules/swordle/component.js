@@ -45,12 +45,37 @@ export default {
 			this.swordle.setGuesses(game.state.words)
 		}
 
+		// handling typing on desktop
+		document.addEventListener('keyup', event => {
+			switch(event.key) {
+				case 'Enter':
+					this.handleType(KEYBOARD_ENTER)
+					break
+
+				case 'Backspace':
+					this.handleType(KEYBOARD_BACKSPACE)
+					break
+
+				default:
+					if(/^[a-z]$/.test(event.key)) {
+						this.handleType(event.key)
+					}
+			}
+		})
+
 		game.start()
 	},
 
 	type(_event, context) {
-		const letter = context.node.innerText
+		if(context.node.classList.contains(KEYBOARD_BACKSPACE)) {
+			this.handleType(KEYBOARD_BACKSPACE)
+		}
+		else {
+			this.handleType(context.node.innerText)
+		}
+	},
 
+	handleType(letter) {
 		if(letter === KEYBOARD_ENTER) {
 			const addedWord = this.swordle.enter()
 
@@ -60,7 +85,7 @@ export default {
 				game.save({ words: [...this.words]})
 			}
 		}
-		else if(context.node.classList.contains(KEYBOARD_BACKSPACE)) {
+		else if(letter === KEYBOARD_BACKSPACE) {
 			this.swordle.backspace()
 		}
 		else {
