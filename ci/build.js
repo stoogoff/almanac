@@ -1,32 +1,7 @@
 
 import { join } from '@std/path'
-import { load } from '@std/dotenv'
-
-// remove directory and swallow errors
-const clean = async dir => {
-	try {
-		await Deno.remove(dir, { recursive: true })
-	}
-	catch(error) {
-		console.error(error)
-	}
-}
-
-const isDir = path => {
-	try {
-		return Deno.statSync(path).isDirectory
-	}
-	catch(error) {
-		if(error instanceof Deno.errors.NotFound) {
-			return false
-		}
-
-		console.error(error)
-	}
-}
-
-// recursively create directory structure
-const create = async dir => await Deno.mkdir(dir, { recursive: true })
+import { create, clean, isDir } from './utils/fs.js'
+import config from './utils/config.js'
 
 // recursively copy non-html files
 const copy = async (source, target) => {
@@ -60,13 +35,7 @@ const versionHtml = async (source, target, version) => {
 	}
 }
 
-// load env vars
-const _env = await load({
-	envPath: '.env',
-	export: true,
-})
-
-const version = Deno.env.get('VERSION')
+const version = config.Version
 
 console.log(`Building version: ${version}`)
 

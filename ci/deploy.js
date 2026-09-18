@@ -1,15 +1,36 @@
 
 import { join } from '@std/path'
-import { load } from '@std/dotenv'
+import { listFiles } from './utils/fs.js'
+import config from "./utils/config.js"
 
-// TODO 
+console.log(`Deploying version: ${config.Version} to: ${config.BucketUrl}`)
 
-/*
+const dist = join(Deno.cwd(), 'dist')
+const files = await listFiles(dist)
 
-curl --request PUT \
-  --url https://uk.storage.bunnycdn.com/stoogoff-test/test/readme.md \
-  --header 'AccessKey: faafe761-6b45-488e-a8d1aaf7a4a5-b20a-42e6' \
-  --header 'Content-Type: application/octet-stream' \
-  --data '"<string>"'
+const statusCount = {}
 
- */
+
+for(const file of files) {
+  try {
+    console.log(`Uploading file: ${join(config.BucketUrl, file)}`)
+
+    const body = await Deno.readFile(join(dist, file))
+    const response = await fetch(join(config.BucketUrl, file), {
+       method: 'PUT',
+       headers: {
+         AccessKey: config.BucketAccessKey,
+         ContentType: 'applicatio/octet-stream',
+       },
+       body,
+    })
+
+    statusCount[response.status] = (statusCount[response.status] ?? 0) + 1
+  }
+  catch(error) {
+    console.error(error)
+  }
+}
+
+console.log(statusCount)
+console.log('Done')
