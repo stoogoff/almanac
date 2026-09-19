@@ -82,6 +82,15 @@ export class Tile {
 		this.#notes = notes
 	}
 
+	fromState(state) {
+		if(state.cell !== this.#cell) {
+			throw new Error(`Attempting to set state on ${this.#cell} for ${state.cell}`)
+		}
+
+		this.#value = state.value
+		this.#notes = state.notes
+	}
+
 	state() {
 		return {
 			cell: this.#cell,

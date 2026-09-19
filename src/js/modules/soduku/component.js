@@ -11,8 +11,6 @@ import { generateBoard } from 'soduku/generator.js'
 const game = getGame(STORAGE_KEY)
 
 export default {
-	picked: [],
-
 	data: {
 		history: [],
 		notes: false,
@@ -27,7 +25,7 @@ export default {
 		}
 
 		const difficulties = [EASY, MEDIUM, MEDIUM, HARD, HARD, HARD, EXTREME, EXTREME]
-		const difficulty = EXTREME//pluck(difficulties, rand)
+		const difficulty = pluck(difficulties, rand)
 
 		this.data.difficulty = difficulty
 
@@ -37,15 +35,23 @@ export default {
 		this.soduku = new Soduku(board.puzzle, () => {
 			game.gameover()
 		}, (state) => {
-			console.log('set history', state)
 			this.data.history = [...this.data.history, state]
+			game.save({ picked: [ ...this.data.history ]})
 		})
 
 		this.soduku.create(node)
 
 		if(notNull(game.state?.picked ?? null)) {
-			this.picked = game.state?.picked ?? []
-			this.soduku.setPlayerPicks(this.picked)
+			try {
+				this.data.history = game.state.picked
+
+				const state = this.data.history.pop()
+
+				this.soduku.setBoardFromState(state)
+			}
+			catch(error) {
+				logger().error(error)
+			}
 		}
 
 		game.start()
@@ -127,19 +133,11 @@ export default {
 		}
 
 		try {
-			let result = null
-
 			if(this.data.notes) {
-				result = this.soduku.setNote(number)
+				this.soduku.setNote(number)
 			}
 			else {
-				result = this.soduku.setNumber(number)
-			}
-
-			if(notNull(result)) {
-				this.picked.push(result)
-
-				game.save({ picked: [...this.picked]})
+				this.soduku.setNumber(number)
 			}
 
 			// Nasty, but force recompute
@@ -161,21 +159,22 @@ export default {
 
 	undo() {
 		const state = this.data.history.pop()
-console.log(state)
+
 		this.data.history = [...this.data.history]
 
 		if(isNull(state)) {
 			return
 		}
 
-		this.soduku.undo(state)
+		// TODO 
+
+		this.soduku.setBoardFromState(state)
 		this.emit('change')
 	},
 
 	reset() {
 		this.data.history = []
-		this.picked = []
-		game.save({ picked: []})
+		game.save({ picked: null })
 		game.start()
 		this.soduku.reset()
 		this.emit('change')

@@ -51,7 +51,7 @@ export class Mambo {
 			// click cycles through the tiles
 			// then checks the board state
 			span.onclick = () => {
-				this.#history({ index: i, state: this.#boardState[i] })
+				this.#history([ ...this.#boardState ])
 
 				if(span.classList.contains(CssClass.GREEN)) {
 					span.classList.remove(CssClass.GREEN)
@@ -80,9 +80,9 @@ export class Mambo {
 
 	reset() {
 		Array.from(document.getElementsByClassName('tile')).forEach(span => {
-			span.classList.remove('green')
-			span.classList.remove('blue')
-			span.classList.remove('error')
+			span.classList.remove(CssClass.GREEN)
+			span.classList.remove(CssClass.BLUE)
+			span.classList.remove(CssClass.ERROR)
 		})
 
 		this.#boardState = [...this.#startingState]
@@ -96,16 +96,26 @@ export class Mambo {
 		}
 	}
 
-	undo(state) {
-		this.#boardState[state.index] = state.state
+	setBoardFromState(state) {
+		this.#boardState = state
 
-		const tile = document.getElementById(`tile-${state.index}`)
+		for(let i = 0; i < this.length; i++) {
+			const cell = document.getElementById(`tile-${i}`)
 
-		tile.classList.remove('green')
-		tile.classList.remove('blue')
+			if(!cell) {
+				throw new Error(`Cell ${i} not found`)
+			}
 
-		if(state.state !== TileState.EMPTY) {
-			tile.classList.add(CssClass[state.state])
+			cell.classList.remove(CssClass.GREEN)
+			cell.classList.remove(CssClass.BLUE)
+			cell.classList.remove(CssClass.ERROR)
+
+			if(this.#boardState[i] === TileState.EMPTY) {
+				continue;
+			}
+			else {
+				document.getElementById(`tile-${i}`).classList.add(CssClass[this.#boardState[i]])
+			}
 		}
 
 		this.verifyBoard()
@@ -119,12 +129,12 @@ export class Mambo {
 		// no more than two of the same colour can be next to each other
 
 		// clear errors
-		Array.from(document.getElementsByClassName('error')).forEach(span => span.classList.remove('error'))
+		Array.from(document.getElementsByClassName(CssClass.ERROR)).forEach(span => span.classList.remove(CssClass.ERROR))
 
 		const errors = this.isValid(this.#boardState)
 
 		// mark tiles as an error
-		errors.forEach(index => document.getElementById(`tile-${index}`).classList.add('error'))
+		errors.forEach(index => document.getElementById(`tile-${index}`).classList.add(CssClass.ERROR))
 
 		if(errors.length === 0 && this.#boardState.reduce(sum, 0) === (this.length + this.length / 2)) {
 			this.#complete()

@@ -18,7 +18,7 @@ export class Soduku {
 		this.#startingState = board
 		this.#grid = new Grid(BOARD_SIZE, BOARD_SIZE)
 
-		this.setBoardState()
+		this.setStartingBoardState()
 	}
 
 	get selectedTile() {
@@ -68,6 +68,14 @@ export class Soduku {
 		}
 	}
 
+	writeHistory(index) {
+		const state = this.#boardState.map(row => row.state())
+
+		console.log(state)
+
+		this.#history({ index , state, })
+	}
+
 	setNote(number) {
 		const tile = this.selectedTile
 
@@ -76,8 +84,6 @@ export class Soduku {
 
 		tile.toggleNote(number)
 		this.draw()
-
-		return tile.state()
 	}
 
 	setNumber(number) {
@@ -89,15 +95,13 @@ export class Soduku {
 
 		const index = tile.cell
 
-		this.#history({ index , state: this.#boardState[index].state() })
+		this.writeHistory(index)
 		this.#boardState[index].value = number
 
 		this.clearNotes(index, number)
 		this.setMatch(index)
 		this.verify()
 		this.draw()
-
-		return this.#boardState[index].state()
 	}
 
 	isNumberComplete(number) {
@@ -118,7 +122,7 @@ export class Soduku {
 		.forEach(cell => this.#boardState[cell].clearNote(Number(number)))
 	}
 
-	setBoardState() {
+	setStartingBoardState() {
 		this.#boardState = new Array(this.#grid.size)
 
 		for(let i = 0; i < this.#boardState.length; i++) {
@@ -131,7 +135,7 @@ export class Soduku {
 		}
 	}
 
-	setPlayerPicks(picks) {
+	/*setPlayerPicks(picks) {
 		for(const pick of picks) {
 			this.#boardState[pick.cell].value = pick.value
 			this.#boardState[pick.cell].setNotes(pick.notes)
@@ -139,15 +143,18 @@ export class Soduku {
 
 		this.verify()
 		this.draw()
-	}
+	}*/
 
 	reset() {
-		this.setBoardState()
+		this.setStartingBoardState()
 		this.draw()
 	}
 
-	undo(state) {
-		this.#boardState[state.index].value = state.state.value
+	setBoardFromState(state) {
+		for(let i = 0, len = this.#boardState.length; i < len; i++) {
+			this.#boardState[i].fromState(state.state[i])
+		}
+
 		this.setMatch(state.index)
 		this.verify()
 		this.draw()

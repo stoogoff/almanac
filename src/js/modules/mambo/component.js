@@ -1,6 +1,7 @@
 
-import { isNull } from 'q/utils/assert.js'
+import { isNull, notNull } from 'q/utils/assert.js'
 import { rand } from 'utils/seed.js'
+import { logger } from 'utils/logger.js'
 import { getGame } from 'components/game.js'
 import { Mambo } from 'mambo/mambo.js'
 import { STORAGE_KEY } from 'mambo/types.js'
@@ -25,9 +26,23 @@ export default {
 			game.gameover()
 		}, (state) => {
 			this.data.history = [...this.data.history, state]
+			game.save({ picked: [ ...this.data.history ] })
 		})
 
 		this.mambo.create(board, rand)
+
+		// set starting game based on previous state
+		if(notNull(game.state?.picked ?? null)) {
+			try {
+				this.data.history = game.state.picked
+
+				this.mambo.setBoardFromState(game.state.picked[game.state.picked.length - 1])
+			}
+			catch(error) {
+				logger().error(error)
+			}
+		}
+
 		game.start()
 	},
 
@@ -46,11 +61,12 @@ export default {
 			return
 		}
 
-		this.mambo.undo(state)
+		this.mambo.setBoardFromState(state)
 	},
 
 	reset() {
-		game.start()
+		this.data.history = []
 		this.mambo.reset()
+		game.start()
 	},
 }

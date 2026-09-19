@@ -4,6 +4,8 @@ import { formatTime } from 'utils/number.js'
 import { getGame, GameStates } from 'components/game.js'
 
 export default {
+	game: null,
+
 	data: {
 		seconds: 0
 	},
@@ -15,16 +17,20 @@ export default {
 	},
 
 	mounted() {
-		const game = getGame(this.data.key)
+		this.game = getGame(this.data.key)
 
-		game.on(GameStates.GAMEOVER, () => {
+		this.game.on(GameStates.GAMEOVER, () => {
 			if(notNull(this.timer)) {
 				this.stop()
-				game.save({ score: { time: this.data.seconds }})
+				this.game.save({ score: { time: this.data.seconds }})
 			}
 		})
 
-		game.on(GameStates.START, () => {
+		this.game.on(GameStates.START, () => {
+			if(notNull(this.game.state) && notNull(this.game.state.currentTime)) {
+				this.data.seconds = this.game.state.currentTime
+			}
+
 			this.start()
 		})
 	},
@@ -36,6 +42,10 @@ export default {
 
 		this.timer = window.setInterval(() => {
 			this.data.seconds++
+
+			if(notNull(this.game)) {
+				this.game.save({ currentTime: this.data.seconds })
+			}
 		}, 1000)
 	},
 

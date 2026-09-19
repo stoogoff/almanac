@@ -9,6 +9,7 @@ export const TileState = {
 
 const GREEN = 'green'
 const BLUE = 'blue'
+const ERROR = 'error'
 
 export const CssClass = {
 	[TileState.EMPTY]: '',
@@ -17,4 +18,5 @@ export const CssClass = {
 
 	GREEN,
 	BLUE,
+	ERROR,
 }
