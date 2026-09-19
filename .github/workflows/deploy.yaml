@@ -1,0 +1,44 @@
+name: Build and Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install Deno
+      env:
+        DENO_VERSION: ${{ vars.DENO_VERSION }}
+        DENO_CHECKSUM: ${{ vars.DENO_CHECKSUM }}
+      run: |
+        curl -fsSL -o /tmp/deno.zip \
+          "https://github.com/denoland/deno/releases/download/v${DENO_VERSION}/deno-x86_64-unknown-linux-gnu.zip"
+        echo "${DENO_CHECKSUM}  /tmp/deno.zip" | sha256sum -c -
+        mkdir -p "$HOME/.deno/bin"
+        unzip -q /tmp/deno.zip -d "$HOME/.deno/bin"
+        echo "$HOME/.deno/bin" >> "$GITHUB_PATH"
+
+    - name: Build
+      env:
+        VERSION: ${{ vars.GITHUB_REF_NAME }}
+      run: deno run build
+
+    - name: Deploy
+      env:
+        VERSION: ${{ vars.GITHUB_REF_NAME }}
+        BUCKET_URL: ${{ vars.BUCKET_URL }}
+        BUCKET_API_KEY: ${{ secrets.BUCKET_API_KEY }}
+      run: deno run deploy
+
+    - name: Purge
+      env:
+        PURGE_URL: ${{ vars.PURGE_URL }}
+        API_KEY: ${{ secrets.API_KEY }}
+      run: deno run purge
