@@ -34,20 +34,21 @@ export default {
 
 		this.soduku = new Soduku(board.puzzle, () => {
 			game.gameover()
-		}, (state) => {
-			this.data.history = [...this.data.history, state]
-			game.save({ picked: [ ...this.data.history ]})
+		}, (history, current) => {
+			this.data.history = [...this.data.history, history]
+			game.save({ picked: [ ...this.data.history, current ] })
 		})
 
 		this.soduku.create(node)
 
+		// set starting game based on previous state
 		if(notNull(game.state?.picked ?? null)) {
 			try {
-				this.data.history = game.state.picked
+				const history = game.state.picked
+				const current = history.pop()
 
-				const state = this.data.history.pop()
-
-				this.soduku.setBoardFromState(state)
+				this.soduku.setBoardFromState(current)
+				this.data.history = history
 			}
 			catch(error) {
 				logger().error(error)

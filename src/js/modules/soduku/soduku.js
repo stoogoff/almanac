@@ -68,12 +68,6 @@ export class Soduku {
 		}
 	}
 
-	writeHistory(index) {
-		const state = this.#boardState.map(row => row.state())
-
-		this.#history({ index , state, })
-	}
-
 	setNote(number) {
 		const tile = this.selectedTile
 
@@ -92,9 +86,14 @@ export class Soduku {
 		if(tile.value === number) return
 
 		const index = tile.cell
+		const oldBoardState = this.#boardState.map(row => row.state())
 
-		this.writeHistory(index)
 		this.#boardState[index].value = number
+
+		this.#history(
+			{ index, state: oldBoardState },
+			{ index , state: this.#boardState.map(row => row.state()) }
+		)
 
 		this.clearNotes(index, number)
 		this.setMatch(index)
@@ -132,16 +131,6 @@ export class Soduku {
 			}
 		}
 	}
-
-	/*setPlayerPicks(picks) {
-		for(const pick of picks) {
-			this.#boardState[pick.cell].value = pick.value
-			this.#boardState[pick.cell].setNotes(pick.notes)
-		}
-
-		this.verify()
-		this.draw()
-	}*/
 
 	reset() {
 		this.setStartingBoardState()
