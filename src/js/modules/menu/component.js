@@ -17,11 +17,15 @@ export default {
 
 	computed: {
 		canShare() {
-			return this.data.games.every(game => {
+			return this.data.shareCount >= 3
+		},
+
+		shareCount() {
+			return this.data.games.filter(game => {
 				const currentGame = getGame(game.id)
 
 				return currentGame.hasPlayedToday
-			})
+			}).length
 		},
 	},
 
