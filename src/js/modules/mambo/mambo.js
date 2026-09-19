@@ -51,7 +51,7 @@ export class Mambo {
 			// click cycles through the tiles
 			// then checks the board state
 			span.onclick = () => {
-				this.#history([ ...this.#boardState ])
+				const oldBoardState = [ ...this.#boardState ]
 
 				if(span.classList.contains(CssClass.GREEN)) {
 					span.classList.remove(CssClass.GREEN)
@@ -66,6 +66,8 @@ export class Mambo {
 					span.classList.add(CssClass.GREEN)
 					this.#boardState[i] = TileState.GREEN
 				}
+
+				this.#history(oldBoardState, [ ...this.#boardState ])
 
 				window.setTimeout(() => {
 					if(!this.#isVerifying) {

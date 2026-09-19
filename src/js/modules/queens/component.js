@@ -1,7 +1,8 @@
 
-import { isNull } from 'q/utils/assert.js'
+import { isNull, notNull } from 'q/utils/assert.js'
 import { pluck, EASY, MEDIUM, HARD } from 'utils/lib.js'
 import { rand } from 'utils/seed.js'
+import { logger } from 'utils/logger.js'
 import { getGame } from 'components/game.js'
 import { Queens } from 'queens/queens.js'
 import { Difficulty, STORAGE_KEY } from 'queens/types.js'
@@ -33,11 +34,27 @@ export default {
 
 		this.queens = new Queens(board.board, () => {
 			game.gameover()
-		}, (state) => {
-			this.data.history = [...this.data.history, state]
+		}, (history, current) => {
+			this.data.history = [...this.data.history, history]
+			game.save({ picked: [ ...this.data.history, current ] })
 		})
 
 		this.queens.create(node)
+
+		// set starting game based on previous state
+		if(notNull(game.state?.picked ?? null)) {
+			try {
+				const history = game.state.picked
+				const current = history.pop()
+
+				this.queens.setBoardFromState(current)
+				this.data.history = history
+			}
+			catch(error) {
+				logger().error(error)
+			}
+		}
+
 		game.start()
 	},
 
@@ -52,13 +69,11 @@ export default {
 
 		this.data.history = [...this.data.history]
 
-		game.save({ picked: this.data.history })
-
 		if(isNull(state)) {
 			return
 		}
 
-		this.queens.undo(state)
+		this.queens.setBoardFromState(state)
 	},
 
 	reset() {

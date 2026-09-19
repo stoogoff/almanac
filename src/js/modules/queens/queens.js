@@ -40,7 +40,7 @@ export class Queens {
 			span.classList.add(TileColours[this.#board[i]])
 
 			span.onclick = () => {
-				this.#history({ index: i, state: this.#boardState[i] })
+				const oldBoardState = this.#boardState.map(tile => tile.state())
 
 				if(span.classList.contains(CssClass.DOT)) {
 					// set tile from dot to queen
@@ -54,6 +54,8 @@ export class Queens {
 					// set tile to empty
 					this.#boardState[i] = new Tile(TileState.DOT, ActionType.PLAYER, i)
 				}
+
+				this.#history(oldBoardState, this.#boardState.map(tile => tile.state()))
 
 				window.setTimeout(() => {
 					this.verifyBoard()
@@ -73,8 +75,11 @@ export class Queens {
 		this.drawBoard()
 	}
 
-	undo(state) {
-		this.#boardState[state.index] = state.state
+	setBoardFromState(state) {
+		for(let i = 0, len = this.#boardState.length; i < len; i++) {
+			this.#boardState[i].fromState(state[i])
+		}
+
 		this.verifyBoard()
 		this.drawBoard()
 	}

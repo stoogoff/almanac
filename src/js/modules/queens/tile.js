@@ -40,4 +40,19 @@ export class Tile {
 	get isAutomatic() {
 		return this.#action === ActionType.AUTOMATIC
 	}
+
+	fromState(state) {
+		if(state.cell !== this.#cell) {
+			throw new Error(`Attempting to set state on ${this.#cell} for ${state.cell}`)
+		}
+
+		this.#state = state.state
+	}
+
+	state() {
+		return {
+			cell: this.#cell,
+			state: this.#state,
+		}
+	}
 }
