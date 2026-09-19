@@ -1,7 +1,7 @@
 
 import { join } from '@std/path'
 import { listFiles } from './utils/fs.js'
-import config from "./utils/config.js"
+import config from './utils/config.js'
 
 console.log(`Deploying version: ${config.Version} to: ${config.BucketUrl}`)
 

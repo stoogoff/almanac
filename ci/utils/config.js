@@ -12,4 +12,6 @@ export default {
 	Version: Deno.env.get('VERSION'),
 	BucketAccessKey: Deno.env.get('BUCKET_ACCESS_KEY'),
 	BucketUrl: Deno.env.get('BUCKET_URL'),
+	ApiKey: Deno.env.get('API_KEY'),
+	PurgeUrl: Deno.env.get('PURGE_URL'),
 }
