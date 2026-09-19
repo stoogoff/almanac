@@ -27,12 +27,12 @@ jobs:
 
     - name: Build
       env:
-        VERSION: ${{ vars.GITHUB_REF_NAME }}
+        VERSION: ${{ github.ref_name }}
       run: deno run build
 
     - name: Deploy
       env:
-        VERSION: ${{ vars.GITHUB_REF_NAME }}
+        VERSION: ${{ github.ref_name }}
         BUCKET_URL: ${{ vars.BUCKET_URL }}
         BUCKET_API_KEY: ${{ secrets.BUCKET_API_KEY }}
       run: deno run deploy
