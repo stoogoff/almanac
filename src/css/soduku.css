@@ -6,7 +6,8 @@
 	--soduku-border: var(--slate-700);
 	--soduku-highlight: var(--blue-300);
 	--soduku-matched: var(--slate-300);
-	--soduku-note: var(--slate-600);
+	--soduku-note: var(--slate-500);
+	--soduku-note-highlight: var(--slate-900);
 	--soduku-keyboard-fg: var(--slate-50);
 	--soduku-keyboard-bg: var(--blue-700);
 	--soduku-keyboard-notes-bg: var(--slate-600);
@@ -90,6 +91,12 @@
 				background-color: transparent;
 				border: 0;
 				padding: 0;
+
+				&.highlight {
+					font-weight: bold;
+					color: var(--soduku-note-highlight);
+					background-color: transparent !important;
+				}
 			}
 		}
 	}

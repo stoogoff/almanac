@@ -27,7 +27,7 @@ export default {
 		}
 
 		const difficulties = [EASY, MEDIUM, MEDIUM, HARD, HARD, HARD, EXTREME, EXTREME]
-		const difficulty = pluck(difficulties, rand)
+		const difficulty = EXTREME//pluck(difficulties, rand)
 
 		this.data.difficulty = difficulty
 
@@ -37,6 +37,7 @@ export default {
 		this.soduku = new Soduku(board.puzzle, () => {
 			game.gameover()
 		}, (state) => {
+			console.log('set history', state)
 			this.data.history = [...this.data.history, state]
 		})
 
@@ -53,6 +54,11 @@ export default {
 
 		// handling typing on desktop
 		document.addEventListener('keyup', event => {
+			if(event.key === 'Enter') {
+				this.toggleNotes()
+				return
+			}
+
 			const key = parseInt(event.key)
 
 			if(!isNaN(key)) {
@@ -155,7 +161,7 @@ export default {
 
 	undo() {
 		const state = this.data.history.pop()
-
+console.log(state)
 		this.data.history = [...this.data.history]
 
 		if(isNull(state)) {

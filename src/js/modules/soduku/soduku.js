@@ -263,10 +263,10 @@ export class Soduku {
 					note.innerText = hasNote ? attr : ''
 
 					if(current && current.value === Number(attr)) {
-						note.style.fontWeight = 'bold'
+						note.classList.add(CssClass.Highlight)
 					}
 					else {
-						note.style.fontWeight = 'normal'
+						note.classList.remove(CssClass.Highlight)
 					}
 				}
 			}

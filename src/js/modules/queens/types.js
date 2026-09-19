@@ -38,7 +38,7 @@ export const TileColours = {
 	6: 'purple',
 	7: 'blue',
 	8: 'orange',
-	9: 'indigo',
+	9: 'fuchsia',
 }
 
 export const Difficulty = {
