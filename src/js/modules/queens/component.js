@@ -52,6 +52,8 @@ export default {
 
 		this.data.history = [...this.data.history]
 
+		game.save({ picked: this.data.history })
+
 		if(isNull(state)) {
 			return
 		}

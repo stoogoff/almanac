@@ -13,5 +13,5 @@ export default {
 	scoreKey: 'time',
 	format: formatTime,
 	icon: null,
-	rules: '1 Queen in each row, column and colour. Queens can’t be next to each other.',
+	rules: '1 Queen in each row, column and colour. Queens can’t be next to each other. Tap a square to add a dot, tap again to add a queen, tap a third time to empty the square.',
 }

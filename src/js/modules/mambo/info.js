@@ -13,5 +13,5 @@ export default {
 	scoreKey: 'time',
 	format: formatTime,
 	icon: null,
-	rules: 'An even number of each colour in every row and column. No more than two colours in a sequence.',
+	rules: 'An even number of each colour in every row and column. No more than two colours in a sequence. Tap a square to change the colour, tap again to change to the next colour, and a third time to clear the square.',
 }

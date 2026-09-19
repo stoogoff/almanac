@@ -13,5 +13,5 @@ export default {
 	scoreKey: 'time',
 	format: formatTime,
 	icon: null,
-	rules: 'Each number can only appear once in a row, column, or large square.',
+	rules: 'Each number can only appear once in a row, column, or large square. Tap a square to enter a number. Use the pencil to toggle between entering a number and adding a note.',
 }

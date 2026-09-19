@@ -71,8 +71,6 @@ export class Soduku {
 	writeHistory(index) {
 		const state = this.#boardState.map(row => row.state())
 
-		console.log(state)
-
 		this.#history({ index , state, })
 	}
 
