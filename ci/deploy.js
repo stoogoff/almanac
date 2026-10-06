@@ -20,7 +20,7 @@ for(const file of files) {
        method: 'PUT',
        headers: {
          AccessKey: config.BucketAccessKey,
-         ContentType: 'applicatio/octet-stream',
+         ContentType: 'application/octet-stream',
        },
        body,
     })
