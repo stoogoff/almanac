@@ -20,6 +20,8 @@ const copy = async (source, target) => {
 	}
 }
 
+const copyFile = async (source, target) => await Deno.copyFile(source, target)
+
 // copy the HTML files and update links to media with the version
 const versionHtml = async (source, target, version) => {
 	for await (const file of Deno.readDir(source)) {
@@ -33,6 +35,16 @@ const versionHtml = async (source, target, version) => {
 			await Deno.writeTextFile(join(target, file.name), converted)
 		}
 	}
+}
+
+const versionServiceWorker = async (source, target, version) => {
+	const text = await Deno.readTextFile(source)
+	const converted = text
+		.replace(/'\/css\//g, `'/${version}/css/`)
+		.replace(/'\/js\//g, `'/${version}/js/`)
+		.replace('~VERSION~', version)
+
+	await Deno.writeTextFile(target, converted)
 }
 
 const version = config.Version
@@ -57,5 +69,13 @@ await copy(join(source, 'media'), join(dist, 'media'))
 
 // copy and update HTML
 await versionHtml(source, dist, version)
+
+// copy and update sw.js
+await versionServiceWorker(join(source, 'sw.js'), join(dist, 'sw.js'), version)
+
+// copy other files from root dir
+const rootFiles = ['manifest.json']
+
+await Promise.all(rootFiles.map(file => copyFile(join(source, file), join(dist, file)))) 
 
 console.log('Done')
