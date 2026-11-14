@@ -8,6 +8,8 @@ const PRECACHE = [
 	'/queens.html',
 	'/soduku.html',
 	'/swordle.html',
+	'/media/logo-192.png',
+	'/media/logo-512.png',
 	'/media/shock.svg',
 	'/media/trophy.svg',
 	// START block which gets path rewritten to add version
